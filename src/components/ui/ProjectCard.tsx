@@ -23,7 +23,7 @@ export function ProjectCard({ project, variant }: ProjectCardProps) {
       href={`/projects/${createProjectRouteSlug(project.slug)}`}
       scroll
       className={cn(
-        "group clipped-corner flex h-full flex-col border border-border p-7 transition duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_18px_48px_rgba(249,115,0,0.12)]",
+        "group clipped-corner flex h-full flex-col border border-border p-7 transition duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_18px_48px_rgba(50,95,254,0.12)]",
         variantStyles[variant],
       )}
       data-cursor="interactive"
@@ -43,7 +43,7 @@ export function ProjectCard({ project, variant }: ProjectCardProps) {
             </>
           ) : (
             <>
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(249,115,0,0.22),transparent_34%),linear-gradient(135deg,rgba(249,115,0,0.12),transparent_55%)] opacity-80 transition duration-500 group-hover:scale-110 group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(50,95,254,0.22),transparent_34%),linear-gradient(135deg,rgba(50,95,254,0.12),transparent_55%)] opacity-80 transition duration-500 group-hover:scale-110 group-hover:opacity-100" />
               <div className="relative flex h-full items-end p-5">
                 <div className="space-y-2 transition duration-500 group-hover:translate-y-[-4px] group-hover:scale-[1.02]">
                   <p className="font-mono text-[0.68rem] uppercase tracking-[0.24em] text-accent">

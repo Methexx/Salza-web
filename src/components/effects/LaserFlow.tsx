@@ -286,7 +286,7 @@ export default function LaserFlow({
   decay = 3,
   falloffStart = 1.03,
   fogFallSpeed = 0.6,
-  color = "#F97316",
+  color = "#325FFE",
 }: LaserFlowProps) {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -526,8 +526,8 @@ export default function LaserFlow({
       uniforms.uFogTime.value = (uniforms.uFogTime.value as number) + clampedDt;
 
       if (!hasFadedRef.current) {
-        fade = Math.min(1, fade + clampedDt);
-        uniforms.uFade.value = fade;
+        fade = Math.min(1, fade + clampedDt / 1.6);
+        uniforms.uFade.value = fade * fade * (3 - 2 * fade);
         if (fade >= 1) hasFadedRef.current = true;
       }
 

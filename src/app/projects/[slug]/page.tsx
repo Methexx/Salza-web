@@ -42,7 +42,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
 
   return (
     <section className="relative isolate min-h-screen overflow-hidden pb-20 pt-32 sm:pt-36">
-      <Container className="max-w-[92rem]">
+      <Container>
         <div className="space-y-10">
           <ProjectDetailBackLink
             fallbackHref="/#projects"
@@ -260,7 +260,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                   href={project.githubUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="clipped-corner-sm mt-5 flex items-center gap-4 border border-accent/20 bg-bg px-4 py-4 transition duration-300 hover:-translate-y-1 hover:border-accent/45 hover:shadow-[0_0_28px_rgba(249,115,0,0.14)]"
+                  className="clipped-corner-sm mt-5 flex items-center gap-4 border border-accent/20 bg-bg px-4 py-4 transition duration-300 hover:-translate-y-1 hover:border-accent/45 hover:shadow-[0_0_28px_rgba(50,95,254,0.14)]"
                 >
                   <img
                     src="https://github.com/favicon.ico"

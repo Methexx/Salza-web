@@ -23,7 +23,7 @@ export function Footer() {
       as="footer"
       id="footer"
       className="min-h-0 border-t border-border bg-[linear-gradient(180deg,#090706_0%,#0c0908_45%,#090706_100%)]"
-      containerClassName="min-h-0 sm:min-h-0 max-w-[92rem] items-stretch py-10 sm:py-14"
+      containerClassName="min-h-0 sm:min-h-0 items-stretch py-10 sm:py-14"
     >
       <motion.div
         className="w-full space-y-6"
@@ -38,11 +38,11 @@ export function Footer() {
           </h3>
         </div>
 
-        <div className="clipped-corner relative overflow-hidden border border-border bg-[radial-gradient(circle_at_top_left,rgba(249,115,0,0.16),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01))] p-5 pb-16 sm:p-8 sm:pb-20 lg:p-10 lg:pb-24">
+        <div className="clipped-corner relative overflow-hidden border border-border bg-[radial-gradient(circle_at_top_left,rgba(50,95,254,0.16),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01))] p-5 pb-16 sm:p-8 sm:pb-20 lg:p-10 lg:pb-24">
           <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-0 flex translate-x-[-6%] translate-y-1/2 justify-center">
             <div className="relative h-[28rem] w-[86%] max-w-5xl overflow-hidden sm:h-[34rem] lg:h-[40rem]">
               <LaserFlow
-                color="#F97316"
+                color="#325FFE"
                 decay={3}
                 falloffStart={1.03}
                 flowSpeed={0.46}
@@ -75,8 +75,8 @@ export function Footer() {
 
               <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Button href="#contact" className="w-full sm:w-auto">Start a conversation</Button>
-                <Button href="/downloads/Gihansa-Senukie-Resume.pdf" download variant="ghost" className="w-full sm:w-auto">
-                  Download Resume
+                <Button href={profile.websiteUrl} variant="ghost" className="w-full sm:w-auto">
+                  Visit Website
                 </Button>
               </div>
             </div>
@@ -129,7 +129,9 @@ export function Footer() {
                       aria-hidden="true"
                       className="status-pulse-fast h-2.5 w-2.5 rounded-full bg-accent"
                     />
-                    <p className="text-sm leading-7 text-muted">{profile.availability}</p>
+                    <p className="text-sm leading-7 text-muted">
+                      Open to <span className="font-semibold text-accent accent-glow-text">internship opportunities</span>
+                    </p>
                   </div>
                 </div>
               </div>

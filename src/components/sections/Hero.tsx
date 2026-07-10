@@ -1,9 +1,25 @@
-import Image from "next/image";
+import type { SVGProps } from "react";
+import { Globe2, Mail } from "lucide-react";
 
 import { Button } from "@/components/ui/Button";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { profile } from "@/lib/data/profile";
-import profileImg from "../../../Assets/new-Photoroom.png";
+import { HeroTerminal } from "./HeroTerminal";
+
+function GitHubIcon(props: SVGProps<SVGSVGElement>) {
+  return <svg viewBox="0 0 24 24" fill="currentColor" {...props}><path d="M12 .7a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2.23c-3.22.7-3.9-1.36-3.9-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.57-.29-5.28-1.29-5.28-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.16 1.18A10.9 10.9 0 0 1 12 6.11c.98 0 1.95.13 2.86.39 2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.71 5.39-5.29 5.68.42.36.79 1.07.79 2.16v3.24c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z" /></svg>;
+}
+
+function LinkedInIcon(props: SVGProps<SVGSVGElement>) {
+  return <svg viewBox="0 0 24 24" fill="currentColor" {...props}><path d="M5.34 7.84A2.34 2.34 0 1 0 5.34 3.16a2.34 2.34 0 0 0 0 4.68ZM3.32 20.84h4.04V9.16H3.32v11.68ZM9.7 9.16h3.87v1.6h.06c.54-1.02 1.86-2.1 3.82-2.1 4.09 0 4.84 2.69 4.84 6.19v5.99h-4.03v-5.31c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.81v5.4H9.7V9.16Z" /></svg>;
+}
+
+const socialLinks = [
+  { label: "GitHub", href: profile.githubUrl, icon: GitHubIcon },
+  { label: "LinkedIn", href: profile.linkedinUrl, icon: LinkedInIcon },
+  { label: "Email", href: `mailto:${profile.email}`, icon: Mail },
+  { label: "Website", href: profile.websiteUrl, icon: Globe2 },
+];
 
 export function Hero() {
   return (
@@ -36,23 +52,29 @@ export function Hero() {
               View projects
             </Button>
           </div>
+
+          <div className="flex flex-wrap items-center gap-3 pt-1">
+            <span className="mr-1 font-mono text-[0.65rem] uppercase tracking-[0.28em] text-muted">
+              Connect
+            </span>
+            {socialLinks.map(({ label, href, icon: Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                rel={href.startsWith("http") ? "noreferrer" : undefined}
+                aria-label={label}
+                title={label}
+                className="clipped-corner-sm inline-flex h-11 w-11 items-center justify-center border border-border bg-bg-elevated/70 text-muted transition duration-300 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-accent/10 hover:text-accent hover:accent-glow-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+              >
+                <Icon aria-hidden="true" className="h-[1.1rem] w-[1.1rem]" />
+              </a>
+            ))}
+          </div>
         </div>
 
-        <div className="relative mx-auto w-full max-w-[17.5rem] sm:max-w-sm lg:max-w-none">
-          <div className="clipped-corner relative overflow-hidden border border-border bg-bg-elevated/80 p-3 sm:p-4 shadow-[0_0_40px_rgba(0,0,0,0.2)]">
-            <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
-            <div className="clipped-corner-sm relative aspect-[4/5] overflow-hidden border border-accent/20 bg-[radial-gradient(circle_at_top,_rgba(249,115,0,0.16),_transparent_50%),linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01))]">
-              <Image
-                src={profileImg}
-                alt={`${profile.name} profile portrait`}
-                fill
-                priority
-                sizes="(min-width: 1024px) 34vw, (min-width: 640px) 380px, 88vw"
-                className="object-cover object-center"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-bg/18 via-transparent to-transparent" />
-            </div>
-          </div>
+        <div className="relative mx-auto flex w-full max-w-xl items-center lg:min-h-[28rem] lg:max-w-none">
+          <HeroTerminal />
         </div>
       </div>
     </SectionWrapper>

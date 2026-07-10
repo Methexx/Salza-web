@@ -22,7 +22,7 @@ export const sectionMeta: Record<SectionMeta["id"], SectionMeta> = {
     id: "hero",
     label: "Home",
     eyebrow: "Portfolio",
-    heading: "Quality-driven engineer",
+    heading: "Full-stack software engineer",
   },
   about: {
     id: "about",
@@ -34,7 +34,7 @@ export const sectionMeta: Record<SectionMeta["id"], SectionMeta> = {
     id: "skills",
     label: "Skills",
     eyebrow: "Skills",
-    heading: "Quality capabilities across the stack",
+    heading: "Engineering capabilities across the stack",
   },
   experience: {
     id: "experience",
@@ -58,7 +58,7 @@ export const sectionMeta: Record<SectionMeta["id"], SectionMeta> = {
     id: "projects",
     label: "Projects",
     eyebrow: "Projects",
-    heading: "Platforms and QA case studies",
+    heading: "Full-stack products and engineering projects",
   },
   contact: {
     id: "contact",

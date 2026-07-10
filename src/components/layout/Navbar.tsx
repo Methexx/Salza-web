@@ -103,7 +103,7 @@ export function Navbar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
-      <Container className="max-w-[92rem] py-4">
+      <Container className="py-4">
         <div
           className={cn(
             "relative flex items-center justify-between overflow-hidden border px-3 py-2 transition duration-300 sm:px-4",
@@ -141,13 +141,13 @@ export function Navbar() {
           </nav>
 
           <div className="hidden items-center md:flex">
-            <div className="clipped-corner-sm flex items-center gap-3 border border-accent/20 bg-bg-elevated/80 px-4 py-2.5 shadow-[0_0_28px_rgba(249,115,0,0.08)] backdrop-blur-sm">
+            <div className="clipped-corner-sm flex items-center gap-3 border border-accent/20 bg-bg-elevated/80 px-4 py-2.5 shadow-[0_0_28px_rgba(50,95,254,0.08)] backdrop-blur-sm">
               <span
                 aria-hidden="true"
                 className="status-pulse h-2.5 w-2.5 rounded-full bg-accent"
               />
               <span className="font-mono text-xs uppercase tracking-[0.24em] text-accent">
-                Available for work
+                Open to internship
               </span>
             </div>
           </div>
@@ -168,7 +168,7 @@ export function Navbar() {
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-border/40">
             <div
               aria-hidden="true"
-              className="h-full origin-left bg-accent shadow-[0_0_12px_rgba(249,115,0,0.55)] transition-none"
+              className="h-full origin-left bg-accent shadow-[0_0_12px_rgba(50,95,254,0.55)] transition-none"
               style={{
                 transform: `scaleX(${scrollProgress})`,
               }}
@@ -183,7 +183,7 @@ export function Navbar() {
           isMenuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
         )}
       >
-        <Container className="max-w-[92rem] flex justify-end px-0">
+        <Container className="flex justify-end px-0">
           <div
             id="mobile-menu"
             className={cn(

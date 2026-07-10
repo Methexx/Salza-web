@@ -75,7 +75,7 @@ export function Contact() {
     <SectionWrapper
       id="contact"
       className="border-y border-border bg-[linear-gradient(180deg,rgba(5,5,5,0.88),rgba(7,7,7,0.96))]"
-      containerClassName="max-w-[92rem] items-stretch py-20 sm:py-28"
+      containerClassName="items-stretch py-20 sm:py-28"
     >
       <div className="relative w-full overflow-hidden">
         <div
@@ -83,7 +83,7 @@ export function Contact() {
           className="absolute inset-0 opacity-25"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(249,115,0,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(249,115,0,0.08) 1px, transparent 1px)",
+              "linear-gradient(rgba(50,95,254,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(50,95,254,0.08) 1px, transparent 1px)",
             backgroundSize: "52px 52px",
           }}
         />
@@ -94,7 +94,7 @@ export function Contact() {
               Contact <span className="text-accent accent-glow-text">Me</span>
             </h2>
             <p className="max-w-3xl text-base leading-8 text-muted sm:text-lg">
-              Reach out for business analysis work, requirement support, product discussions, and collaborative opportunities.
+              Reach out for full-stack development, backend engineering, internships, product work, and collaborative opportunities.
             </p>
           </div>
 
@@ -105,7 +105,7 @@ export function Contact() {
                   <a
                     key={item.label}
                     href={item.href}
-                    className="clipped-corner border border-border bg-bg/70 p-5 transition duration-300 hover:border-accent/35 hover:shadow-[0_0_24px_rgba(249,115,0,0.12)]"
+                    className="clipped-corner border border-border bg-bg/70 p-5 transition duration-300 hover:border-accent/35 hover:shadow-[0_0_24px_rgba(50,95,254,0.12)]"
                   >
                     <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted">
                       {item.label}
@@ -130,7 +130,7 @@ export function Contact() {
 
             <form
               onSubmit={handleSubmit}
-              className="clipped-corner overflow-hidden border border-accent/20 bg-[#0d0d0d] shadow-[0_0_40px_rgba(249,115,0,0.08)]"
+              className="clipped-corner overflow-hidden border border-accent/20 bg-[#0d0d0d] shadow-[0_0_40px_rgba(50,95,254,0.08)]"
             >
               <div className="flex items-center gap-3 border-b border-border bg-[#151515] px-5 py-4">
                 <div className="flex gap-2">
@@ -142,7 +142,7 @@ export function Contact() {
               </div>
 
               <div className="space-y-5 p-5 sm:space-y-6 sm:p-8">
-                <p className="font-mono text-sm text-accent">$ ping --gihansa</p>
+                <p className="font-mono text-sm text-accent">$ ping --methum</p>
 
                 <div className="space-y-5">
                   <label className="block space-y-2">

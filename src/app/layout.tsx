@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Rajdhani } from "next/font/google";
 import { BackgroundLayer } from "@/components/background/BackgroundLayer";
 import { CursorOrb } from "@/components/effects/CursorOrb";
+import { IntroOverlay } from "@/components/effects/IntroOverlay";
 import { SmoothScroll } from "@/components/effects/SmoothScroll";
 import { BackToTopButton } from "@/components/layout/BackToTopButton";
 import { Footer } from "@/components/layout/Footer";
@@ -26,8 +27,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BA Engineer - Portfolio",
-  description: "One-page portfolio scaffold",
+  title: "Methum Pathirana | Full-Stack Developer",
+  description: "Portfolio of Methum Pathirana, a Software Engineering undergraduate and full-stack developer building modern web applications, backend services, and APIs.",
   icons: {
     icon: "/icon.png",
     shortcut: "/icon.png",
@@ -51,6 +52,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <IntroOverlay />
           <a
             href="#main-content"
             className="sr-only z-[70] clipped-corner-sm bg-accent px-4 py-2 text-sm font-mono font-medium uppercase tracking-[0.24em] text-bg focus:not-sr-only focus:fixed focus:left-4 focus:top-4"

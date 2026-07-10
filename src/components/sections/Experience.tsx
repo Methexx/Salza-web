@@ -1,4 +1,3 @@
-import { AchievementsBlock } from "@/components/sections/AchievementsBlock";
 import { Pill } from "@/components/ui/Pill";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
@@ -53,7 +52,6 @@ export function Experience() {
             ))}
           </Timeline>
         </section>
-        <AchievementsBlock />
       </div>
     </SectionWrapper>
   );

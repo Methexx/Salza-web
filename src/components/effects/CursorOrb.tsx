@@ -87,7 +87,7 @@ export function CursorOrb() {
       <div
         className={cn(
           "cursor-orb flex items-center justify-center rounded-full border border-accent/35 bg-accent/12 transition-[width,height,opacity,box-shadow,transform] duration-300",
-          isInteractive ? "h-8 w-8 shadow-[0_0_24px_rgba(249,115,0,0.32)]" : "h-5 w-5 shadow-[0_0_18px_rgba(249,115,0,0.26)]",
+          isInteractive ? "h-8 w-8 shadow-[0_0_24px_rgba(50,95,254,0.32)]" : "h-5 w-5 shadow-[0_0_18px_rgba(50,95,254,0.26)]",
         )}
       >
         <span

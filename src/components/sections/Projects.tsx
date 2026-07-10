@@ -18,7 +18,7 @@ export function Projects() {
           <div className="space-y-3">
             <h3 className="text-2xl font-bold text-foreground sm:text-3xl">Featured Projects</h3>
             <p className="text-base leading-8 text-muted">
-              Business analysis and product delivery work that highlights requirements thinking, process clarity, and solution alignment.
+              Full-stack projects spanning responsive interfaces, backend services, APIs, databases, real-time features, and deployment.
             </p>
           </div>
           <div className="grid gap-7 lg:grid-cols-2">
