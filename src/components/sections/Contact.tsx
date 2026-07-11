@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, Globe2, Send } from "lucide-react";
+import { ExternalLink, Mail, Send } from "lucide-react";
 import type { FormEvent, SVGProps } from "react";
 import { useState } from "react";
 
@@ -20,7 +20,7 @@ function LinkedInIcon(props: SVGProps<SVGSVGElement>) {
 const socialCards = [
   { label: "GitHub", description: "Explore my projects", href: profile.githubUrl, icon: GitHubIcon },
   { label: "LinkedIn", description: "Let’s connect", href: profile.linkedinUrl, icon: LinkedInIcon },
-  { label: "Portfolio", description: "Visit my website", href: profile.websiteUrl, icon: Globe2 },
+  { label: "Email", description: profile.email, href: `mailto:${profile.email}`, icon: Mail },
 ];
 
 const initialFormState: ContactFormState = { email: "", message: "", name: "" };
@@ -64,7 +64,7 @@ export function Contact() {
 
           <div className="space-y-4">
             {socialCards.map(({ label, description, href, icon: Icon }) => (
-              <a key={label} href={href} target="_blank" rel="noreferrer" className="group flex min-h-20 items-center gap-4 rounded-2xl border border-border bg-[#101724]/85 px-5 py-4 transition duration-300 hover:-translate-y-0.5 hover:border-accent/45 hover:bg-accent/[0.08] hover:shadow-[0_14px_44px_rgba(50,95,254,0.12)] sm:px-6">
+              <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel={href.startsWith("http") ? "noreferrer" : undefined} className="group flex min-h-20 items-center gap-4 rounded-2xl border border-border bg-[#101724]/85 px-5 py-4 transition duration-300 hover:-translate-y-0.5 hover:border-accent/45 hover:bg-accent/[0.08] hover:shadow-[0_14px_44px_rgba(50,95,254,0.12)] sm:px-6">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-accent"><Icon aria-hidden="true" className="h-5 w-5" /></span>
                 <span className="min-w-0 flex-1"><span className="block text-base font-semibold text-foreground">{label}</span><span className="mt-0.5 block text-sm text-muted">{description}</span></span>
                 <ExternalLink aria-hidden="true" className="h-5 w-5 text-muted transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />

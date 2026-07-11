@@ -1,4 +1,4 @@
-export interface ProjectScreenshot { title: string; caption: string; tone: string; imageSrc?: string; }
+export interface ProjectScreenshot { title: string; caption: string; tone: string; imageSrc?: string; orientation?: "desktop" | "mobile"; }
 export interface ProjectInfoItem { label: string; value: string; }
 export interface ProjectTechItem { layer: string; technology: string; purpose: string; }
 export interface ProjectFeatureGroup { title: string; items: string[]; }
@@ -31,7 +31,13 @@ export const featuredProjects: ProjectEntry[] = [
     status: "concept",
     githubUrl: githubProfile,
     summaryLabel: "UniVerse platform case study",
-    screenshots: shot("UniVerse School Management Platform", "Main platform image placeholder — the final UniVerse project visual will be added when supplied."),
+    screenshots: [
+      { title: "Admin Dashboard", caption: "Administrative overview for attendance, student accounts, policy management, system health, and recent school activity.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/universe/Admin%20dashboard.png", orientation: "desktop" },
+      { title: "Teachers List", caption: "Teacher-management view supporting day-to-day academic administration.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/universe/Teachers%20List.png", orientation: "desktop" },
+      { title: "User Profile", caption: "Role-aware user profile and school account information interface.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/universe/User%20Profile.png", orientation: "desktop" },
+      { title: "Mobile Attendance", caption: "Portrait parent-facing attendance experience displayed in a compact mobile frame.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/universe/Attendance%20-%20mobile.png", orientation: "mobile" },
+      { title: "Mobile Support", caption: "Parent support workflow on the Flutter mobile application.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/universe/Mobile%20-%20support.png", orientation: "mobile" },
+    ],
     identity: [
       { label: "Project Type", value: "Final year software engineering project" },
       { label: "Role", value: "Full-Stack Developer and System Designer" },
@@ -167,7 +173,12 @@ export const featuredProjects: ProjectEntry[] = [
     status: "concept",
     githubUrl: githubProfile,
     summaryLabel: "Greenie social platform case study",
-    screenshots: shot("Greenie Social Platform", "Main image placeholder — the final Greenie platform visual will be added when supplied."),
+    screenshots: [
+      { title: "Community Leaderboard", caption: "A gamified leaderboard that surfaces sustainability participation and progress.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/greenie/Leaderboard.png", orientation: "desktop" },
+      { title: "Greenie Brand Cover", caption: "The Greenie identity used across the sustainability platform experience.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/greenie/greenie.jpg", orientation: "desktop" },
+      { title: "Community Feed", caption: "A portrait community feed for sharing environmental activities and discoveries.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/greenie/Feed.png", orientation: "mobile" },
+      { title: "Authentication", caption: "Greenie sign-in experience for returning community members.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/greenie/Login.png", orientation: "desktop" },
+    ],
     identity: [
       { label: "Project Type", value: "Collaborative university web project" },
       { label: "Team", value: "Four-person development team" },
@@ -278,7 +289,14 @@ export const featuredProjects: ProjectEntry[] = [
     status: "concept",
     githubUrl: githubProfile,
     summaryLabel: "Ticket booking platform case study",
-    screenshots: shot("Ticket Booking Platform", "Main image placeholder — the updated ticket marketplace visual will be added shortly."),
+    screenshots: [
+      { title: "Ticket Platform Home", caption: "Main marketplace experience for browsing events and ticket discovery.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/ticket-platform/Main.png", orientation: "desktop" },
+      { title: "Operations Dashboard", caption: "Dashboard view for managing marketplace activity and ticket operations.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/ticket-platform/Dashboard.png", orientation: "desktop" },
+      { title: "Saved Events", caption: "Compact saved-event interface for returning users.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/ticket-platform/Saved.png", orientation: "mobile" },
+      { title: "Ticket Pricing", caption: "Ticket type and price selection workflow in a focused vertical layout.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/ticket-platform/Ticket%20Price.png", orientation: "mobile" },
+      { title: "User Feed", caption: "Community or event activity feed shown in a compact user view.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/ticket-platform/Feed.png", orientation: "mobile" },
+      { title: "Sign In", caption: "Authentication interface for ticket marketplace access.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/ticket-platform/Login.png", orientation: "desktop" },
+    ],
     identity: [
       { label: "Project Type", value: "Collaborative full-stack web application" },
       { label: "Contribution", value: "Exact personal modules to be confirmed from Git history or contribution notes" },
@@ -429,7 +447,12 @@ export const featuredProjects: ProjectEntry[] = [
     status: "concept",
     githubUrl: githubProfile,
     summaryLabel: "ABC Cinema project case study",
-    screenshots: shot("ABC Cinema Movie Ticket Booking System", "Main image placeholder — the updated ABC Cinema application visual will be added shortly."),
+    screenshots: [
+      { title: "Movie Booking Home", caption: "Lead movie discovery and cinema booking experience.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/abc-cinema/abc.png", orientation: "desktop" },
+      { title: "Cinema Landing Screen", caption: "Customer-facing home interface for exploring movie content.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/abc-cinema/home.png", orientation: "mobile" },
+      { title: "Movie List", caption: "Movie catalogue view in a compact customer workflow.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/abc-cinema/Movie%20list.png", orientation: "mobile" },
+      { title: "Ticket Booking", caption: "Reservation interface for selecting and booking cinema tickets.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/abc-cinema/ticket%20booking.png", orientation: "mobile" },
+    ],
     identity: [
       { label: "Project Type", value: "Second-year university web project" },
       { label: "My Role", value: "UI designer and frontend developer" },
@@ -552,7 +575,10 @@ export const featuredProjects: ProjectEntry[] = [
     status: "concept",
     githubUrl: githubProfile,
     summaryLabel: "Screeenc systems project case study",
-    screenshots: shot("Screeenc USB-Only Screen Sharing", "Main image placeholder — the final Screeenc receiver and streaming visual will be added shortly."),
+    screenshots: [
+      { title: "Receiver Dashboard", caption: "Screeenc USB-only receiver dashboard showing connection state, streaming status, decoder health, and live preview.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/screeenc/Web.png", orientation: "desktop" },
+      { title: "Mobile Receiver", caption: "Portrait mobile receiver interface for USB-connected screen sharing.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/screeenc/Mobile.png", orientation: "mobile" },
+    ],
     identity: [
       { label: "Project Type", value: "Solo native systems and mobile project" },
       { label: "My Role", value: "System architect and Android receiver developer" },
@@ -670,7 +696,11 @@ export const featuredProjects: ProjectEntry[] = [
     status: "live",
     githubUrl: githubProfile,
     summaryLabel: "AstroLift gym management case study",
-    screenshots: shot("AstroLift Gym Management Platform", "Main image placeholder — the updated AstroLift platform visual will be added shortly."),
+    screenshots: [
+      { title: "Trainer Dashboard", caption: "Trainer workspace for member requests, activity, and workout-management operations.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/astrolift/dashboard.png", orientation: "desktop" },
+      { title: "Platform Login", caption: "AstroLift authentication screen for role-aware gym access.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/astrolift/login.png", orientation: "desktop" },
+      { title: "Payment Dashboard", caption: "Billing and payment-focused dashboard for operational financial visibility.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/astrolift/payment%20dashboard.png", orientation: "desktop" },
+    ],
     identity: [
       { label: "Project Type", value: "Collaborative production-ready full-stack web platform" },
       { label: "My Role", value: "Major full-stack contributor across product workflows and implementation" },
@@ -785,9 +815,468 @@ export const featuredProjects: ProjectEntry[] = [
       },
     ],
   },
+  {
+    slug: "OnCallr Incident Response Platform",
+    title: "OnCallr",
+    category: "Full-Stack Incident Response Platform",
+    description: "A schedule-aware on-call platform with webhook incidents, live delivery, automatic escalation, timelines, analytics, and AI-assisted postmortems.",
+    overview: "OnCallr is a full-stack incident response and on-call management platform designed for a single engineering team. It combines a Fastify API, Next.js dashboard, PostgreSQL data model, Redis-backed BullMQ jobs, and Socket.io delivery to coordinate incidents from initial webhook trigger through acknowledgement, resolution, postmortem, and analytics. The product supports admins and engineers through protected workflows while using escalation policies and on-call schedules to assign the correct responder automatically.",
+    challenge: "Incident response must remain dependable even when responders do not acknowledge immediately, browser sessions disconnect, or services restart. OnCallr needed durable escalation timers, schedule-aware assignment, secure service-specific webhook ingestion, real-time operator feedback, a complete event history, role-aware actions, and useful post-incident analysis without fragmenting the experience across separate tools.",
+    impact: "The platform centralizes on-call operations into one product, reduces manual responder coordination, preserves a traceable incident history, helps teams understand MTTA and MTTR, and turns resolved incidents into editable AI-assisted learning documents.",
+    tags: ["Web", "Next.js 16", "Fastify", "Prisma", "PostgreSQL", "Redis", "BullMQ", "Socket.io", "OpenAI"],
+    status: "concept",
+    githubUrl: githubProfile,
+    summaryLabel: "OnCallr incident response case study",
+    screenshots: [
+      { title: "Incident Operations Dashboard", caption: "Live OnCallr dashboard for active incidents, MTTA, MTTR, service health, on-call coverage, and incident timelines.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/oncallr/Dashboard.png", orientation: "desktop" },
+    ],
+    identity: [
+      { label: "Product Scope", value: "Single-team incident response and on-call management" },
+      { label: "Architecture", value: "Fastify API and Next.js dashboard monorepo" },
+      { label: "User Roles", value: "Admin and engineer" },
+      { label: "Delivery Model", value: "Real-time web application with durable background jobs" },
+      { label: "Project Role", value: "Full-stack product engineering across frontend and backend foundations" },
+    ],
+    technologyStack: [
+      { layer: "Frontend", technology: "Next.js 16 and React 19", purpose: "Protected dashboard experiences for incidents, services, schedules, postmortems, and analytics" },
+      { layer: "UI", technology: "Tailwind CSS 4 and shadcn/ui", purpose: "Responsive application shell and reusable operational interfaces" },
+      { layer: "Server State", technology: "TanStack Query", purpose: "API data fetching, caching, invalidation, and dashboard synchronization" },
+      { layer: "Charts", technology: "Recharts", purpose: "MTTA, MTTR, service volume, severity, trend, and on-call load visualization" },
+      { layer: "Backend", technology: "Fastify", purpose: "Typed HTTP APIs, authentication, incident workflows, integrations, and business logic" },
+      { layer: "ORM", technology: "Prisma", purpose: "Relational schema, migrations, queries, and incident data access" },
+      { layer: "Database", technology: "PostgreSQL", purpose: "Persistent services, users, schedules, incidents, events, policies, and postmortems" },
+      { layer: "Queue", technology: "BullMQ and Redis", purpose: "Durable acknowledgement timeouts and automatic escalation processing" },
+      { layer: "Real-Time", technology: "Socket.io", purpose: "Live incident notifications, toasts, and dashboard updates" },
+      { layer: "Authentication", technology: "Supabase Auth and Fastify JWT", purpose: "Magic-link entry and secure in-app cookie sessions" },
+      { layer: "AI", technology: "OpenAI Responses API", purpose: "Generate editable structured postmortem drafts from incident context" },
+      { layer: "Email", technology: "Nodemailer", purpose: "Fallback notification and operational email delivery" },
+    ],
+    featureGroups: [
+      {
+        title: "Incident Intake & Assignment",
+        items: [
+          "Accept incidents through a unique webhook URL assigned to each managed service.",
+          "Allow administrators to trigger incidents manually from the service dashboard.",
+          "Validate service webhook tokens before creating incident and event records.",
+          "Resolve the active on-call responder from schedule-backed escalation policies.",
+          "Assign severity and incident context at creation so responders receive actionable information.",
+          "Deliver immediate live notifications to the selected engineer through Socket.io.",
+        ],
+      },
+      {
+        title: "Escalation & Scheduling",
+        items: [
+          "Create escalation policies with ordered user or schedule-based steps.",
+          "Build schedules from rotation members and generate future coverage shifts.",
+          "Support shift overrides and swaps for real operational changes.",
+          "Enqueue BullMQ escalation jobs when incidents are assigned.",
+          "Reassign unacknowledged incidents when timeout windows expire.",
+          "Keep escalation timers durable in Redis so they survive API process restarts.",
+        ],
+      },
+      {
+        title: "Incident Operations",
+        items: [
+          "Track triggered, acknowledged, and resolved incident states.",
+          "Give engineers a focused My Incidents queue for assigned response work.",
+          "Maintain a full incident event timeline from trigger through resolution.",
+          "Support comments, acknowledgement, resolution, and administrator force-escalation actions.",
+          "Push state changes into active dashboards and toast notifications in real time.",
+          "Preserve operational context for later postmortem generation and analytics.",
+        ],
+      },
+      {
+        title: "Postmortems & Analytics",
+        items: [
+          "List resolved incidents that are ready for post-incident review.",
+          "Generate structured postmortem drafts with the OpenAI Responses API.",
+          "Allow teams to edit AI-generated content before saving the final record.",
+          "Calculate MTTA, MTTR, incident totals, service volume, severity mix, and time-series trends.",
+          "Measure busiest on-call coverage to make response load more visible.",
+          "Filter analytics by date range and service for focused operational review.",
+        ],
+      },
+    ],
+    detailSections: [
+      {
+        title: "Webhook Incident Pipeline",
+        items: [
+          "Each service owns a unique webhook token that can be rotated by an administrator.",
+          "Incoming webhook payloads include incident title, description, and severity.",
+          "The Fastify route validates the service token before accepting the trigger.",
+          "The backend creates the incident and its initial timeline event in PostgreSQL.",
+          "Schedule and escalation policy data determine the first responder assignment.",
+          "Socket.io notifies the responder while BullMQ schedules the acknowledgement timeout.",
+        ],
+      },
+      {
+        title: "Durable Escalation Architecture",
+        items: [
+          "BullMQ stores delayed escalation work in Redis instead of relying on in-process timers.",
+          "Queue workers evaluate whether the incident remains unacknowledged when a timeout expires.",
+          "The escalation service advances through ordered policy steps and records reassignment events.",
+          "User-based steps assign a specific engineer while schedule-based steps resolve current coverage dynamically.",
+          "Durable jobs allow escalation behavior to continue correctly after backend restarts.",
+        ],
+      },
+      {
+        title: "Schedules & Coverage",
+        items: [
+          "Administrators create schedules and define ordered rotation membership.",
+          "Future shifts are generated so responder coverage can be resolved ahead of time.",
+          "Overrides provide temporary replacement coverage without destroying the base rotation.",
+          "Shift swaps allow engineers to exchange assigned coverage windows.",
+          "Coverage data feeds both incident assignment and on-call workload analytics.",
+        ],
+      },
+      {
+        title: "Authentication & Permissions",
+        items: [
+          "Supabase magic links provide the initial frontend authentication experience.",
+          "The application exchanges authenticated identity for a Fastify cookie-based JWT session.",
+          "Protected dashboard routes prevent unauthenticated access to operational data.",
+          "Engineer permissions focus on assigned incidents and response actions.",
+          "Administrator permissions add service, schedule, policy, analytics, and force-escalation management.",
+        ],
+      },
+      {
+        title: "AI-Assisted Postmortems",
+        items: [
+          "Resolved incidents provide the source timeline and operational context for draft generation.",
+          "The backend calls the OpenAI Responses API to produce structured postmortem content.",
+          "Generated drafts remain editable so engineers can correct context and add human judgement.",
+          "Final postmortem records are saved against the originating incident.",
+          "The workflow accelerates documentation without treating AI output as an unreviewed final report.",
+        ],
+      },
+      {
+        title: "Analytics & Operational Learning",
+        items: [
+          "MTTA measures the delay between incident trigger and responder acknowledgement.",
+          "MTTR measures the time required to move an incident from trigger to resolution.",
+          "Status, service, severity, and time-based summaries expose incident patterns.",
+          "On-call load analysis shows which responders or coverage windows carry the most activity.",
+          "Date-range and service filters let administrators isolate meaningful operational slices.",
+        ],
+      },
+      {
+        title: "Monorepo & Local Development",
+        items: [
+          "api contains the Fastify server, Prisma schema, BullMQ jobs, and Socket.io delivery layer.",
+          "web contains the Next.js dashboard and frontend integrations.",
+          "docs contains deployment and demo guidance while features.md records product behavior.",
+          "PostgreSQL and Redis provide the required local persistence and queue infrastructure.",
+          "Prisma migrations and seed scripts create demo services, schedules, admins, and engineers.",
+          "Separate frontend and backend development servers run on ports 3000 and 5000.",
+        ],
+      },
+      {
+        title: "Quality & Deployment",
+        items: [
+          "Frontend and backend packages each provide lint and production build checks.",
+          "The Next.js dashboard is suited for deployment on Vercel.",
+          "The Fastify API can run on Railway, Render, or Fly.io.",
+          "PostgreSQL can use Supabase or Railway while Redis can use Upstash or Railway Redis.",
+          "WEB_ORIGIN and public API or Socket URLs connect deployed frontend and backend services safely.",
+          "SMTP and OpenAI credentials enable email fallback and AI postmortem generation outside local development.",
+        ],
+      },
+    ],
+  },
 ];
 
-export const allProjects = featuredProjects;
+export const additionalProjects: ProjectEntry[] = [
+  {
+    slug: "WalkWise Community Location Discovery App",
+    title: "WalkWise – Community Location Discovery App",
+    category: "Community-Driven Mobile Application",
+    description: "A Flutter location-discovery app that helps users find, review, save, and share places across Sri Lanka through maps and community insights.",
+    overview: "WalkWise is a mobile-centric location discovery application developed with Flutter to help users explore and share nearby places throughout Sri Lanka. It combines interactive OpenStreetMap maps, real-time location awareness, user-contributed reviews and photos, personal place lists, profiles, social discovery, and offline access in a clean cross-platform experience.",
+    challenge: "Location apps often prioritize global listings over local knowledge. WalkWise needed to combine dependable map navigation with Sri Lankan community contributions, user profiles, media, saved places, social relationships, and offline access while keeping mobile navigation simple and responsive.",
+    impact: "The platform creates a community-led way to discover Sri Lankan places and local events, allowing recommendations to come from real user experiences while giving each person tools to organize and share their own discoveries.",
+    tags: ["Mobile", "Flutter", "Dart", "Supabase", "Firebase", "OpenStreetMap", "flutter_map", "Provider"],
+    status: "concept",
+    githubUrl: githubProfile,
+    summaryLabel: "WalkWise mobile app case study",
+    screenshots: [
+      { title: "WalkWise Discovery Experience", caption: "Community location discovery shown through a polished two-device mobile presentation.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/walkwise/walkwise.png", orientation: "desktop" },
+    ],
+    identity: [
+      { label: "Platform", value: "Cross-platform Flutter mobile application" },
+      { label: "Audience", value: "People discovering and sharing locations across Sri Lanka" },
+      { label: "Project Role", value: "Contribution details to be added" },
+      { label: "Maps", value: "OpenStreetMap tiles through flutter_map" },
+      { label: "Backend", value: "Supabase authentication and database services" },
+    ],
+    technologyStack: [
+      { layer: "Framework", technology: "Flutter", purpose: "Cross-platform mobile interface, navigation, maps, and community features" },
+      { layer: "Language", technology: "Dart", purpose: "Application logic, models, services, and reusable widgets" },
+      { layer: "Backend", technology: "Supabase", purpose: "Authentication, user data, place records, reviews, and community information" },
+      { layer: "Supporting Services", technology: "Firebase", purpose: "Supporting mobile service integration within the project stack" },
+      { layer: "Maps", technology: "OpenStreetMap and flutter_map", purpose: "Interactive map tiles, markers, and location exploration" },
+      { layer: "State", technology: "Provider", purpose: "Shared state and reactive updates across mobile screens" },
+      { layer: "Networking", technology: "http", purpose: "Remote API and service communication" },
+    ],
+    featureGroups: [
+      {
+        title: "Mobile Features",
+        items: [
+          "Location Discovery: Find and explore places across Sri Lanka through an interactive map.",
+          "Real-Time Location: Use current device location to support nearby discovery and navigation context.",
+          "Reviews & Ratings: Share experiences and evaluate community-listed places.",
+          "Photo Sharing: Upload and browse user-contributed place photography.",
+          "Personal Place Lists: Save and organize interesting locations for later access.",
+          "Offline Access: Review saved locations when an internet connection is unavailable.",
+        ],
+      },
+      {
+        title: "Community Features",
+        items: [
+          "User Profiles: Create and customize an identity for sharing discoveries.",
+          "Follow System: Follow other community members and view their place activity.",
+          "Local Insights: Discover recommendations informed by people familiar with an area.",
+          "Event Sharing: Publish and discover local events alongside permanent locations.",
+          "Community Reviews: Build richer place context through ratings, comments, and photos.",
+        ],
+      },
+    ],
+    detailSections: [
+      {
+        title: "Map & Location Experience",
+        items: [
+          "OpenStreetMap tiles provide the geographic foundation without depending on a proprietary map display.",
+          "flutter_map connects Flutter widgets with map movement, zooming, markers, and location presentation.",
+          "Current-location awareness helps users understand which discoveries are nearby.",
+          "Place markers connect map exploration with reviews, ratings, photography, and saved-list actions.",
+        ],
+      },
+      {
+        title: "Application Architecture",
+        items: [
+          "lib/screens contains the main mobile interfaces and navigation flows.",
+          "lib/services contains Supabase, Firebase, map, and remote API integrations.",
+          "lib/models defines place, review, user, event, and supporting data structures.",
+          "lib/widgets contains reusable map, card, profile, rating, and navigation UI.",
+          "Provider coordinates state changes while the http package supports remote communication.",
+        ],
+      },
+      {
+        title: "Community Data Flow",
+        items: [
+          "Authenticated users contribute places, reviews, ratings, photos, and events.",
+          "Supabase persists community and profile data and supports authenticated access.",
+          "Following relationships help personalize which discoveries and recommendations users see.",
+          "Saved lists and offline access keep important places available beyond the live map session.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "Real Time Weather Dashboard",
+    title: "Real-Time Weather Dashboard",
+    category: "Full-Stack Weather Web Application",
+    description: "A responsive Laravel and React weather dashboard with live conditions, forecasts, maps, alerts, charts, and historical data.",
+    overview: "The Real-Time Weather Dashboard is a personal full-stack project that provides current weather conditions, detailed forecasts, location search, alerts, historical information, and interactive visualizations. It combines a Laravel API layer with a responsive React and Tailwind CSS frontend, OpenWeatherMap data, WebSocket-driven updates, Chart.js visualizations, and Redis caching.",
+    challenge: "Weather products must combine multiple fast-changing data sources without overwhelming users. The project needed to normalize external weather information, support worldwide location search, deliver timely updates and alerts, visualize complex patterns, and remain responsive across screen sizes.",
+    impact: "The completed architecture turns raw weather and forecast data into a customizable dashboard with live monitoring, long-range planning, interactive exploration, and exportable reports.",
+    tags: ["Web", "Laravel", "PHP", "React", "Tailwind CSS", "OpenWeatherMap", "WebSockets", "Redis", "Chart.js"],
+    status: "concept",
+    githubUrl: githubProfile,
+    summaryLabel: "Weather dashboard case study",
+    screenshots: [
+      { title: "Live Monitoring Dashboard", caption: "Real-time monitoring interface with map, live readings, alerts, and historical trend visualization.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/weather/clearsky.png", orientation: "desktop" },
+    ],
+    identity: [
+      { label: "Project Type", value: "Personal full-stack project" },
+      { label: "Role", value: "Sole designer and full-stack developer" },
+      { label: "Platform", value: "Responsive web dashboard" },
+      { label: "Backend", value: "Laravel REST API" },
+      { label: "Frontend", value: "React and Tailwind CSS" },
+    ],
+    technologyStack: [
+      { layer: "Backend", technology: "Laravel", purpose: "RESTful weather processing, external API integration, and application services" },
+      { layer: "Frontend", technology: "React", purpose: "Responsive dashboard components, state, search, maps, and weather views" },
+      { layer: "Styling", technology: "Tailwind CSS", purpose: "Responsive visual system and customizable dashboard layout" },
+      { layer: "Weather Data", technology: "OpenWeatherMap API", purpose: "Current conditions, forecasts, alerts, and weather information" },
+      { layer: "Visualization", technology: "Chart.js", purpose: "Forecast trends, historical data, and interactive weather charts" },
+      { layer: "Real-Time", technology: "WebSockets", purpose: "Push live weather changes into the dashboard" },
+      { layer: "Cache", technology: "Redis", purpose: "Reduce repeated upstream requests and improve response performance" },
+      { layer: "Deployment", technology: "Cloud infrastructure", purpose: "Host and maintain the complete frontend and backend application" },
+    ],
+    featureGroups: [
+      {
+        title: "My Role & Implementation",
+        items: [
+          "Designed and developed the complete application architecture as a personal project.",
+          "Built RESTful APIs with Laravel for weather data retrieval and processing.",
+          "Created the responsive React frontend with Tailwind CSS.",
+          "Integrated multiple weather and location services for comprehensive coverage.",
+          "Implemented live updates through WebSocket connections.",
+          "Added interactive charts and map-based weather visualization.",
+          "Deployed and maintained the application on cloud infrastructure.",
+        ],
+      },
+      {
+        title: "Weather Features",
+        items: [
+          "Real-Time Weather: Present current conditions and live updates.",
+          "7-Day Forecast: Display detailed predictions for longer-term planning.",
+          "Location Search: Find weather information for locations worldwide.",
+          "Weather Alerts: Surface notifications for severe weather conditions.",
+          "Geocoding: Translate searched locations into weather-ready coordinates.",
+        ],
+      },
+      {
+        title: "Dashboard Features",
+        items: [
+          "Interactive Maps: Visualize weather patterns, location context, and radar information.",
+          "Historical Data: Review past weather information and trends.",
+          "Customizable Widgets: Personalize which weather information appears in the dashboard.",
+          "Data Export: Download weather reports and processed information.",
+          "Interactive Charts: Compare changes in temperature, precipitation, wind, and other measurements.",
+        ],
+      },
+    ],
+    detailSections: [
+      {
+        title: "Laravel API Layer",
+        items: [
+          "Laravel organizes REST endpoints, external weather requests, validation, and response transformation.",
+          "API services normalize upstream weather data before sending it to the React dashboard.",
+          "Redis caching reduces repeated OpenWeatherMap requests and improves common-location response times.",
+          "Location and geocoding services connect user searches with current and forecast weather data.",
+        ],
+      },
+      {
+        title: "React Dashboard",
+        items: [
+          "Reusable React components organize current conditions, forecasts, alerts, maps, and historical information.",
+          "Tailwind CSS keeps the interface responsive across desktop, tablet, and mobile screens.",
+          "Customizable widgets allow users to prioritize the weather information most relevant to them.",
+          "Loading, error, and empty states keep external API behavior understandable.",
+        ],
+      },
+      {
+        title: "Real-Time & Visualization",
+        items: [
+          "WebSocket connections deliver live data changes without requiring manual refreshes.",
+          "Chart.js converts forecast and historical measurements into readable visual trends.",
+          "Interactive maps provide spatial context for current conditions and weather patterns.",
+          "Alerts prioritize severe conditions that require timely user attention.",
+        ],
+      },
+      {
+        title: "Deployment & Performance",
+        items: [
+          "Frontend and Laravel services are prepared for cloud-hosted delivery.",
+          "Redis caching improves performance and helps manage third-party API usage.",
+          "Responsive rendering and structured data requests support a smooth dashboard experience.",
+          "Ongoing maintenance covers service configuration, deployment, and upstream API behavior.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "Avurudu Nekath Countdown App",
+    title: "Avurudu Nekath Countdown App",
+    category: "Sri Lankan Cultural Utility App",
+    description: "A festive Flutter app with a live Sinhala and Tamil New Year countdown and clearly presented traditional Nekath times.",
+    overview: "Avurudu Nekath Countdown App is a Flutter mobile application built to celebrate the Sri Lankan Sinhala and Tamil New Year through a culturally themed digital experience. The app provides a real-time countdown to Avurudu, displays important Nekath times such as bathing, lighting the hearth, and anointing oil, and presents the information through a festive interface inspired by traditional colors and seasonal celebration.",
+    challenge: "Traditional Nekath information needs to remain accurate, readable, and easy to navigate while still feeling culturally meaningful. The app needed dependable countdown calculations, year-based event data, reusable time cards, and a festive interface that would remain clear across Android devices.",
+    impact: "The app turns annual Avurudu timing information into an accessible mobile utility, helping Sri Lankan users follow important moments through a focused countdown, familiar cultural presentation, and release-ready Android experience.",
+    tags: ["Mobile", "Flutter", "Dart", "Material Design", "Android", "Cultural App"],
+    status: "concept",
+    githubUrl: githubProfile,
+    summaryLabel: "Avurudu mobile app case study",
+    screenshots: shot("Avurudu Nekath Countdown App", "Main image placeholder — the final festive application visual will be added shortly."),
+    identity: [
+      { label: "Project Type", value: "Personal cultural utility application" },
+      { label: "Role", value: "Sole mobile designer and developer" },
+      { label: "Platform", value: "Android application built with Flutter" },
+      { label: "Audience", value: "Sri Lankan Sinhala and Tamil New Year participants" },
+      { label: "Distribution", value: "Android APK release workflow" },
+    ],
+    technologyStack: [
+      { layer: "Framework", technology: "Flutter", purpose: "Cross-platform mobile screens, navigation, and reusable widgets" },
+      { layer: "Language", technology: "Dart", purpose: "Countdown logic, Nekath models, date utilities, and application behavior" },
+      { layer: "Architecture", technology: "Screens, widgets, models, and utilities", purpose: "Maintainable separation of interface, data, and timing logic" },
+      { layer: "Distribution", technology: "Android APK", purpose: "Package and distribute the mobile application for Android devices" },
+    ],
+    featureGroups: [
+      {
+        title: "My Role & Implementation",
+        items: [
+          "Designed and developed the complete focused cultural utility application.",
+          "Built the mobile experience using Flutter and Dart.",
+          "Implemented real-time countdown logic for the Avurudu celebration date.",
+          "Designed screens and reusable widgets that present Nekath times clearly.",
+          "Structured the project into screens, widgets, models, and date utility helpers.",
+          "Created a festive interface aligned with Sinhala and Tamil New Year traditions.",
+          "Prepared the project for Android release and APK distribution.",
+        ],
+      },
+      {
+        title: "Mobile Features",
+        items: [
+          "Real-Time Countdown: Show a live countdown to the Sinhala and Tamil New Year.",
+          "Nekath Times: Present auspicious times for important rituals and seasonal events.",
+          "Year Selection: Allow users to review Avurudu timing information for different years.",
+          "Festival-Themed Design: Use colors and visual details inspired by Avurudu celebrations.",
+          "Android Distribution: Package the finished experience through an APK release workflow.",
+        ],
+      },
+      {
+        title: "User Experience",
+        items: [
+          "Simple Navigation: Keep countdown and Nekath screens easy to reach.",
+          "Clear Time Presentation: Display traditional times through readable card layouts.",
+          "Cultural Focus: Make the visual language feel relevant and familiar to Sri Lankan users.",
+          "Reminder Potential: Structure Nekath data so notifications can be added for important moments.",
+        ],
+      },
+    ],
+    detailSections: [
+      {
+        title: "Countdown & Date Logic",
+        items: [
+          "Dart date utilities calculate the remaining duration until the selected Avurudu celebration time.",
+          "The countdown updates continuously so days, hours, minutes, and seconds remain current.",
+          "Year selection connects the visible countdown and Nekath schedule to the chosen celebration year.",
+          "Utility helpers keep date calculations separate from presentation widgets.",
+        ],
+      },
+      {
+        title: "Nekath Information",
+        items: [
+          "Structured models represent each traditional event, description, date, and auspicious time.",
+          "Reusable Nekath cards provide a consistent way to scan important moments.",
+          "The experience can include bathing, lighting the hearth, beginning work, eating, and anointing oil schedules.",
+          "Readable hierarchy keeps culturally important timing details clear on smaller screens.",
+        ],
+      },
+      {
+        title: "Project Structure",
+        items: [
+          "lib/screens contains the home, countdown, and Nekath-related mobile views.",
+          "lib/widgets contains the live countdown and reusable Nekath presentation cards.",
+          "lib/models defines the structured data used for traditional timing information.",
+          "lib/utils contains date helpers and supporting countdown calculations.",
+        ],
+      },
+      {
+        title: "Cultural Design & Delivery",
+        items: [
+          "The interface uses a festive visual direction inspired by traditional Avurudu colors and seasonal energy.",
+          "Flutter provides consistent layouts and interaction across supported Android screen sizes.",
+          "The focused feature scope keeps the experience useful without overwhelming users during celebrations.",
+          "APK preparation provides a direct path for testing and Android distribution.",
+        ],
+      },
+    ],
+  },
+];
+
+export const allProjects = [...featuredProjects, ...additionalProjects];
 
 export function getProjectBySlug(slug: string) {
   return allProjects.find((project) => createProjectRouteSlug(project.slug) === slug);

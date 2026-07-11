@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 import { sectionMeta } from "@/lib/data/nav";
 import { Button } from "@/components/ui/Button";
@@ -41,10 +42,12 @@ function CloseIcon({ className }: { className?: string }) {
 }
 
 export function Navbar() {
+  const pathname = usePathname();
   const [activeSection, setActiveSection] = useState("hero");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const homeHref = (hash: string) => (pathname === "/" ? hash : `/${hash}`);
 
   useEffect(() => {
     let ticking = false;
@@ -113,7 +116,7 @@ export function Navbar() {
           )}
         >
           <a
-            href="#hero"
+            href={homeHref("#hero")}
             className="font-display text-xl font-bold uppercase tracking-[0.12em] text-accent accent-glow-text transition duration-300 hover:text-accent-bright sm:text-2xl"
             aria-label="Methex — Back to home"
           >
@@ -127,7 +130,7 @@ export function Navbar() {
               return (
                 <a
                   key={link.id}
-                  href={link.href}
+                  href={homeHref(link.href)}
                   onClick={() => setActiveSection(link.id)}
                   className={cn(
                     "px-4 py-2 font-mono text-xs uppercase tracking-[0.22em] text-muted transition hover:text-foreground",
@@ -199,7 +202,7 @@ export function Navbar() {
                 return (
                   <a
                     key={link.id}
-                    href={link.href}
+                    href={homeHref(link.href)}
                     onClick={() => {
                       setActiveSection(link.id);
                       setIsMenuOpen(false);
@@ -214,7 +217,7 @@ export function Navbar() {
                   </a>
                 );
               })}
-              <Button href="#contact" className="mt-2" onClick={() => setIsMenuOpen(false)}>
+              <Button href={homeHref("#contact")} className="mt-2" onClick={() => setIsMenuOpen(false)}>
                 Get in touch
               </Button>
             </nav>

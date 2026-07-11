@@ -177,18 +177,22 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                     <article
                       key={shot.title}
                       className={`clipped-corner border border-border bg-bg-elevated/80 p-4 ${
-                        index === 2 ? "lg:col-span-2" : ""
+                        shot.orientation !== "mobile" && index === 2 ? "lg:col-span-2" : ""
                       }`}
                     >
                       {shot.imageSrc ? (
                         <div className="space-y-4">
-                          <div className="clipped-corner-sm relative aspect-[16/10] overflow-hidden border border-accent/15 bg-bg">
+                          <div className={`clipped-corner-sm relative overflow-hidden border border-accent/15 bg-bg ${
+                            shot.orientation === "mobile"
+                              ? "mx-auto aspect-[9/16] w-full max-w-[18rem]"
+                              : "aspect-[16/10]"
+                          }`}>
                             <Image
                               src={shot.imageSrc}
                               alt={shot.title}
                               fill
-                              className="object-cover object-top"
-                              sizes="(min-width: 1024px) 50vw, 100vw"
+                              className={shot.orientation === "mobile" ? "object-contain" : "object-cover object-top"}
+                              sizes={shot.orientation === "mobile" ? "18rem" : "(min-width: 1024px) 50vw, 100vw"}
                             />
                           </div>
                           <div className="space-y-2 px-1 pb-1">
