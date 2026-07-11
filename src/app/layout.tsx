@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Rajdhani } from "next/font/google";
 import { BackgroundLayer } from "@/components/background/BackgroundLayer";
 import { CursorOrb } from "@/components/effects/CursorOrb";
 import { IntroOverlay } from "@/components/effects/IntroOverlay";
@@ -9,22 +8,6 @@ import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import "@/styles/globals.css";
-
-const rajdhani = Rajdhani({
-  subsets: ["latin"],
-  variable: "--font-display",
-  weight: ["600", "700"],
-});
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-body",
-  weight: ["400", "500"],
-});
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  weight: ["500"],
-});
 
 export const metadata: Metadata = {
   title: "Methum Pathirana | Full-Stack Developer",
@@ -49,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${rajdhani.variable} ${inter.variable} ${jetbrainsMono.variable} bg-bg text-foreground antialiased`}
+        className="bg-bg text-foreground antialiased"
       >
         <ThemeProvider
           attribute="class"

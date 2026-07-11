@@ -2,6 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../app/fonts/rajdhani-latin-600-normal.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Rajdhani";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../app/fonts/rajdhani-latin-700-normal.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../app/fonts/inter-latin-400-normal.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../app/fonts/inter-latin-500-normal.woff") format("woff");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../app/fonts/jetbrains-mono-latin-500-normal.woff") format("woff");
+}
+
 @keyframes status-pulse {
   0%,
   100% {
@@ -41,6 +81,10 @@
 
 @layer base {
   :root {
+    --font-display: "Rajdhani", sans-serif;
+    --font-body: "Inter", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+
     --accent: 50 95 254;
     --accent-dim: 37 71 205;
     --accent-bright: 93 128 255;
