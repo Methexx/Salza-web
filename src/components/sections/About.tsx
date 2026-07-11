@@ -40,7 +40,17 @@ export function About() {
         </div>
         <div className="space-y-10 lg:pt-8">
           <section className="space-y-5"><p className="font-mono text-xs uppercase tracking-[0.26em] text-accent">Skills</p><h3 className="text-2xl font-bold text-foreground sm:text-3xl">Core stack and engineering practices</h3><div className="space-y-4">{skillGroups.map((group) => <div key={group.label} className="space-y-2 border-b border-border/60 pb-4 last:border-b-0"><p className="font-mono text-xs uppercase tracking-[0.24em] text-muted">{group.label}</p><p className="text-base leading-8 text-foreground/90">{group.value}</p></div>)}</div></section>
-          <section className="space-y-4 border-t border-border/70 pt-5"><p className="font-mono text-xs uppercase tracking-[0.26em] text-accent">Education</p><h3 className="text-2xl font-bold text-foreground sm:text-3xl">BSc (Hons) Software Engineering</h3><p className="font-mono text-xs uppercase tracking-[0.22em] text-muted">NSBM Green University · Plymouth University UK</p></section>
+          <section className="space-y-5 border-t border-border/70 pt-5">
+            <p className="font-mono text-xs uppercase tracking-[0.26em] text-accent">Education</p>
+            <div className="space-y-3 border-b border-border/60 pb-5">
+              <h3 className="text-2xl font-bold text-foreground sm:text-3xl">BSc (Hons) Software Engineering</h3>
+              <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted">NSBM Green University · Plymouth University UK</p>
+            </div>
+            <div className="space-y-3">
+              <h3 className="text-xl font-bold text-foreground sm:text-2xl">Diploma in Human Resource Management</h3>
+              <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted">SITC Campus · 2022 - 2023</p>
+            </div>
+          </section>
         </div>
       </div>
     </SectionWrapper>

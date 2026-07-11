@@ -30,7 +30,7 @@ export const profile: ProfileData = {
   heroDescription: "Combining frontend craft, backend engineering, database design, and practical DevOps to turn ideas into complete, maintainable applications.",
   contactHeading: "Let’s build something useful together",
   contactDescription: "Available for full-stack development, backend engineering, collaborative software projects, internships, and graduate opportunities.",
-  footerHeading: "Have a product idea or engineering opportunity?",
+  footerHeading: "Have a product idea or internship opportunity?",
   footerDescription: "Let’s create a fast, reliable, and thoughtfully engineered digital product.",
   stats: {
     yearsExperience: { label: "Engineering Focus", value: "Full Stack" },

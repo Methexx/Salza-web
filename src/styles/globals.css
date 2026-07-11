@@ -5,15 +5,13 @@
 @keyframes status-pulse {
   0%,
   100% {
-    opacity: 0.72;
-    transform: scale(0.92);
-    box-shadow: 0 0 0 0 rgba(50, 95, 254, 0.08);
+    opacity: 0.38;
+    transform: scale(0.62);
   }
 
   50% {
     opacity: 1;
     transform: scale(1);
-    box-shadow: 0 0 0 8px rgba(50, 95, 254, 0.18);
   }
 }
 
@@ -153,12 +151,12 @@
 
   .status-pulse {
     animation: status-pulse 2.8s ease-in-out infinite;
-    box-shadow: 0 0 14px rgba(50, 95, 254, 0.3);
+    transform-origin: center;
   }
 
   .status-pulse-fast {
     animation: status-pulse 1.9s ease-in-out infinite;
-    box-shadow: 0 0 14px rgba(50, 95, 254, 0.34);
+    transform-origin: center;
   }
 
   .cursor-orb {
@@ -224,6 +222,11 @@
     box-shadow: 0 0 18px rgba(50, 95, 254, 0.75);
   }
 
+  .hero-horizon {
+    opacity: 0.95;
+    transform-origin: center bottom;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .hero-terminal__cursor {
       animation: none;
@@ -232,5 +235,6 @@
     .intro-name-cursor {
       animation: none;
     }
+
   }
 }

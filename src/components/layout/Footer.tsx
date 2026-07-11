@@ -40,7 +40,7 @@ export function Footer() {
 
         <div className="clipped-corner relative overflow-hidden border border-border bg-[radial-gradient(circle_at_top_left,rgba(50,95,254,0.16),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01))] p-5 pb-16 sm:p-8 sm:pb-20 lg:p-10 lg:pb-24">
           <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-0 flex translate-x-[-6%] translate-y-1/2 justify-center">
-            <div className="relative h-[28rem] w-[86%] max-w-5xl overflow-hidden sm:h-[34rem] lg:h-[40rem]">
+            <div className="relative h-[42rem] w-[86%] max-w-5xl overflow-hidden sm:h-[48rem] lg:h-[58rem]">
               <LaserFlow
                 color="#325FFE"
                 decay={3}
@@ -54,7 +54,7 @@ export function Footer() {
                 horizontalSizing={0.5}
                 mouseTiltStrength={0}
                 verticalBeamOffset={0}
-                verticalSizing={1.8}
+                verticalSizing={3.2}
                 wispDensity={2}
                 wispIntensity={7.1}
                 wispSpeed={15}

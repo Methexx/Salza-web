@@ -62,6 +62,7 @@ export function IntroOverlay() {
     if (!isVisible && typedName) {
       window.sessionStorage.setItem(storageKey, "true");
       document.body.style.overflow = "";
+      window.dispatchEvent(new Event("portfolio:intro-complete"));
     }
   }, [isVisible, typedName]);
 

@@ -1,13 +1,23 @@
+import { ExternalLink } from "lucide-react";
+
 import { CalmSectionBackground } from "@/components/background/CalmSectionBackground";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { sectionMeta } from "@/lib/data/nav";
+import { profile } from "@/lib/data/profile";
 import { featuredProjects } from "@/lib/data/projects";
 
 export function Projects() {
   return (
-    <SectionWrapper id="projects" background={<CalmSectionBackground />}>
+    <SectionWrapper
+      id="projects"
+      background={
+        <div aria-hidden="true" className="absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent_0%,black_16%,black_76%,transparent_100%)]">
+          <CalmSectionBackground />
+        </div>
+      }
+    >
       <div className="w-full space-y-10 sm:space-y-12">
         <SectionHeading
           eyebrow={sectionMeta.projects.eyebrow}
@@ -25,6 +35,22 @@ export function Projects() {
             {featuredProjects.map((project) => (
               <ProjectCard key={project.title} project={project} variant="platform" />
             ))}
+          </div>
+
+          <div className="flex justify-center pt-3">
+            <a
+              href={profile.githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex items-center gap-3 font-mono text-sm uppercase tracking-[0.16em] text-accent transition duration-300 hover:text-accent-bright hover:drop-shadow-[0_0_10px_rgba(50,95,254,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-bg sm:text-base"
+            >
+              <span>View all projects on GitHub</span>
+              <ExternalLink
+                aria-hidden="true"
+                className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                strokeWidth={1.8}
+              />
+            </a>
           </div>
         </section>
       </div>

@@ -114,9 +114,10 @@ export function Navbar() {
         >
           <a
             href="#hero"
-            className="font-mono text-sm font-medium uppercase tracking-[0.32em] text-foreground"
+            className="font-display text-xl font-bold uppercase tracking-[0.12em] text-accent accent-glow-text transition duration-300 hover:text-accent-bright sm:text-2xl"
+            aria-label="Methex — Back to home"
           >
-            Portfolio
+            Methex
           </a>
 
           <nav aria-label="Primary" className="hidden items-center gap-2 md:flex">

@@ -7,4 +7,5 @@ export const workExperience: WorkExperienceEntry[] = [
 
 export const educationEntries: CredentialEntry[] = [
   { title: "BSc (Hons) Software Engineering (Plymouth University UK)", institution: "NSBM Green University", period: "Undergraduate", type: "degree" },
+  { title: "Diploma in Human Resource Management", institution: "SITC Campus", period: "2022 - 2023", type: "certification" },
 ];
