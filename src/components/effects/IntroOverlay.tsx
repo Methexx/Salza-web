@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const introName = "METHUM PATHIRANA";
@@ -8,15 +9,26 @@ const storageKey = "methum-portfolio-intro-seen";
 
 export function IntroOverlay() {
   const prefersReducedMotion = useReducedMotion();
-  const [isVisible, setIsVisible] = useState(true);
+  const pathname = usePathname();
+  const [isVisible, setIsVisible] = useState(false);
   const [typedName, setTypedName] = useState("");
 
   useEffect(() => {
-    if (window.sessionStorage.getItem(storageKey)) {
+    if (pathname !== "/") {
+      window.sessionStorage.setItem(storageKey, "true");
       setIsVisible(false);
+      document.body.style.overflow = "";
       return;
     }
 
+    if (window.sessionStorage.getItem(storageKey)) {
+      setIsVisible(false);
+      window.dispatchEvent(new Event("portfolio:intro-complete"));
+      return;
+    }
+
+    setIsVisible(true);
+    setTypedName("");
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
@@ -31,8 +43,9 @@ export function IntroOverlay() {
 
     let character = 0;
     let finishTimer = 0;
+    let typingTimer = 0;
     const startTimer = window.setTimeout(() => {
-      const typingTimer = window.setInterval(() => {
+      typingTimer = window.setInterval(() => {
         character += 1;
         setTypedName(introName.slice(0, character));
 
@@ -41,8 +54,6 @@ export function IntroOverlay() {
           finishTimer = window.setTimeout(() => setIsVisible(false), 900);
         }
       }, 95);
-
-      return () => window.clearInterval(typingTimer);
     }, 250);
 
     const skipIntro = (event: KeyboardEvent) => {
@@ -53,10 +64,11 @@ export function IntroOverlay() {
     return () => {
       window.clearTimeout(startTimer);
       window.clearTimeout(finishTimer);
+      window.clearInterval(typingTimer);
       window.removeEventListener("keydown", skipIntro);
       document.body.style.overflow = previousOverflow;
     };
-  }, [prefersReducedMotion]);
+  }, [pathname, prefersReducedMotion]);
 
   useEffect(() => {
     if (!isVisible && typedName) {

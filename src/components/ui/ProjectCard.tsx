@@ -77,11 +77,6 @@ export function ProjectCard({ project, variant }: ProjectCardProps) {
           </p>
           <h3 className="text-3xl font-bold text-foreground">{project.title}</h3>
         </div>
-        {project.status === "live" ? (
-          <span className="clipped-corner-sm bg-accent px-3 py-1 font-mono text-[0.68rem] font-medium uppercase tracking-[0.2em] text-bg">
-            Live
-          </span>
-        ) : null}
       </div>
 
       <p className="mt-5 flex-1 text-base leading-8 text-muted">{project.description}</p>
