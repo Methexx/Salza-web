@@ -29,6 +29,7 @@ export function Hero() {
       id="hero"
       className="pt-4 sm:pt-8"
       containerClassName="items-start pt-20 pb-10 sm:pt-28 sm:pb-20"
+      /* Half-circle horizon temporarily disabled.
       background={
         <div aria-hidden="true" className="hero-horizon pointer-events-none absolute inset-x-0 bottom-0 h-40 sm:h-56 lg:h-64">
           <svg
@@ -61,6 +62,7 @@ export function Hero() {
           </svg>
         </div>
       }
+      */
     >
       <div className="grid w-full gap-10 sm:gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.9fr)] lg:items-start">
         <div className="space-y-6">

@@ -16,7 +16,7 @@ const contactDetails = [
 const skillGroups = [
   { label: "Programming Languages", value: "JavaScript, TypeScript, Java, SQL" },
   { label: "Frontend", value: "React.js, Next.js, HTML5, CSS3, responsive UI, component-based architecture, state management" },
-  { label: "Backend", value: "Node.js, Express.js, Spring Boot, RESTful APIs, JWT authentication, MVC" },
+  { label: "Backend", value: "Node.js, Express.js, Fastify, Spring Boot, RESTful APIs, JWT authentication, MVC" },
   { label: "Databases", value: "MySQL, MongoDB, PostgreSQL, Firebase, Supabase, schema design and data modelling" },
   { label: "DevOps & Tools", value: "Docker, CI/CD, Vercel, Git, GitHub, Postman, Figma, Framer" },
   { label: "AI & Collaboration", value: "Figma Make, Copilot, Antigravity, Claude Code, Slack, Notion, Jira" },
