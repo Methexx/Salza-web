@@ -1,9 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
 export function SmoothScroll() {
+  const pathname = usePathname();
+  const lenisRef = useRef<Lenis | null>(null);
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.15,
@@ -11,6 +15,8 @@ export function SmoothScroll() {
       smoothWheel: true,
       wheelMultiplier: 0.95,
     });
+
+    lenisRef.current = lenis;
 
     let frameId = 0;
 
@@ -23,9 +29,19 @@ export function SmoothScroll() {
 
     return () => {
       window.cancelAnimationFrame(frameId);
+      lenisRef.current = null;
       lenis.destroy();
     };
   }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    lenisRef.current?.scrollTo(0, { immediate: true });
+  }, [pathname]);
 
   return null;
 }
