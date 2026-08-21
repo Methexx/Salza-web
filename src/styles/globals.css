@@ -2,46 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Rajdhani";
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("../app/fonts/rajdhani-latin-600-normal.woff") format("woff");
-}
-
-@font-face {
-  font-family: "Rajdhani";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("../app/fonts/rajdhani-latin-700-normal.woff") format("woff");
-}
-
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("../app/fonts/inter-latin-400-normal.woff") format("woff");
-}
-
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("../app/fonts/inter-latin-500-normal.woff") format("woff");
-}
-
-@font-face {
-  font-family: "JetBrains Mono";
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url("../app/fonts/jetbrains-mono-latin-500-normal.woff") format("woff");
-}
-
 @keyframes status-pulse {
   0%,
   100% {
@@ -52,18 +12,6 @@
   50% {
     opacity: 1;
     transform: scale(1);
-  }
-}
-
-@keyframes terminal-cursor {
-  0%,
-  45% {
-    opacity: 1;
-  }
-
-  46%,
-  100% {
-    opacity: 0;
   }
 }
 
@@ -79,41 +27,61 @@
   }
 }
 
-@layer base {
-  :root {
-    --font-display: "Rajdhani", sans-serif;
-    --font-body: "Inter", sans-serif;
-    --font-mono: "JetBrains Mono", monospace;
-
-    --accent: 50 95 254;
-    --accent-dim: 37 71 205;
-    --accent-bright: 93 128 255;
-    --accent-glow: rgba(50, 95, 254, 0.45);
-
-    --bg: 250 247 244;
-    --bg-elevated: 255 255 255;
-    --bg-elevated-2: 240 235 229;
-    --border: 224 214 204;
-    --foreground: 26 20 17;
-    --muted: 107 95 84;
-    --muted-2: 163 149 136;
-    --particle-color: 176 166 156;
+@keyframes grain-shift {
+  0% {
+    transform: translate(0, 0);
   }
 
-  .dark {
-    --accent: 50 95 254;
-    --accent-dim: 37 71 205;
-    --accent-bright: 93 128 255;
-    --accent-glow: rgba(50, 95, 254, 0.45);
+  25% {
+    transform: translate(-3%, 2%);
+  }
 
-    --bg: 10 8 7;
-    --bg-elevated: 18 14 11;
-    --bg-elevated-2: 26 20 17;
+  50% {
+    transform: translate(2%, -3%);
+  }
+
+  75% {
+    transform: translate(-2%, -2%);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@layer base {
+  :root {
+    --font-display: "Fraunces", serif;
+    --font-body: "Space Grotesk", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+
+    --accent: 230 74 14;
+    --accent-dim: 194 62 12;
+    --accent-bright: 237 110 58;
+    --accent-glow: rgba(230, 74, 14, 0.45);
+
+    --bg: 20 18 15;
+    --bg-elevated: 20 18 15;
+    --bg-elevated-2: 20 18 15;
     --border: 42 33 26;
     --foreground: 245 239 233;
     --muted: 163 149 136;
     --muted-2: 92 82 72;
-    --particle-color: 255 255 255;
+  }
+
+  .dark {
+    --accent: 230 74 14;
+    --accent-dim: 194 62 12;
+    --accent-bright: 237 110 58;
+    --accent-glow: rgba(230, 74, 14, 0.45);
+
+    --bg: 20 18 15;
+    --bg-elevated: 20 18 15;
+    --bg-elevated-2: 20 18 15;
+    --border: 42 33 26;
+    --foreground: 245 239 233;
+    --muted: 163 149 136;
+    --muted-2: 92 82 72;
   }
 
   * {
@@ -145,8 +113,6 @@
     background-color: rgb(var(--bg));
     color: rgb(var(--foreground));
     font-family: var(--font-body), sans-serif;
-    background-image:
-      linear-gradient(180deg, rgb(var(--bg)), rgb(var(--bg-elevated-2)) 100%);
   }
 
   h1,
@@ -207,78 +173,29 @@
     backdrop-filter: blur(6px);
   }
 
-  .hero-terminal {
-    @apply relative w-full overflow-hidden rounded-2xl border border-border bg-bg-elevated/95 font-mono;
-    min-height: 25rem;
-    box-shadow: 0 0 0 1px rgba(50, 95, 254, 0.05), 0 24px 70px rgba(0, 0, 0, 0.28), 0 0 48px rgba(50, 95, 254, 0.09);
-  }
-
-  .hero-terminal::before {
-    background-image: repeating-linear-gradient(90deg, transparent 0, transparent 3px, rgba(50, 95, 254, 0.018) 4px);
-    content: "";
-    inset: 3.25rem 0 0;
-    pointer-events: none;
-    position: absolute;
-  }
-
-  .hero-terminal__bar {
-    @apply relative z-10 flex h-[3.25rem] items-center justify-between border-b border-border px-4 sm:px-5;
-    background: rgb(var(--bg-elevated-2) / 0.7);
-  }
-
-  .hero-terminal__dot {
-    @apply block h-3 w-3 rounded-full;
-  }
-
-  .hero-terminal__title {
-    @apply text-[0.62rem] uppercase tracking-[0.2em] text-muted sm:text-xs sm:tracking-[0.24em];
-  }
-
-  .hero-terminal__body {
-    @apply relative z-10 space-y-3 p-5 text-xs leading-6 sm:p-7 sm:text-sm sm:leading-7;
-  }
-
-  .hero-terminal__line {
-    min-height: 1.75rem;
-    overflow-wrap: anywhere;
-    white-space: pre-wrap;
-  }
-
-  .hero-terminal__line--command {
-    @apply mt-2 font-semibold text-accent;
-  }
-
-  .hero-terminal__line--output {
-    @apply text-muted;
-  }
-
-  .hero-terminal__line--success {
-    color: rgb(var(--foreground));
-  }
-
-  .hero-terminal__cursor {
-    @apply ml-1 inline-block h-[1.05em] w-[0.55em] translate-y-[0.12em] bg-accent;
-    animation: terminal-cursor 0.9s steps(1, end) infinite;
-  }
-
   .intro-name-cursor {
     animation: intro-name-cursor 0.8s steps(1, end) infinite;
-    box-shadow: 0 0 18px rgba(50, 95, 254, 0.75);
+    box-shadow: 0 0 18px rgba(230, 74, 14, 0.75);
   }
 
-  .hero-horizon {
-    opacity: 0.95;
-    transform-origin: center bottom;
+  .grain-overlay {
+    position: fixed;
+    inset: -200px;
+    pointer-events: none;
+    z-index: 90;
+    opacity: 0.25;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain-shift 0.5s steps(4) infinite;
+    mix-blend-mode: overlay;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-terminal__cursor {
-      animation: none;
-    }
-
     .intro-name-cursor {
       animation: none;
     }
 
+    .grain-overlay {
+      animation: none;
+    }
   }
 }

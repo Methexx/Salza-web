@@ -113,7 +113,7 @@ export function IntroOverlay() {
             </div>
 
             <motion.div
-              className="mt-7 h-px bg-accent shadow-[0_0_16px_rgba(50,95,254,0.8)]"
+              className="mt-7 h-px bg-accent shadow-[0_0_16px_rgba(230,74,14,0.8)]"
               initial={{ width: 0, opacity: 0 }}
               animate={{ width: typedName ? "min(12rem, 45vw)" : 0, opacity: typedName ? 1 : 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}

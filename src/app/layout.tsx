@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { BackgroundLayer } from "@/components/background/BackgroundLayer";
+import { Fraunces, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { GrainOverlay } from "@/components/background/GrainOverlay";
 import { CursorOrb } from "@/components/effects/CursorOrb";
 import { IntroOverlay } from "@/components/effects/IntroOverlay";
 import { SmoothScroll } from "@/components/effects/SmoothScroll";
@@ -8,6 +9,28 @@ import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import "@/styles/globals.css";
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["300", "500", "600"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Methum Pathirana | Full-Stack Developer",
@@ -30,7 +53,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${fraunces.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+    >
       <body
         className="bg-bg text-foreground antialiased"
       >
@@ -51,7 +78,7 @@ export default function RootLayout({
             <SmoothScroll />
             <CursorOrb />
             <BackToTopButton />
-            <BackgroundLayer />
+            <GrainOverlay />
             <Navbar />
             <main id="main-content" className="relative z-10">
               {children}
