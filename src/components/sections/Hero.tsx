@@ -1,109 +1,282 @@
-import type { SVGProps } from "react";
-import { Globe2, Mail } from "lucide-react";
+"use client";
 
-import Shuffle from "@/components/effects/Shuffle";
-import { Button } from "@/components/ui/Button";
-import { SectionWrapper } from "@/components/ui/SectionWrapper";
+import { useEffect, useRef } from "react";
+
 import { profile } from "@/lib/data/profile";
-import { HeroTerminal } from "./HeroTerminal";
-import { ColomboClock } from "./ColomboClock";
+import styles from "./Hero.module.css";
 
-function GitHubIcon(props: SVGProps<SVGSVGElement>) {
-  return <svg viewBox="0 0 24 24" fill="currentColor" {...props}><path d="M12 .7a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2.23c-3.22.7-3.9-1.36-3.9-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.57-.29-5.28-1.29-5.28-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.16 1.18A10.9 10.9 0 0 1 12 6.11c.98 0 1.95.13 2.86.39 2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.71 5.39-5.29 5.68.42.36.79 1.07.79 2.16v3.24c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z" /></svg>;
+const nameParts = profile.name.trim().split(/\s+/);
+const firstName = nameParts[0] ?? profile.name;
+const lastName = nameParts.slice(1).join(" ") || firstName;
+
+const taglineAccentWord = "reliable";
+
+function renderTagline(tagline: string, accentWord: string) {
+  const index = tagline.toLowerCase().indexOf(accentWord.toLowerCase());
+
+  if (index === -1) {
+    return tagline;
+  }
+
+  return (
+    <>
+      {tagline.slice(0, index)}
+      <em className="italic text-accent">{tagline.slice(index, index + accentWord.length)}</em>
+      {tagline.slice(index + accentWord.length)}
+    </>
+  );
 }
 
-function LinkedInIcon(props: SVGProps<SVGSVGElement>) {
-  return <svg viewBox="0 0 24 24" fill="currentColor" {...props}><path d="M5.34 7.84A2.34 2.34 0 1 0 5.34 3.16a2.34 2.34 0 0 0 0 4.68ZM3.32 20.84h4.04V9.16H3.32v11.68ZM9.7 9.16h3.87v1.6h.06c.54-1.02 1.86-2.1 3.82-2.1 4.09 0 4.84 2.69 4.84 6.19v5.99h-4.03v-5.31c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.81v5.4H9.7V9.16Z" /></svg>;
+interface Particle {
+  x: number;
+  y: number;
+  r: number;
+  speed: number;
+  drift: number;
+  alpha: number;
+  flicker: number;
 }
-
-const socialLinks = [
-  { label: "GitHub", href: profile.githubUrl, icon: GitHubIcon },
-  { label: "LinkedIn", href: profile.linkedinUrl, icon: LinkedInIcon },
-  { label: "Email", href: `mailto:${profile.email}`, icon: Mail },
-  { label: "Website", href: profile.websiteUrl, icon: Globe2 },
-];
 
 export function Hero() {
+  const stageRef = useRef<HTMLElement>(null);
+  const parallaxRef = useRef<HTMLDivElement>(null);
+  const visualRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    const parallax = parallaxRef.current;
+    const visual = visualRef.current;
+    const canvas = canvasRef.current;
+
+    if (!stage || !parallax || !visual || !canvas) {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const handleMouseMove = (event: MouseEvent) => {
+      const rect = stage.getBoundingClientRect();
+      const relX = (event.clientX - rect.left) / rect.width - 0.5;
+      const relY = (event.clientY - rect.top) / rect.height - 0.5;
+      parallax.style.transform = `translate(${relX * -14}px, ${relY * -10}px)`;
+    };
+
+    const handleMouseLeave = () => {
+      parallax.style.transform = "translate(0,0)";
+    };
+
+    if (!prefersReducedMotion) {
+      stage.addEventListener("mousemove", handleMouseMove);
+      stage.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    if (prefersReducedMotion) {
+      return () => {
+        stage.removeEventListener("mousemove", handleMouseMove);
+        stage.removeEventListener("mouseleave", handleMouseLeave);
+      };
+    }
+
+    const ctx = canvas.getContext("2d");
+
+    if (!ctx) {
+      return;
+    }
+
+    let width = 0;
+    let height = 0;
+    let particles: Particle[] = [];
+    let frameId = 0;
+
+    const makeParticle = (): Particle => ({
+      x: Math.random() * width,
+      y: height + Math.random() * 40,
+      r: Math.random() * 1.8 + 0.4,
+      speed: Math.random() * 0.6 + 0.25,
+      drift: (Math.random() - 0.5) * 0.4,
+      alpha: Math.random() * 0.6 + 0.25,
+      flicker: Math.random() * 0.02 + 0.01,
+    });
+
+    const resize = () => {
+      const rect = visual.getBoundingClientRect();
+      width = canvas.width = rect.width;
+      height = canvas.height = rect.height;
+    };
+
+    const initParticles = () => {
+      particles = Array.from({ length: 70 }, makeParticle);
+    };
+
+    const tick = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      particles.forEach((particle) => {
+        particle.y -= particle.speed;
+        particle.x += particle.drift;
+        particle.alpha += (Math.random() - 0.5) * particle.flicker;
+        particle.alpha = Math.max(0.1, Math.min(0.85, particle.alpha));
+
+        if (particle.y < -10) {
+          Object.assign(particle, makeParticle(), { y: height + 10 });
+        }
+
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(230, 106, 40, ${particle.alpha})`;
+        ctx.shadowColor = "rgba(230,74,14,0.8)";
+        ctx.shadowBlur = 4;
+        ctx.fill();
+      });
+
+      frameId = requestAnimationFrame(tick);
+    };
+
+    resize();
+    initParticles();
+    tick();
+    window.addEventListener("resize", resize);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      window.removeEventListener("resize", resize);
+      stage.removeEventListener("mousemove", handleMouseMove);
+      stage.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
+
   return (
-    <SectionWrapper
+    <section
       id="hero"
-      className="pt-4 sm:pt-8"
-      containerClassName="items-start pt-20 pb-10 sm:pt-28 sm:pb-20"
-      /* Half-circle horizon temporarily disabled.
-      background={
-        <div aria-hidden="true" className="hero-horizon pointer-events-none absolute inset-x-0 bottom-0 h-40 sm:h-56 lg:h-64">
-          <svg
-            className="h-full w-full overflow-visible text-accent"
-            viewBox="0 0 1600 260"
-            preserveAspectRatio="none"
-          >
-            <defs>
-              <linearGradient id="hero-horizon-atmosphere" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="currentColor" stopOpacity="0" />
-                <stop offset="42%" stopColor="currentColor" stopOpacity="0.06" />
-                <stop offset="68%" stopColor="currentColor" stopOpacity="0.18" />
-                <stop offset="86%" stopColor="currentColor" stopOpacity="0.38" />
-                <stop offset="100%" stopColor="currentColor" stopOpacity="0.62" />
-              </linearGradient>
-            </defs>
-
-            <path
-              d="M0 260 Q800 45 1600 260 L1600 -10 L0 -10 Z"
-              fill="url(#hero-horizon-atmosphere)"
-            />
-            <path
-              d="M0 260 Q800 45 1600 260"
-              fill="none"
-              stroke="currentColor"
-              strokeOpacity="1"
-              strokeWidth="3"
-              vectorEffect="non-scaling-stroke"
-            />
-          </svg>
-        </div>
-      }
-      */
+      ref={stageRef}
+      className="relative isolate flex min-h-screen flex-col justify-between overflow-hidden pt-20 sm:pt-24"
     >
-      <div className="grid w-full gap-10 sm:gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.9fr)] lg:items-start">
-        <div className="space-y-6">
-          <Shuffle text={profile.alias} triggerOnHover={false} className="font-mono text-xs uppercase tracking-[0.38em] text-muted" />
-          <div className="space-y-4 sm:space-y-5">
-            <Shuffle tag="h1" text={profile.name} triggerOnHover={false} className="accent-glow-text text-4xl font-bold tracking-[-0.03em] text-foreground sm:text-6xl lg:text-7xl" />
-            <Shuffle text={profile.role} triggerOnHover={false} className="font-display text-xl font-semibold tracking-[-0.02em] text-accent sm:text-3xl" />
-            <Shuffle text={profile.tagline} triggerOnHover={false} className="max-w-2xl text-base leading-7 text-muted sm:text-xl sm:leading-8" />
-            <Shuffle text={profile.heroDescription} triggerOnHover={false} className="max-w-2xl text-sm leading-7 text-muted sm:text-base sm:leading-8" />
-          </div>
+      <div className={styles.heroBg} aria-hidden="true" />
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <Button href="#contact" className="w-full sm:w-auto">Work with me</Button>
-            <Button href="#projects" variant="ghost" className="w-full sm:w-auto">
-              View projects
-            </Button>
+      <div className="relative z-[5] flex items-start justify-between gap-6 px-5 pt-10 sm:px-10">
+        <div className="flex items-baseline gap-[18px]">
+          <span className="font-mono text-[13px] text-bg opacity-60">01</span>
+          <div>
+            <b className="block font-body text-sm font-semibold tracking-[0.02em] text-bg">
+              Full-stack engineering / Based in {profile.location}
+            </b>
+            <div className="mt-1 font-mono text-[11.5px] tracking-[0.03em] text-bg/65">
+              WORK FOOTPRINT — {profile.location.toUpperCase()} · REMOTE
+            </div>
           </div>
-
-          <div className="flex flex-wrap items-center gap-3 pt-1">
-            {socialLinks.map(({ label, href, icon: Icon }) => (
-              <a
-                key={label}
-                href={href}
-                target={href.startsWith("http") ? "_blank" : undefined}
-                rel={href.startsWith("http") ? "noreferrer" : undefined}
-                aria-label={label}
-                title={label}
-                className="clipped-corner-sm inline-flex h-11 w-11 items-center justify-center border border-border bg-bg-elevated/70 text-muted transition duration-300 hover:-translate-y-0.5 hover:border-accent/50 hover:bg-accent/10 hover:text-accent hover:accent-glow-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
-              >
-                <Icon aria-hidden="true" className="h-[1.1rem] w-[1.1rem]" />
-              </a>
-            ))}
-          </div>
-
-          <ColomboClock />
         </div>
 
-        <div className="relative mx-auto flex w-full max-w-xl items-center lg:min-h-[28rem] lg:max-w-none">
-          <HeroTerminal />
+        <div className="text-right">
+          <div className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-accent">System Status</div>
+          <div className="mt-[2px] font-body text-[13px] font-bold tracking-[0.08em] text-foreground">
+            SHIPPING
+          </div>
+          <div className="ml-auto mt-[6px] h-[3px] w-[90px] overflow-hidden rounded-sm bg-foreground/15">
+            <span className="block h-full w-[82%] bg-accent" />
+          </div>
         </div>
       </div>
-    </SectionWrapper>
+
+      <div className="relative z-[5] px-5 pt-6 leading-[0.86] sm:px-10">
+        <span className="block font-display text-[clamp(52px,9.5vw,148px)] font-medium uppercase tracking-[-0.01em] text-foreground">
+          {firstName}
+        </span>
+        <span
+          className={`${styles.headlineOutline} block font-display text-[clamp(52px,9.5vw,148px)] font-medium uppercase tracking-[-0.01em]`}
+          style={{ marginTop: "-0.05em" }}
+        >
+          {lastName}
+        </span>
+      </div>
+
+      <div className={`${styles.heroSide} absolute right-10 top-[150px] z-[5] max-w-[330px] text-left`}>
+        <p className="font-display text-[22px] leading-[1.4] text-foreground">
+          {renderTagline(profile.tagline, taglineAccentWord)}
+        </p>
+        <div className="mt-7 flex h-[52px] w-[52px] items-center justify-center rounded-full border border-foreground/20 text-lg text-foreground">
+          ↘
+        </div>
+      </div>
+
+      <div className={`${styles.identityStat} absolute right-10 top-[340px] z-[5] text-right`}>
+        <div className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-accent">Build Confidence</div>
+        <div className="mt-[2px] font-body text-2xl font-bold text-foreground">99.2%</div>
+        <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-foreground/50">
+          Shipped &amp; stable
+        </div>
+      </div>
+
+      <div
+        ref={parallaxRef}
+        className={`${styles.heroVisualParallax} absolute bottom-0 right-[6%] z-[3] h-[82%] w-[38%]`}
+        style={{ willChange: "transform", transition: "transform 0.25s ease-out" }}
+      >
+        <div ref={visualRef} className={styles.heroVisual}>
+          <div className={styles.heroVisualGlow} />
+
+          <div className={`${styles.orbitRing} ${styles.orbitRing1}`}>
+            <svg viewBox="0 0 400 200" width="100%" height="100%">
+              <ellipse
+                cx="200"
+                cy="100"
+                rx="196"
+                ry="96"
+                fill="none"
+                stroke="rgba(230,106,40,0.55)"
+                strokeWidth="1.4"
+                strokeDasharray="2 7"
+              />
+              <circle cx="396" cy="100" r="4.5" fill="#E64A0E" style={{ filter: "drop-shadow(0 0 6px #E64A0E)" }} />
+            </svg>
+          </div>
+
+          <div className={`${styles.orbitRing} ${styles.orbitRing2}`}>
+            <svg viewBox="0 0 400 200" width="100%" height="100%">
+              <ellipse
+                cx="200"
+                cy="100"
+                rx="196"
+                ry="96"
+                fill="none"
+                stroke="rgba(245,241,236,0.28)"
+                strokeWidth="1"
+                strokeDasharray="1 5"
+              />
+              <circle cx="4" cy="100" r="3.5" fill="#F5F1EC" style={{ filter: "drop-shadow(0 0 5px #F5F1EC)" }} />
+            </svg>
+          </div>
+
+          <div className={styles.heroVisualPlaceholder}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img id="heroImg" src="" alt={`${profile.name} hero portrait`} />
+            <span className="relative z-[2] font-mono text-[11px] uppercase leading-[1.6] tracking-[0.08em] text-foreground/40">
+              Hero visual placeholder
+              <br />
+              swap in licensed asset
+              <br />
+              or Three.js wireframe here
+            </span>
+            <canvas ref={canvasRef} className={styles.particleCanvas} />
+          </div>
+        </div>
+      </div>
+
+      <div className="relative z-[5] flex items-end justify-between gap-6 px-5 pb-11 sm:px-10">
+        <div className="text-bg">
+          <h2 className="font-display text-[clamp(24px,3vw,34px)] font-medium leading-[1.15]">{profile.role}</h2>
+          <p className="mt-[10px] font-mono text-[11px] tracking-[0.04em] text-bg/65">
+            PUBLIC IDENTITY: {profile.name.toUpperCase()}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-[10px] text-foreground">
+          <span className="font-mono text-[11px] uppercase tracking-[0.16em]">Scroll to explore</span>
+          <div className="flex h-[38px] w-[38px] items-center justify-center rounded-full border border-accent text-[13px] text-accent">
+            ↓
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
