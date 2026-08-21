@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 import { sectionMeta } from "@/lib/data/nav";
+import { profile } from "@/lib/data/profile";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { NAV_LINKS } from "@/lib/constants";
@@ -40,6 +41,10 @@ function CloseIcon({ className }: { className?: string }) {
     </svg>
   );
 }
+
+const nameParts = profile.name.trim().split(/\s+/);
+const firstName = nameParts[0] ?? profile.name;
+const lastName = nameParts.slice(1).join(" ") || firstName;
 
 export function Navbar() {
   const pathname = usePathname();
@@ -117,10 +122,13 @@ export function Navbar() {
         >
           <a
             href={homeHref("#hero")}
-            className="font-display text-xl font-bold uppercase tracking-[0.12em] text-accent accent-glow-text transition duration-300 hover:text-accent-bright sm:text-2xl"
-            aria-label="Methex — Back to home"
+            className="flex items-center gap-[2px] font-mono text-sm tracking-[0.02em] text-foreground transition duration-300 hover:text-accent-bright"
+            aria-label={`${profile.name} — Back to home`}
           >
-            Methex
+            <span className="uppercase">{firstName}</span>
+            <span className="rounded-[3px] bg-accent px-2 py-[3px] font-semibold uppercase text-bg">
+              {lastName}
+            </span>
           </a>
 
           <nav aria-label="Primary" className="hidden items-center gap-2 md:flex">
@@ -144,16 +152,14 @@ export function Navbar() {
             })}
           </nav>
 
-          <div className="hidden items-center md:flex">
-            <div className="clipped-corner-sm flex items-center gap-3 border border-accent/20 bg-bg-elevated/80 px-4 py-2.5 shadow-[0_0_28px_rgba(50,95,254,0.08)] backdrop-blur-sm">
-              <span
-                aria-hidden="true"
-                className="status-pulse h-2.5 w-2.5 rounded-full bg-accent"
-              />
-              <span className="font-mono text-xs uppercase tracking-[0.24em] text-accent">
-                Open to internship
-              </span>
-            </div>
+          <div className="hidden items-center gap-[9px] md:flex">
+            <span
+              aria-hidden="true"
+              className="status-pulse h-[7px] w-[7px] rounded-full bg-accent shadow-[0_0_10px_var(--accent-glow)]"
+            />
+            <span className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-foreground">
+              Available for work
+            </span>
           </div>
 
           <div className="flex items-center md:hidden">
@@ -172,7 +178,7 @@ export function Navbar() {
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-border/40">
             <div
               aria-hidden="true"
-              className="h-full origin-left bg-accent shadow-[0_0_12px_rgba(50,95,254,0.55)] transition-none"
+              className="h-full origin-left bg-accent shadow-[0_0_12px_var(--accent-glow)] transition-none"
               style={{
                 transform: `scaleX(${scrollProgress})`,
               }}

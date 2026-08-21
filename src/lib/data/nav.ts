@@ -1,19 +1,22 @@
 export interface SectionLink {
-  id: "about" | "projects" | "contact";
-  href: "#about" | "#projects" | "#contact";
+  id: "about" | "skills" | "projects" | "certifications" | "experience" | "contact";
+  href: "#about" | "#skills" | "#projects" | "#certifications" | "#experience" | "#contact";
   label: string;
 }
 
 export interface SectionMeta {
-  id: "hero" | SectionLink["id"] | "skills" | "experience" | "volunteering" | "certifications";
+  id: "hero" | SectionLink["id"] | "volunteering";
   label: string;
   eyebrow: string;
   heading: string;
 }
 
 export const navLinks: SectionLink[] = [
-  { id: "about", href: "#about", label: "About" },
-  { id: "projects", href: "#projects", label: "Projects" },
+  { id: "about", href: "#about", label: "Expertise" },
+  { id: "skills", href: "#skills", label: "Tech Stack" },
+  { id: "projects", href: "#projects", label: "Work" },
+  { id: "certifications", href: "#certifications", label: "Credentials" },
+  { id: "experience", href: "#experience", label: "Journey" },
   { id: "contact", href: "#contact", label: "Contact" },
 ];
 
