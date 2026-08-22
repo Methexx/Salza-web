@@ -11,7 +11,7 @@ const lastName = nameParts.slice(1).join(" ") || firstName;
 
 const taglineAccentWord = "reliable";
 const heroImageSrc = "/hero/cyber.png";
-const buildConfidenceTarget = 99.2;
+const buildConfidenceTarget = 99.8;
 const buildConfidenceDurationMs = 1600;
 // Orbit rings stay coded but hidden until asked for.
 const SHOW_ORBIT_RINGS = false;
