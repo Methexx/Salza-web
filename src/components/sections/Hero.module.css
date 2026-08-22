@@ -91,7 +91,7 @@
   position: absolute;
   inset: -10%;
   z-index: 1;
-  background: radial-gradient(circle at 50% 35%, rgba(230, 74, 14, 0.35), transparent 62%);
+  background: radial-gradient(circle at 50% 35%, rgba(255, 79, 3, 0.35), transparent 62%);
   filter: blur(6px);
   animation: glow-pulse 4.2s ease-in-out infinite;
   pointer-events: none;
@@ -212,11 +212,27 @@
   mix-blend-mode: screen;
 }
 
+/* Grain layer scoped to the hero section only, sitting above every
+   other hero layer (headline, image, particles). Reuses the same
+   feTurbulence texture and grain-shift keyframe as the site-wide
+   overlay in globals.css (keyframe names aren't scoped by CSS Modules). */
+.heroGrain {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0.25;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 0.5s steps(4) infinite;
+  mix-blend-mode: overlay;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .heroVisual,
   .heroVisualGlow,
   .orbitRing1,
-  .orbitRing2 {
+  .orbitRing2,
+  .heroGrain {
     animation: none;
   }
 }

@@ -114,15 +114,13 @@ export function Navbar() {
       <Container className="py-4">
         <div
           className={cn(
-            "relative flex items-center justify-between overflow-hidden border px-3 py-2 transition duration-300 sm:px-4",
-            isScrolled
-              ? "border-border bg-bg-elevated/85 shadow-[0_18px_48px_rgb(var(--bg)/0.72)] backdrop-blur-xl"
-              : "border-transparent bg-transparent",
+            "relative flex items-center justify-between overflow-hidden border border-border bg-bg-elevated/95 px-3 py-2 transition duration-300 sm:px-4",
+            isScrolled && "shadow-[0_18px_48px_rgb(var(--bg)/0.72)] backdrop-blur-xl",
           )}
         >
           <a
             href={homeHref("#hero")}
-            className="flex items-center gap-[2px] font-mono text-sm tracking-[0.02em] text-foreground transition duration-300 hover:text-accent-bright"
+            className="flex items-center gap-[2px] font-mono text-sm tracking-[0.02em] text-white transition duration-300 hover:text-accent-bright"
             aria-label={`${profile.name} — Back to home`}
           >
             <span className="uppercase">{firstName}</span>
@@ -141,7 +139,7 @@ export function Navbar() {
                   href={homeHref(link.href)}
                   onClick={() => setActiveSection(link.id)}
                   className={cn(
-                    "px-4 py-2 font-mono text-xs uppercase tracking-[0.22em] text-muted transition hover:text-foreground",
+                    "px-4 py-2 font-mono text-xs uppercase tracking-[0.22em] text-white transition hover:text-accent-bright",
                     isActive && "text-accent accent-glow-text",
                   )}
                   aria-current={isActive ? "page" : undefined}
@@ -157,7 +155,7 @@ export function Navbar() {
               aria-hidden="true"
               className="status-pulse h-[7px] w-[7px] rounded-full bg-accent shadow-[0_0_10px_var(--accent-glow)]"
             />
-            <span className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-foreground">
+            <span className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-white">
               Available for work
             </span>
           </div>
@@ -214,7 +212,7 @@ export function Navbar() {
                       setIsMenuOpen(false);
                     }}
                     className={cn(
-                      "px-4 py-3 font-mono text-xs uppercase tracking-[0.22em] text-muted transition hover:bg-bg-elevated-2 hover:text-foreground",
+                      "px-4 py-3 font-mono text-xs uppercase tracking-[0.22em] text-white transition hover:bg-bg-elevated-2",
                       isActive && "bg-bg-elevated-2 text-accent accent-glow-text",
                     )}
                     aria-current={isActive ? "page" : undefined}

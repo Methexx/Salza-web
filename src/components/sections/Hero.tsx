@@ -291,13 +291,13 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="relative z-[5] px-5 pt-6 leading-[0.86] sm:px-10">
-        <span className="block select-none font-display text-[clamp(52px,9.5vw,148px)] font-medium uppercase tracking-[-0.01em] text-foreground">
+      <div className="relative z-[5] -mt-10 px-5 pt-6 leading-[0.86] sm:px-10">
+        <span className="block select-none font-display text-[clamp(64px,12.5vw,220px)] font-medium uppercase tracking-[-0.01em] text-foreground">
           {firstName}
         </span>
         <span
-          className={`${styles.headlineOutline} block select-none font-display text-[clamp(52px,9.5vw,148px)] font-medium uppercase tracking-[-0.01em]`}
-          style={{ marginTop: "-0.05em" }}
+          className={`${styles.headlineOutline} block select-none font-display text-[clamp(48px,9vw,165px)] font-medium uppercase tracking-[-0.01em]`}
+          style={{ marginTop: "-0.05em", marginLeft: "2in" }}
         >
           {lastName}
         </span>
@@ -344,7 +344,7 @@ export function Hero() {
                 strokeWidth="1.4"
                 strokeDasharray="2 7"
               />
-              <circle cx="396" cy="100" r="4.5" fill="#E64A0E" style={{ filter: "drop-shadow(0 0 6px #E64A0E)" }} />
+              <circle cx="396" cy="100" r="4.5" fill="#FF4F03" style={{ filter: "drop-shadow(0 0 6px #FF4F03)" }} />
             </svg>
           </div>
 
@@ -410,6 +410,8 @@ export function Hero() {
           </div>
         </div>
       </div>
+
+      <div className={styles.heroGrain} aria-hidden="true" />
     </section>
   );
 }

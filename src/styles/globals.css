@@ -55,10 +55,10 @@
     --font-body: "Space Grotesk", sans-serif;
     --font-mono: "JetBrains Mono", monospace;
 
-    --accent: 230 74 14;
-    --accent-dim: 194 62 12;
-    --accent-bright: 237 110 58;
-    --accent-glow: rgba(230, 74, 14, 0.45);
+    --accent: 255 79 3;
+    --accent-dim: 214 66 3;
+    --accent-bright: 255 115 47;
+    --accent-glow: rgba(255, 79, 3, 0.45);
 
     --bg: 20 18 15;
     --bg-elevated: 20 18 15;
@@ -70,10 +70,10 @@
   }
 
   .dark {
-    --accent: 230 74 14;
-    --accent-dim: 194 62 12;
-    --accent-bright: 237 110 58;
-    --accent-glow: rgba(230, 74, 14, 0.45);
+    --accent: 255 79 3;
+    --accent-dim: 214 66 3;
+    --accent-bright: 255 115 47;
+    --accent-glow: rgba(255, 79, 3, 0.45);
 
     --bg: 20 18 15;
     --bg-elevated: 20 18 15;
@@ -175,7 +175,7 @@
 
   .intro-name-cursor {
     animation: intro-name-cursor 0.8s steps(1, end) infinite;
-    box-shadow: 0 0 18px rgba(230, 74, 14, 0.75);
+    box-shadow: 0 0 18px rgba(255, 79, 3, 0.75);
   }
 
   .grain-overlay {
