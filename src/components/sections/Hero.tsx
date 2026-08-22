@@ -190,16 +190,17 @@ export function Hero() {
         </span>
       </div>
 
-      <div className={`${styles.heroSide} absolute right-10 top-[150px] z-[5] max-w-[330px] text-left`}>
+      <div
+        className={`${styles.heroSide} absolute right-10 top-[calc(150px+5rem)] z-[5] max-w-[330px] text-left sm:top-[calc(150px+6rem)]`}
+      >
         <p className="font-display text-[22px] leading-[1.4] text-foreground">
           {renderTagline(profile.tagline, taglineAccentWord)}
         </p>
-        <div className="mt-7 flex h-[52px] w-[52px] items-center justify-center rounded-full border border-foreground/20 text-lg text-foreground">
-          ↘
-        </div>
       </div>
 
-      <div className={`${styles.identityStat} absolute right-10 top-[340px] z-[5] text-right`}>
+      <div
+        className={`${styles.identityStat} absolute right-10 top-[calc(340px+5rem)] z-[5] text-right sm:top-[calc(340px+6rem)]`}
+      >
         <div className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-accent">Build Confidence</div>
         <div className="mt-[2px] font-body text-2xl font-bold text-foreground">99.2%</div>
         <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-foreground/50">
