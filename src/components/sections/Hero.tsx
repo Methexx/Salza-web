@@ -10,6 +10,7 @@ const firstName = nameParts[0] ?? profile.name;
 const lastName = nameParts.slice(1).join(" ") || firstName;
 
 const taglineAccentWord = "reliable";
+const heroImageSrc = "/hero/cyber.png";
 
 function renderTagline(tagline: string, accentWord: string) {
   const index = tagline.toLowerCase().indexOf(accentWord.toLowerCase());
@@ -208,11 +209,10 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Hidden until the real hero visual is ready to integrate; markup/JS kept intact. */}
       <div
         ref={parallaxRef}
-        className={`${styles.heroVisualParallax} absolute bottom-0 right-[6%] z-[3] h-[82%] w-[38%]`}
-        style={{ display: "none", willChange: "transform", transition: "transform 0.25s ease-out" }}
+        className={`${styles.heroVisualParallax} absolute bottom-0 right-[14%] z-[3] h-[92%] w-[42%]`}
+        style={{ willChange: "transform", transition: "transform 0.25s ease-out" }}
       >
         <div ref={visualRef} className={styles.heroVisual}>
           <div className={styles.heroVisualGlow} />
@@ -249,16 +249,21 @@ export function Hero() {
             </svg>
           </div>
 
-          <div className={styles.heroVisualPlaceholder}>
+          <div
+            className={styles.heroVisualPlaceholder}
+            style={heroImageSrc ? { border: "none", background: "none" } : undefined}
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img id="heroImg" src="" alt={`${profile.name} hero portrait`} />
-            <span className="relative z-[2] font-mono text-[11px] uppercase leading-[1.6] tracking-[0.08em] text-foreground/40">
-              Hero visual placeholder
-              <br />
-              swap in licensed asset
-              <br />
-              or Three.js wireframe here
-            </span>
+            <img id="heroImg" src={heroImageSrc} alt={`${profile.name} hero portrait`} />
+            {!heroImageSrc && (
+              <span className="relative z-[2] font-mono text-[11px] uppercase leading-[1.6] tracking-[0.08em] text-foreground/40">
+                Hero visual placeholder
+                <br />
+                swap in licensed asset
+                <br />
+                or Three.js wireframe here
+              </span>
+            )}
             <canvas ref={canvasRef} className={styles.particleCanvas} />
           </div>
         </div>
