@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { GrainOverlay } from "@/components/background/GrainOverlay";
-import { CursorOrb } from "@/components/effects/CursorOrb";
 import { IntroOverlay } from "@/components/effects/IntroOverlay";
 import { SmoothScroll } from "@/components/effects/SmoothScroll";
 import { BackToTopButton } from "@/components/layout/BackToTopButton";
@@ -13,7 +12,7 @@ import "@/styles/globals.css";
 const fraunces = Fraunces({
   subsets: ["latin"],
   style: ["normal", "italic"],
-  weight: ["300", "500", "600"],
+  weight: ["300", "500", "600", "700"],
   variable: "--font-display",
   display: "swap",
 });
@@ -76,7 +75,6 @@ export default function RootLayout({
           </a>
           <div className="relative min-h-screen bg-bg text-foreground">
             <SmoothScroll />
-            <CursorOrb />
             <BackToTopButton />
             <GrainOverlay />
             <Navbar />

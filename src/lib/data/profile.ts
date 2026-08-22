@@ -24,7 +24,7 @@ export const profile: ProfileData = {
   githubUrl: "https://github.com/Methexx",
   linkedinUrl: "https://www.linkedin.com/in/methum",
   languages: ["English", "Sinhala"],
-  tagline: "Building reliable full-stack products from polished interfaces to scalable backend services.",
+  tagline: "Building reliable products, delivered end-to-end with scalable, production-ready services.",
   shortBio: "Software Engineering undergraduate with hands-on experience building dynamic web applications, backend services, RESTful APIs, and database-driven products.",
   focusArea: "I work across React, Next.js, Node.js, Express.js, Fastify, Spring Boot, Java, and modern databases, supported by Docker, Git, GitHub, and CI/CD workflows.",
   heroDescription: "Combining frontend craft, backend engineering, database design, and practical DevOps to turn ideas into complete, maintainable applications.",

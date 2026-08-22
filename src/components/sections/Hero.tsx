@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { profile } from "@/lib/data/profile";
 import styles from "./Hero.module.css";
@@ -11,6 +11,8 @@ const lastName = nameParts.slice(1).join(" ") || firstName;
 
 const taglineAccentWord = "reliable";
 const heroImageSrc = "/hero/cyber.png";
+const buildConfidenceTarget = 99.2;
+const buildConfidenceDurationMs = 1600;
 // Orbit rings stay coded but hidden until asked for.
 const SHOW_ORBIT_RINGS = false;
 // Ambient particle overlay, tied to the image's own neck/chest/hair-trail detail.
@@ -102,6 +104,53 @@ export function Hero() {
   const parallaxRef = useRef<HTMLDivElement>(null);
   const visualRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [buildConfidence, setBuildConfidence] = useState(0);
+  const [sriLankaTime, setSriLankaTime] = useState("");
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion) {
+      setBuildConfidence(buildConfidenceTarget);
+      return;
+    }
+
+    let frameId = 0;
+    const startTime = performance.now();
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - startTime) / buildConfidenceDurationMs, 1);
+      const eased = 1 - (1 - progress) ** 3;
+      setBuildConfidence(buildConfidenceTarget * eased);
+
+      if (progress < 1) {
+        frameId = requestAnimationFrame(tick);
+      }
+    };
+
+    frameId = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(frameId);
+  }, []);
+
+  useEffect(() => {
+    const updateTime = () => {
+      setSriLankaTime(
+        new Intl.DateTimeFormat("en-US", {
+          timeZone: "Asia/Colombo",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true,
+        }).format(new Date()),
+      );
+    };
+
+    updateTime();
+    const timer = window.setInterval(updateTime, 1000);
+
+    return () => window.clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -267,15 +316,18 @@ export function Hero() {
       <div className={styles.heroBg} aria-hidden="true" />
       <div className={styles.orangeCutoff} aria-hidden="true" />
 
-      <div className="relative z-[5] flex items-start justify-between gap-6 px-5 pt-10 sm:px-10">
+      <div className="relative z-[5] -mt-8 flex items-start justify-between gap-6 px-5 pt-10 sm:px-10">
         <div className="flex items-baseline gap-[18px]">
-          <span className="font-mono text-[13px] text-bg opacity-60">01</span>
+          <span className="font-mono text-[13px] text-white opacity-60">01</span>
           <div>
-            <b className="block font-body text-sm font-semibold tracking-[0.02em] text-bg">
+            <b className="block font-body text-sm font-semibold tracking-[0.02em] text-white">
               Full-stack engineering / Based in {profile.location}
             </b>
+            <div className="mt-1 font-mono text-[11.5px] tracking-[0.03em] text-white/65">
+              WORK FOOTPRINT — SRI LANKA · UNITED KINGDOM
+            </div>
             <div className="mt-1 font-mono text-[11.5px] tracking-[0.03em] text-bg/65">
-              WORK FOOTPRINT — {profile.location.toUpperCase()} · REMOTE
+              GMT +5:30 · SRI LANKA — {sriLankaTime}
             </div>
           </div>
         </div>
@@ -291,7 +343,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="relative z-[5] -mt-10 px-5 pt-6 leading-[0.86] sm:px-10">
+      <div className="relative z-[5] -mt-24 px-5 pt-6 leading-[0.86] sm:px-10">
         <span className="block select-none font-display text-[clamp(64px,12.5vw,220px)] font-medium uppercase tracking-[-0.01em] text-foreground">
           {firstName}
         </span>
@@ -304,7 +356,7 @@ export function Hero() {
       </div>
 
       <div
-        className={`${styles.heroSide} absolute right-10 top-[calc(150px+5rem)] z-[5] max-w-[330px] text-left sm:top-[calc(150px+6rem)]`}
+        className={`${styles.heroSide} absolute right-10 top-[calc(150px+5rem)] z-[5] max-w-[330px] text-right sm:top-[calc(150px+6rem)]`}
       >
         <p className="font-display text-[22px] leading-[1.4] text-foreground">
           {renderTagline(profile.tagline, taglineAccentWord)}
@@ -315,7 +367,9 @@ export function Hero() {
         className={`${styles.identityStat} absolute right-10 top-[calc(340px+5rem)] z-[5] text-right sm:top-[calc(340px+6rem)]`}
       >
         <div className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-accent">Build Confidence</div>
-        <div className="mt-[2px] font-body text-2xl font-bold text-foreground">99.2%</div>
+        <div className="mt-[2px] font-body text-2xl font-bold text-foreground">
+          {buildConfidence.toFixed(1)}%
+        </div>
         <div className="font-mono text-[10px] uppercase tracking-[0.1em] text-foreground/50">
           Shipped &amp; stable
         </div>
@@ -396,18 +450,15 @@ export function Hero() {
       </div>
 
       <div className="relative z-[5] flex items-end justify-between gap-6 px-5 pb-11 sm:px-10">
-        <div className="text-bg">
-          <h2 className="font-display text-[clamp(24px,3vw,34px)] font-medium leading-[1.15]">{profile.role}</h2>
-          <p className="mt-[10px] font-mono text-[11px] tracking-[0.04em] text-bg/65">
-            PUBLIC IDENTITY: {profile.name.toUpperCase()}
-          </p>
+        <div>
+          <h2 className="font-display text-[clamp(24px,3vw,34px)] font-medium leading-[1.15]">
+            <span className="block text-foreground">Fullstack Engineering</span>
+            <span className="block font-bold text-bg">&amp;       DevOps Enthusiast</span>
+          </h2>
         </div>
 
-        <div className="flex items-center gap-[10px] text-foreground">
-          <span className="font-mono text-[11px] uppercase tracking-[0.16em]">Scroll to explore</span>
-          <div className="flex h-[38px] w-[38px] items-center justify-center rounded-full border border-accent text-[13px] text-accent">
-            ↓
-          </div>
+        <div className="flex items-center text-foreground">
+          <span className="font-mono text-[11px] uppercase tracking-[0.16em]">SCROLL TO INVESTIGATE</span>
         </div>
       </div>
 

@@ -169,10 +169,6 @@
     transform-origin: center;
   }
 
-  .cursor-orb {
-    backdrop-filter: blur(6px);
-  }
-
   .intro-name-cursor {
     animation: intro-name-cursor 0.8s steps(1, end) infinite;
     box-shadow: 0 0 18px rgba(255, 79, 3, 0.75);

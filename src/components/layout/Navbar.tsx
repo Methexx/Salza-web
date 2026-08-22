@@ -114,8 +114,10 @@ export function Navbar() {
       <Container className="py-4">
         <div
           className={cn(
-            "relative flex items-center justify-between overflow-hidden border border-border bg-bg-elevated/95 px-3 py-2 transition duration-300 sm:px-4",
-            isScrolled && "shadow-[0_18px_48px_rgb(var(--bg)/0.72)] backdrop-blur-xl",
+            "relative flex items-center justify-between overflow-hidden rounded-[6px] border px-3 py-2 transition duration-300 sm:px-4",
+            isScrolled
+              ? "border-border bg-bg-elevated/85 shadow-[0_18px_48px_rgb(var(--bg)/0.72)] backdrop-blur-xl"
+              : "border-transparent bg-transparent",
           )}
         >
           <a
@@ -139,7 +141,7 @@ export function Navbar() {
                   href={homeHref(link.href)}
                   onClick={() => setActiveSection(link.id)}
                   className={cn(
-                    "px-4 py-2 font-mono text-xs uppercase tracking-[0.22em] text-white transition hover:text-accent-bright",
+                    "px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.22em] text-white transition duration-200 hover:rounded-sm hover:bg-black/85 hover:shadow-[inset_0_-2px_0_0_rgb(var(--accent))]",
                     isActive && "text-accent accent-glow-text",
                   )}
                   aria-current={isActive ? "page" : undefined}
