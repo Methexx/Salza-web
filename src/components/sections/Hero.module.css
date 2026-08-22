@@ -29,6 +29,25 @@
   }
 }
 
+/* Hard repaint of the orange diagonal, sitting above the hero image
+   (z-index 3) but below the text layers (z-index 5). Anything from
+   the image that would otherwise bleed into the orange side gets
+   fully covered here instead of faded with a gradient. */
+.orangeCutoff {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: rgb(var(--accent));
+  clip-path: polygon(0 0, 62% 0, 38% 100%, 0 100%);
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .orangeCutoff {
+    clip-path: polygon(0 0, 100% 0, 100% 46%, 0 30%);
+  }
+}
+
 .headlineOutline {
   color: transparent;
   -webkit-text-stroke: 1.5px rgba(245, 239, 233, 0.55);
@@ -170,6 +189,10 @@
 /* Fades the image to transparent at its edges so the section's own
    background shows through underneath instead of a hard photo edge. */
 .heroVisualImg {
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
   --hero-img-fade: radial-gradient(
     ellipse 50% 50% at 50% 50%,
     black 30%,

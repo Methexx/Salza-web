@@ -11,10 +11,48 @@ const lastName = nameParts.slice(1).join(" ") || firstName;
 
 const taglineAccentWord = "reliable";
 const heroImageSrc = "/hero/cyber.png";
-// Orbit rings + rising-particle canvas stay coded but hidden until asked for.
-const SHOW_ORBIT_AND_PARTICLES = false;
+// Orbit rings stay coded but hidden until asked for.
+const SHOW_ORBIT_RINGS = false;
+// Ambient particle overlay, tied to the image's own neck/chest/hair-trail detail.
+const SHOW_RISING_PARTICLES = true;
 // Cursor-reactive parallax stays coded but disabled until asked for.
 const ENABLE_CURSOR_PARALLAX = false;
+
+// Rough regions (fractions of the canvas box) where the artwork already has
+// its own particle/circuit detail, so the animated layer reads as part of
+// the image rather than scattered randomly across empty space.
+const PARTICLE_ZONES = [
+  { xMin: 0.02, xMax: 0.56, yMin: 0.04, yMax: 0.46, weight: 0.4 }, // behind-neck / hair-trail dissolve
+  { xMin: 0.4, xMax: 0.64, yMin: 0.32, yMax: 0.64, weight: 0.3 }, // neck
+  { xMin: 0.05, xMax: 0.78, yMin: 0.62, yMax: 0.98, weight: 0.3 }, // chest / shoulders
+] as const;
+
+const PARTICLE_COLORS = [
+  "230, 106, 40", // base ember orange
+  "255, 176, 82", // warmer amber
+  "255, 214, 140", // hot highlight
+] as const;
+
+function pickParticleZone() {
+  const roll = Math.random();
+  let acc = 0;
+
+  for (const zone of PARTICLE_ZONES) {
+    acc += zone.weight;
+    if (roll <= acc) {
+      return zone;
+    }
+  }
+
+  return PARTICLE_ZONES[PARTICLE_ZONES.length - 1];
+}
+
+function pickParticleColor() {
+  const roll = Math.random();
+  if (roll < 0.6) return PARTICLE_COLORS[0];
+  if (roll < 0.85) return PARTICLE_COLORS[1];
+  return PARTICLE_COLORS[2];
+}
 
 function renderTagline(tagline: string, accentWord: string) {
   const index = tagline.toLowerCase().indexOf(accentWord.toLowerCase());
@@ -32,12 +70,29 @@ function renderTagline(tagline: string, accentWord: string) {
   );
 }
 
+type ParticleShape = "circle" | "square";
+type ParticleMode = "rise" | "hover" | "drift";
+type ParticleZone = (typeof PARTICLE_ZONES)[number];
+
 interface Particle {
+  zone: ParticleZone;
+  shape: ParticleShape;
+  mode: ParticleMode;
+  color: string;
   x: number;
   y: number;
-  r: number;
+  baseX: number;
+  baseY: number;
+  size: number;
+  angle: number;
+  spin: number;
   speed: number;
-  drift: number;
+  driftX: number;
+  driftY: number;
+  ampX: number;
+  ampY: number;
+  freq: number;
+  t: number;
   alpha: number;
   flicker: number;
 }
@@ -76,14 +131,7 @@ export function Hero() {
       stage.addEventListener("mouseleave", handleMouseLeave);
     }
 
-    if (!ENABLE_CURSOR_PARALLAX || prefersReducedMotion) {
-      return () => {
-        stage.removeEventListener("mousemove", handleMouseMove);
-        stage.removeEventListener("mouseleave", handleMouseLeave);
-      };
-    }
-
-    if (!SHOW_ORBIT_AND_PARTICLES) {
+    if (!SHOW_RISING_PARTICLES || prefersReducedMotion) {
       return () => {
         stage.removeEventListener("mousemove", handleMouseMove);
         stage.removeEventListener("mouseleave", handleMouseLeave);
@@ -101,52 +149,104 @@ export function Hero() {
     let particles: Particle[] = [];
     let frameId = 0;
 
-    const makeParticle = (): Particle => ({
-      x: Math.random() * width,
-      y: height + Math.random() * 40,
-      r: Math.random() * 1.8 + 0.4,
-      speed: Math.random() * 0.6 + 0.25,
-      drift: (Math.random() - 0.5) * 0.4,
-      alpha: Math.random() * 0.6 + 0.25,
-      flicker: Math.random() * 0.02 + 0.01,
-    });
+    const makeParticle = (zone: ParticleZone = pickParticleZone()): Particle => {
+      const x = (zone.xMin + Math.random() * (zone.xMax - zone.xMin)) * width;
+      const y = (zone.yMin + Math.random() * (zone.yMax - zone.yMin)) * height;
+      const modeRoll = Math.random();
+      const mode: ParticleMode = modeRoll < 0.4 ? "hover" : modeRoll < 0.75 ? "drift" : "rise";
+      const shape: ParticleShape = Math.random() < 0.72 ? "circle" : "square";
+
+      return {
+        zone,
+        shape,
+        mode,
+        color: pickParticleColor(),
+        x,
+        y,
+        baseX: x,
+        baseY: y,
+        size: shape === "circle" ? Math.random() * 1.7 + 0.5 : Math.random() * 2.6 + 1.6,
+        angle: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.015,
+        speed: Math.random() * 0.5 + 0.2,
+        driftX: (Math.random() - 0.5) * 0.35,
+        driftY: (Math.random() - 0.5) * 0.35,
+        ampX: Math.random() * 6 + 2,
+        ampY: Math.random() * 5 + 2,
+        freq: Math.random() * 0.02 + 0.008,
+        t: Math.random() * 1000,
+        alpha: Math.random() * 0.55 + 0.2,
+        flicker: Math.random() * 0.02 + 0.01,
+      };
+    };
 
     const resize = () => {
       const rect = visual.getBoundingClientRect();
       width = canvas.width = rect.width;
       height = canvas.height = rect.height;
-    };
-
-    const initParticles = () => {
-      particles = Array.from({ length: 70 }, makeParticle);
+      particles = Array.from({ length: 60 }, () => makeParticle());
     };
 
     const tick = () => {
       ctx.clearRect(0, 0, width, height);
 
       particles.forEach((particle) => {
-        particle.y -= particle.speed;
-        particle.x += particle.drift;
+        particle.t += 1;
+        particle.angle += particle.spin;
         particle.alpha += (Math.random() - 0.5) * particle.flicker;
-        particle.alpha = Math.max(0.1, Math.min(0.85, particle.alpha));
+        particle.alpha = Math.max(0.12, Math.min(0.85, particle.alpha));
 
-        if (particle.y < -10) {
-          Object.assign(particle, makeParticle(), { y: height + 10 });
+        const zoneTop = particle.zone.yMin * height;
+        const zoneBottom = particle.zone.yMax * height;
+
+        if (particle.mode === "rise") {
+          particle.y -= particle.speed;
+          particle.x += particle.driftX;
+
+          if (particle.y < zoneTop) {
+            const next = makeParticle(particle.zone);
+            Object.assign(particle, next, { y: zoneBottom });
+          }
+        } else if (particle.mode === "drift") {
+          particle.x += particle.driftX;
+          particle.y += particle.driftY;
+
+          if (particle.y < zoneTop || particle.y > zoneBottom) {
+            particle.driftY *= -1;
+          }
+
+          const zoneLeft = particle.zone.xMin * width;
+          const zoneRight = particle.zone.xMax * width;
+          if (particle.x < zoneLeft || particle.x > zoneRight) {
+            particle.driftX *= -1;
+          }
+        } else {
+          particle.x = particle.baseX + Math.sin(particle.t * particle.freq) * particle.ampX;
+          particle.y = particle.baseY + Math.cos(particle.t * particle.freq * 0.8) * particle.ampY;
         }
 
-        ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(230, 106, 40, ${particle.alpha})`;
-        ctx.shadowColor = "rgba(230,74,14,0.8)";
-        ctx.shadowBlur = 4;
-        ctx.fill();
+        ctx.save();
+        ctx.fillStyle = `rgba(${particle.color}, ${particle.alpha})`;
+        ctx.shadowColor = `rgba(${particle.color}, 0.8)`;
+        ctx.shadowBlur = particle.shape === "square" ? 3 : 4;
+
+        if (particle.shape === "circle") {
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.translate(particle.x, particle.y);
+          ctx.rotate(particle.angle);
+          ctx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
+        }
+
+        ctx.restore();
       });
 
       frameId = requestAnimationFrame(tick);
     };
 
     resize();
-    initParticles();
     tick();
     window.addEventListener("resize", resize);
 
@@ -165,6 +265,7 @@ export function Hero() {
       className="relative isolate flex min-h-screen flex-col justify-between overflow-hidden pt-20 sm:pt-24"
     >
       <div className={styles.heroBg} aria-hidden="true" />
+      <div className={styles.orangeCutoff} aria-hidden="true" />
 
       <div className="relative z-[5] flex items-start justify-between gap-6 px-5 pt-10 sm:px-10">
         <div className="flex items-baseline gap-[18px]">
@@ -191,11 +292,11 @@ export function Hero() {
       </div>
 
       <div className="relative z-[5] px-5 pt-6 leading-[0.86] sm:px-10">
-        <span className="block font-display text-[clamp(52px,9.5vw,148px)] font-medium uppercase tracking-[-0.01em] text-foreground">
+        <span className="block select-none font-display text-[clamp(52px,9.5vw,148px)] font-medium uppercase tracking-[-0.01em] text-foreground">
           {firstName}
         </span>
         <span
-          className={`${styles.headlineOutline} block font-display text-[clamp(52px,9.5vw,148px)] font-medium uppercase tracking-[-0.01em]`}
+          className={`${styles.headlineOutline} block select-none font-display text-[clamp(52px,9.5vw,148px)] font-medium uppercase tracking-[-0.01em]`}
           style={{ marginTop: "-0.05em" }}
         >
           {lastName}
@@ -222,15 +323,15 @@ export function Hero() {
 
       <div
         ref={parallaxRef}
-        className={`${styles.heroVisualParallax} absolute bottom-0 left-1/2 z-[3] h-[92%] w-[42%] translate-x-[calc(-50%+1in)]`}
+        className={`${styles.heroVisualParallax} absolute bottom-0 left-1/2 z-[3] h-[92%] w-[42%] translate-x-[calc(-50%+2in)]`}
         style={{ willChange: "transform", transition: "transform 0.25s ease-out" }}
       >
         <div ref={visualRef} className={styles.heroVisual}>
-          <div className={styles.heroVisualGlow} style={SHOW_ORBIT_AND_PARTICLES ? undefined : { display: "none" }} />
+          <div className={styles.heroVisualGlow} style={SHOW_ORBIT_RINGS ? undefined : { display: "none" }} />
 
           <div
             className={`${styles.orbitRing} ${styles.orbitRing1}`}
-            style={SHOW_ORBIT_AND_PARTICLES ? undefined : { display: "none" }}
+            style={SHOW_ORBIT_RINGS ? undefined : { display: "none" }}
           >
             <svg viewBox="0 0 400 200" width="100%" height="100%">
               <ellipse
@@ -249,7 +350,7 @@ export function Hero() {
 
           <div
             className={`${styles.orbitRing} ${styles.orbitRing2}`}
-            style={SHOW_ORBIT_AND_PARTICLES ? undefined : { display: "none" }}
+            style={SHOW_ORBIT_RINGS ? undefined : { display: "none" }}
           >
             <svg viewBox="0 0 400 200" width="100%" height="100%">
               <ellipse
@@ -273,6 +374,8 @@ export function Hero() {
               src={heroImageSrc}
               alt={`${profile.name} hero portrait`}
               className={styles.heroVisualImg}
+              draggable={false}
+              onContextMenu={(event) => event.preventDefault()}
             />
             {!heroImageSrc && (
               <span className="relative z-[2] font-mono text-[11px] uppercase leading-[1.6] tracking-[0.08em] text-foreground/40">
@@ -286,7 +389,7 @@ export function Hero() {
             <canvas
               ref={canvasRef}
               className={styles.particleCanvas}
-              style={SHOW_ORBIT_AND_PARTICLES ? undefined : { display: "none" }}
+              style={SHOW_RISING_PARTICLES ? undefined : { display: "none" }}
             />
           </div>
         </div>
