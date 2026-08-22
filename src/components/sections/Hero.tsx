@@ -11,6 +11,10 @@ const lastName = nameParts.slice(1).join(" ") || firstName;
 
 const taglineAccentWord = "reliable";
 const heroImageSrc = "/hero/cyber.png";
+// Orbit rings + rising-particle canvas stay coded but hidden until asked for.
+const SHOW_ORBIT_AND_PARTICLES = false;
+// Cursor-reactive parallax stays coded but disabled until asked for.
+const ENABLE_CURSOR_PARALLAX = false;
 
 function renderTagline(tagline: string, accentWord: string) {
   const index = tagline.toLowerCase().indexOf(accentWord.toLowerCase());
@@ -67,12 +71,19 @@ export function Hero() {
       parallax.style.transform = "translate(0,0)";
     };
 
-    if (!prefersReducedMotion) {
+    if (ENABLE_CURSOR_PARALLAX && !prefersReducedMotion) {
       stage.addEventListener("mousemove", handleMouseMove);
       stage.addEventListener("mouseleave", handleMouseLeave);
     }
 
-    if (prefersReducedMotion) {
+    if (!ENABLE_CURSOR_PARALLAX || prefersReducedMotion) {
+      return () => {
+        stage.removeEventListener("mousemove", handleMouseMove);
+        stage.removeEventListener("mouseleave", handleMouseLeave);
+      };
+    }
+
+    if (!SHOW_ORBIT_AND_PARTICLES) {
       return () => {
         stage.removeEventListener("mousemove", handleMouseMove);
         stage.removeEventListener("mouseleave", handleMouseLeave);
@@ -211,13 +222,16 @@ export function Hero() {
 
       <div
         ref={parallaxRef}
-        className={`${styles.heroVisualParallax} absolute bottom-0 right-[14%] z-[3] h-[92%] w-[42%]`}
+        className={`${styles.heroVisualParallax} absolute bottom-0 left-1/2 z-[3] h-[92%] w-[42%] translate-x-[calc(-50%+1in)]`}
         style={{ willChange: "transform", transition: "transform 0.25s ease-out" }}
       >
         <div ref={visualRef} className={styles.heroVisual}>
-          <div className={styles.heroVisualGlow} />
+          <div className={styles.heroVisualGlow} style={SHOW_ORBIT_AND_PARTICLES ? undefined : { display: "none" }} />
 
-          <div className={`${styles.orbitRing} ${styles.orbitRing1}`}>
+          <div
+            className={`${styles.orbitRing} ${styles.orbitRing1}`}
+            style={SHOW_ORBIT_AND_PARTICLES ? undefined : { display: "none" }}
+          >
             <svg viewBox="0 0 400 200" width="100%" height="100%">
               <ellipse
                 cx="200"
@@ -233,7 +247,10 @@ export function Hero() {
             </svg>
           </div>
 
-          <div className={`${styles.orbitRing} ${styles.orbitRing2}`}>
+          <div
+            className={`${styles.orbitRing} ${styles.orbitRing2}`}
+            style={SHOW_ORBIT_AND_PARTICLES ? undefined : { display: "none" }}
+          >
             <svg viewBox="0 0 400 200" width="100%" height="100%">
               <ellipse
                 cx="200"
@@ -249,12 +266,14 @@ export function Hero() {
             </svg>
           </div>
 
-          <div
-            className={styles.heroVisualPlaceholder}
-            style={heroImageSrc ? { border: "none", background: "none" } : undefined}
-          >
+          <div className={styles.heroVisualPlaceholder}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img id="heroImg" src={heroImageSrc} alt={`${profile.name} hero portrait`} />
+            <img
+              id="heroImg"
+              src={heroImageSrc}
+              alt={`${profile.name} hero portrait`}
+              className={styles.heroVisualImg}
+            />
             {!heroImageSrc && (
               <span className="relative z-[2] font-mono text-[11px] uppercase leading-[1.6] tracking-[0.08em] text-foreground/40">
                 Hero visual placeholder
@@ -264,7 +283,11 @@ export function Hero() {
                 or Three.js wireframe here
               </span>
             )}
-            <canvas ref={canvasRef} className={styles.particleCanvas} />
+            <canvas
+              ref={canvasRef}
+              className={styles.particleCanvas}
+              style={SHOW_ORBIT_AND_PARTICLES ? undefined : { display: "none" }}
+            />
           </div>
         </div>
       </div>
