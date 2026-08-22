@@ -207,10 +207,11 @@ export function Hero() {
         </div>
       </div>
 
+      {/* Hidden until the real hero visual is ready to integrate; markup/JS kept intact. */}
       <div
         ref={parallaxRef}
         className={`${styles.heroVisualParallax} absolute bottom-0 right-[6%] z-[3] h-[82%] w-[38%]`}
-        style={{ willChange: "transform", transition: "transform 0.25s ease-out" }}
+        style={{ display: "none", willChange: "transform", transition: "transform 0.25s ease-out" }}
       >
         <div ref={visualRef} className={styles.heroVisual}>
           <div className={styles.heroVisualGlow} />
