@@ -141,6 +141,21 @@ function DockIcon({ children, className = "" }: DockIconProps) {
   return <div className={`flex items-center justify-center ${className}`}>{children}</div>;
 }
 
+function useIsCompactViewport() {
+  const [isCompact, setIsCompact] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 480px)");
+    const update = () => setIsCompact(mediaQuery.matches);
+
+    update();
+    mediaQuery.addEventListener("change", update);
+    return () => mediaQuery.removeEventListener("change", update);
+  }, []);
+
+  return isCompact;
+}
+
 export default function Dock({
   items,
   className = "",
@@ -151,8 +166,17 @@ export default function Dock({
   baseItemSize = 52,
 }: DockProps) {
   const mouseX = useMotionValue(Infinity);
+  const isCompact = useIsCompactViewport();
 
-  const maxHeight = useMemo(() => Math.max(panelHeight, magnification + magnification / 2 + 4), [panelHeight, magnification]);
+  const effectiveBaseItemSize = isCompact ? Math.min(baseItemSize, 40) : baseItemSize;
+  const effectiveMagnification = isCompact ? Math.min(magnification, 52) : magnification;
+  const effectiveDistance = isCompact ? Math.min(distance, 90) : distance;
+  const effectivePanelHeight = isCompact ? Math.min(panelHeight, 56) : panelHeight;
+
+  const maxHeight = useMemo(
+    () => Math.max(effectivePanelHeight, effectiveMagnification + effectiveMagnification / 2 + 4),
+    [effectivePanelHeight, effectiveMagnification],
+  );
 
   return (
     <div style={{ height: maxHeight, scrollbarWidth: "none" }} className="relative flex w-fit max-w-full items-end">
@@ -163,8 +187,8 @@ export default function Dock({
         onMouseLeave={() => {
           mouseX.set(Infinity);
         }}
-        className={`${className} relative flex w-fit items-end gap-4 rounded-2xl border-2 border-border bg-bg-elevated/40 px-4 pb-2`}
-        style={{ height: panelHeight }}
+        className={`${className} relative flex w-fit items-end gap-2 rounded-2xl border-2 border-border bg-bg-elevated/40 px-2.5 pb-2 sm:gap-4 sm:px-4`}
+        style={{ height: effectivePanelHeight }}
         role="toolbar"
         aria-label="Social links"
       >
@@ -175,9 +199,9 @@ export default function Dock({
             className={item.className}
             mouseX={mouseX}
             spring={spring}
-            distance={distance}
-            magnification={magnification}
-            baseItemSize={baseItemSize}
+            distance={effectiveDistance}
+            magnification={effectiveMagnification}
+            baseItemSize={effectiveBaseItemSize}
             label={item.label}
           >
             <DockIcon>{item.icon}</DockIcon>

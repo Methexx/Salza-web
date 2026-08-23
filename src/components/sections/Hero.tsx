@@ -319,7 +319,7 @@ export function Hero() {
       <div className={styles.heroBg} aria-hidden="true" />
       <div className={styles.orangeCutoff} aria-hidden="true" />
 
-      <div className="relative z-[5] -mt-8 flex items-start justify-between gap-6 px-5 pt-10 sm:px-10">
+      <div className="relative z-[5] -mt-8 flex flex-wrap items-start justify-between gap-x-6 gap-y-4 px-5 pt-10 sm:px-10">
         <div className="flex items-baseline gap-[18px]">
           <span className="font-mono text-[13px] text-white opacity-60">01</span>
           <div>
@@ -352,7 +352,7 @@ export function Hero() {
         </span>
         <span
           className={`${styles.headlineOutline} block select-none font-display text-[clamp(48px,9vw,165px)] font-medium uppercase tracking-[-0.01em]`}
-          style={{ marginTop: "-0.05em", marginLeft: "2in" }}
+          style={{ marginTop: "-0.05em" }}
         >
           {lastName}
         </span>
@@ -452,7 +452,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="relative z-[5] flex items-end justify-between gap-6 px-5 pb-11 sm:px-10">
+      <div className="relative z-[5] flex flex-col items-start gap-6 px-5 pb-11 sm:flex-row sm:items-end sm:justify-between sm:px-10">
         <div>
           <h2 className="font-display text-[clamp(24px,3vw,34px)] font-medium leading-[1.15]">
             <span className="block text-foreground">Fullstack Engineering</span>
@@ -460,7 +460,7 @@ export function Hero() {
           </h2>
         </div>
 
-        <div className="flex flex-col items-end gap-2 text-foreground">
+        <div className="flex flex-col items-start gap-2 text-foreground sm:items-end">
           <ShinyText
             text="SCROLL TO INVESTIGATE"
             className="font-mono text-[11px] uppercase tracking-[0.16em]"
