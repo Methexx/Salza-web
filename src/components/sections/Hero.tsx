@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 import { profile } from "@/lib/data/profile";
 import { ShinyText } from "@/components/effects/ShinyText";
@@ -324,7 +324,7 @@ export function Hero() {
           <span className="font-mono text-[13px] text-white opacity-60">01</span>
           <div>
             <b className="block font-body text-sm font-semibold tracking-[0.02em] text-white">
-              Full-stack engineering / Based in {profile.location}
+              Based in {profile.location}
             </b>
             <div className="mt-1 font-mono text-[11.5px] tracking-[0.03em] text-white/65">
               WORK FOOTPRINT — SRI LANKA · UNITED KINGDOM
@@ -460,7 +460,7 @@ export function Hero() {
           </h2>
         </div>
 
-        <div className="flex items-center text-foreground">
+        <div className="flex flex-col items-end gap-2 text-foreground">
           <ShinyText
             text="SCROLL TO INVESTIGATE"
             className="font-mono text-[11px] uppercase tracking-[0.16em]"
@@ -469,6 +469,20 @@ export function Hero() {
             speed={3}
             disabled={Boolean(prefersReducedMotion)}
           />
+          <motion.svg
+            viewBox="0 0 24 24"
+            className="h-4 w-4 text-accent"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+            animate={prefersReducedMotion ? { y: 0 } : { y: [0, 6, 0] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <path d="m6 9 6 6 6-6" />
+          </motion.svg>
         </div>
       </div>
 

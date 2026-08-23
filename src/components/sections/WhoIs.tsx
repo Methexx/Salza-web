@@ -93,10 +93,8 @@ const socialLinks = [
   { label: "LinkedIn", handle: "/in/methum", href: profile.linkedinUrl, icon: LinkedInIcon },
   { label: "GitHub", handle: "/Methexx", href: profile.githubUrl, icon: GitHubIcon },
   { label: "Email", handle: profile.email, href: `mailto:${profile.email}`, icon: MailIcon },
-  // TODO: swap in the real Medium profile URL/handle once available
-  { label: "Medium", handle: "Coming soon", href: "#", icon: MediumIcon },
-  // TODO: swap in the real X (Twitter) profile URL/handle once available
-  { label: "X", handle: "Coming soon", href: "#", icon: XIcon },
+  { label: "Medium", handle: "@methum.edu", href: "https://medium.com/@methum.edu", icon: MediumIcon },
+  { label: "X", handle: "@methexC", href: "https://x.com/methexC", icon: XIcon },
 ];
 
 const cutCorner = "[clip-path:polygon(0_0,82%_0,100%_16%,100%_100%,0_100%)]";

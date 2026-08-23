@@ -14,7 +14,7 @@ export const profile: ProfileData = {
   name: "Methum Pathirana",
   alias: "Hello I'm",
   role: "Undergraduate Software Engineer (Full Stack)",
-  location: "Panadura, Sri Lanka",
+  location: "Colombo, Sri Lanka",
   address: "No 364/2, Thanthirimulla, Panadura",
   availability: "Open to software engineering opportunities",
   email: "methum.work@gmail.com",

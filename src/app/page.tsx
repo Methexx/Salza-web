@@ -14,12 +14,12 @@ export default function HomePage() {
     <>
       <Hero />
       <WhoIs />
+      <Projects />
       <About />
       <Experience />
       <Volunteering />
       <Certifications />
       <AchievementsBlock />
-      <Projects />
       <InterfacesShowcase />
       <Contact />
     </>
