@@ -20,7 +20,19 @@ export function ProjectDetailBackLink({ fallbackHref, className }: ProjectDetail
 
   return (
     <Link href={fallbackHref} onClick={handleClick} className={className}>
-      Back to projects
+      <svg
+        viewBox="0 0 24 24"
+        className="h-4 w-4 text-accent"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M19 12H5M11 18l-6-6 6-6" />
+      </svg>
+      Back to work
     </Link>
   );
 }

@@ -40,24 +40,48 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
     notFound();
   }
 
+  const metaItems = [
+    { label: "Client", value: project.client },
+    { label: "Timeline", value: project.timeline },
+    { label: "Role", value: project.role },
+    { label: "Year", value: project.year },
+  ].filter((item): item is { label: string; value: string } => Boolean(item.value));
+
   return (
-    <section className="relative isolate min-h-screen overflow-hidden pb-20 pt-32 sm:pt-36">
+    <section className="relative isolate min-h-screen overflow-hidden bg-[#0c0d0d] pb-20 pt-32 sm:pt-36">
       <Container>
         <div className="space-y-10">
           <ProjectDetailBackLink
             fallbackHref="/#projects"
-            className="inline-flex font-mono text-xs uppercase tracking-[0.24em] text-muted transition hover:text-accent"
+            className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.24em] text-muted transition hover:text-accent"
           />
 
           <div className="grid gap-10 xl:grid-cols-[minmax(0,1.15fr)_22rem]">
             <div className="space-y-8">
               <div className="space-y-4">
-                <p className="font-mono text-xs uppercase tracking-[0.28em] text-accent">
-                  {project.category}
-                </p>
-                <h1 className="text-4xl font-bold text-foreground sm:text-5xl lg:text-6xl">
-                  {project.title}
-                </h1>
+                <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+                  <div className="space-y-4">
+                    <p className="font-mono text-xs uppercase tracking-[0.28em] text-accent">
+                      {project.category}
+                    </p>
+                    <h1 className="text-5xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
+                      {project.title}
+                    </h1>
+                  </div>
+
+                  {metaItems.length > 0 ? (
+                    <div className="flex flex-wrap gap-x-10 gap-y-4">
+                      {metaItems.map((item) => (
+                        <div key={item.label}>
+                          <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted">
+                            {item.label}
+                          </p>
+                          <p className="mt-1 text-base text-foreground">{item.value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
                 <p className="max-w-3xl text-lg leading-8 text-muted sm:text-xl">
                   {project.description}
                 </p>

@@ -9,6 +9,7 @@ export interface ProjectEntry {
   githubUrl: string; liveUrl?: string; screenshots: ProjectScreenshot[]; summaryLabel?: string;
   identity?: ProjectInfoItem[]; technologyStack?: ProjectTechItem[];
   featureGroups?: ProjectFeatureGroup[]; detailSections?: ProjectDetailSection[];
+  client?: string; timeline?: string; role?: string; year?: string;
 }
 
 export function createProjectRouteSlug(value: string) {
