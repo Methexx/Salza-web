@@ -1,5 +1,6 @@
 "use client";
 
+import Dock, { type DockItemData } from "@/components/effects/Dock";
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { profile } from "@/lib/data/profile";
@@ -72,30 +73,27 @@ function XIcon({ className }: { className?: string }) {
   );
 }
 
-function ArrowUpRightIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
-    >
-      <path d="M7 17 17 7M9 7h8v8" />
-    </svg>
-  );
+const socialLinks = [
+  { label: "LinkedIn", href: profile.linkedinUrl, icon: LinkedInIcon },
+  { label: "GitHub", href: profile.githubUrl, icon: GitHubIcon },
+  { label: "Email", href: `mailto:${profile.email}`, icon: MailIcon },
+  { label: "Medium", href: "https://medium.com/@methum.edu", icon: MediumIcon },
+  { label: "X", href: "https://x.com/methexC", icon: XIcon },
+];
+
+function openSocialLink(href: string) {
+  if (href.startsWith("http")) {
+    window.open(href, "_blank", "noreferrer");
+  } else {
+    window.location.href = href;
+  }
 }
 
-const socialLinks = [
-  { label: "LinkedIn", handle: "/in/methum", href: profile.linkedinUrl, icon: LinkedInIcon },
-  { label: "GitHub", handle: "/Methexx", href: profile.githubUrl, icon: GitHubIcon },
-  { label: "Email", handle: profile.email, href: `mailto:${profile.email}`, icon: MailIcon },
-  { label: "Medium", handle: "@methum.edu", href: "https://medium.com/@methum.edu", icon: MediumIcon },
-  { label: "X", handle: "@methexC", href: "https://x.com/methexC", icon: XIcon },
-];
+const dockItems: DockItemData[] = socialLinks.map((link) => ({
+  label: link.label,
+  onClick: () => openSocialLink(link.href),
+  icon: <link.icon className="h-5 w-5 text-foreground" />,
+}));
 
 const cutCorner = "[clip-path:polygon(0_0,82%_0,100%_16%,100%_100%,0_100%)]";
 
@@ -142,27 +140,7 @@ export function WhoIs() {
               Legal name — {profile.name}
             </p>
           </div>
-          <div className="inline-flex flex-wrap items-center gap-3 rounded-2xl border border-border/70 bg-bg-elevated/40 p-3">
-            {socialLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target={link.href.startsWith("http") ? "_blank" : undefined}
-                rel={link.href.startsWith("http") ? "noreferrer" : undefined}
-                aria-label={link.label}
-                className="group relative flex h-16 w-16 shrink-0 items-center gap-2 overflow-hidden rounded-xl border border-transparent bg-bg-elevated px-3 transition-all duration-300 ease-out hover:w-48 hover:border-accent hover:shadow-[0_0_18px_var(--accent-glow)]"
-              >
-                <link.icon className="h-6 w-6 shrink-0 text-foreground" />
-                <span className="flex min-w-0 flex-1 flex-col items-start opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                  <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground">
-                    {link.label}
-                  </span>
-                  <span className="truncate text-[11px] text-muted">{link.handle}</span>
-                </span>
-                <ArrowUpRightIcon className="absolute right-2.5 top-2.5 h-3 w-3 text-accent opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
-              </a>
-            ))}
-          </div>
+          <Dock items={dockItems} />
         </div>
       </div>
     </SectionWrapper>
