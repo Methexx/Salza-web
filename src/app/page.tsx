@@ -7,11 +7,13 @@ import { Hero } from "@/components/sections/Hero";
 import { InterfacesShowcase } from "@/components/sections/InterfacesShowcase";
 import { Projects } from "@/components/sections/Projects";
 import { Volunteering } from "@/components/sections/Volunteering";
+import { WhoIs } from "@/components/sections/WhoIs";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
+      <WhoIs />
       <About />
       <Experience />
       <Volunteering />

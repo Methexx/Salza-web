@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 
 import { profile } from "@/lib/data/profile";
+import { ShinyText } from "@/components/effects/ShinyText";
 import styles from "./Hero.module.css";
 
 const nameParts = profile.name.trim().split(/\s+/);
@@ -100,6 +102,7 @@ interface Particle {
 }
 
 export function Hero() {
+  const prefersReducedMotion = useReducedMotion();
   const stageRef = useRef<HTMLElement>(null);
   const parallaxRef = useRef<HTMLDivElement>(null);
   const visualRef = useRef<HTMLDivElement>(null);
@@ -458,7 +461,14 @@ export function Hero() {
         </div>
 
         <div className="flex items-center text-foreground">
-          <span className="font-mono text-[11px] uppercase tracking-[0.16em]">SCROLL TO INVESTIGATE</span>
+          <ShinyText
+            text="SCROLL TO INVESTIGATE"
+            className="font-mono text-[11px] uppercase tracking-[0.16em]"
+            color="rgb(245 239 233 / 0.55)"
+            shineColor="#ffffff"
+            speed={3}
+            disabled={Boolean(prefersReducedMotion)}
+          />
         </div>
       </div>
 
