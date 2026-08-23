@@ -27,7 +27,7 @@ export function Projects() {
               href="/projects"
               className="group inline-flex items-center gap-3 font-mono text-sm uppercase tracking-[0.16em] text-accent transition duration-300 hover:text-accent-bright hover:drop-shadow-[0_0_10px_rgba(50,95,254,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-bg sm:text-base"
             >
-              <span>View all projects</span>
+              <span>View more projects</span>
             </a>
           </div>
         </section>

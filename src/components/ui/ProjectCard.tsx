@@ -26,7 +26,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
             alt={previewShot.title}
             fill
             sizes="(min-width: 1024px) 46vw, 100vw"
-            className="object-cover object-top transition duration-500 group-hover:scale-[1.03]"
+            className="object-cover object-top grayscale transition duration-500 group-hover:scale-[1.03] group-hover:grayscale-0"
           />
         ) : (
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgb(var(--accent)/0.18),transparent_40%),linear-gradient(135deg,rgb(var(--accent)/0.1),transparent_55%)]" />
