@@ -4,8 +4,8 @@ import { notFound } from "next/navigation";
 
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { Pill } from "@/components/ui/Pill";
 import { ProjectDetailBackLink } from "@/components/ui/ProjectDetailBackLink";
+import { SectionMarker } from "@/components/ui/SectionMarker";
 import { allProjects, createProjectRouteSlug, getProjectBySlug } from "@/lib/data/projects";
 
 type ProjectDetailPageProps = {
@@ -33,6 +33,23 @@ export function generateMetadata({ params }: ProjectDetailPageProps): Metadata {
   };
 }
 
+function ArrowUpRightIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M7 17 17 7M9 7h8v8" />
+    </svg>
+  );
+}
+
 export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   const project = getProjectBySlug(params.slug);
 
@@ -47,269 +64,305 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
     { label: "Year", value: project.year },
   ].filter((item): item is { label: string; value: string } => Boolean(item.value));
 
+  const coverShot = project.screenshots[0];
+  const roleItems = project.featureGroups?.[0]?.items ?? [];
+  const extraFeatureGroups = (project.featureGroups ?? []).slice(1);
+
   return (
-    <section className="relative isolate min-h-screen overflow-hidden bg-[#0c0d0d] pb-20 pt-32 sm:pt-36">
+    <section className="relative isolate min-h-screen overflow-hidden bg-[#0c0d0d] pb-24 pt-32 sm:pt-36">
       <Container>
-        <div className="space-y-10">
+        <div className="mx-auto max-w-5xl">
           <ProjectDetailBackLink
             fallbackHref="/#projects"
             className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.24em] text-muted transition hover:text-accent"
           />
 
-          <div className="grid gap-10 xl:grid-cols-[minmax(0,1.15fr)_22rem]">
-            <div className="space-y-8">
+          {/* Hero */}
+          <div className="mt-10 space-y-4">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <div className="space-y-4">
-                <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-                  <div className="space-y-4">
-                    <p className="font-mono text-xs uppercase tracking-[0.28em] text-accent">
-                      {project.category}
-                    </p>
-                    <h1 className="text-5xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
-                      {project.title}
-                    </h1>
-                  </div>
-
-                  {metaItems.length > 0 ? (
-                    <div className="flex flex-wrap gap-x-10 gap-y-4">
-                      {metaItems.map((item) => (
-                        <div key={item.label}>
-                          <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted">
-                            {item.label}
-                          </p>
-                          <p className="mt-1 text-base text-foreground">{item.value}</p>
-                        </div>
-                      ))}
-                    </div>
-                  ) : null}
-                </div>
-                <p className="max-w-3xl text-lg leading-8 text-muted sm:text-xl">
-                  {project.description}
+                <p className="font-mono text-xs uppercase tracking-[0.28em] text-accent">
+                  {project.category}
                 </p>
+                <h1 className="text-5xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
+                  {project.title}
+                </h1>
               </div>
 
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <Pill key={tag}>{tag}</Pill>
-                ))}
-              </div>
-
-              <div className="grid gap-6 lg:grid-cols-3">
-                <article className="clipped-corner border border-border bg-bg-elevated/80 p-6">
-                  <p className="font-mono text-xs uppercase tracking-[0.24em] text-accent">
-                    Overview
-                  </p>
-                  <p className="mt-4 text-sm leading-7 text-muted">{project.overview}</p>
-                </article>
-                <article className="clipped-corner border border-border bg-bg-elevated/80 p-6">
-                  <p className="font-mono text-xs uppercase tracking-[0.24em] text-accent">
-                    Challenge
-                  </p>
-                  <p className="mt-4 text-sm leading-7 text-muted">{project.challenge}</p>
-                </article>
-                <article className="clipped-corner border border-border bg-bg-elevated/80 p-6">
-                  <p className="font-mono text-xs uppercase tracking-[0.24em] text-accent">
-                    Impact
-                  </p>
-                  <p className="mt-4 text-sm leading-7 text-muted">{project.impact}</p>
-                </article>
-              </div>
-
-              {project.identity?.length ? (
-                <div className="space-y-5">
-                  <div className="space-y-2">
-                    <p className="font-mono text-xs uppercase tracking-[0.24em] text-accent">
-                      Identity
-                    </p>
-                    <h2 className="text-3xl font-bold text-foreground">Project profile</h2>
-                  </div>
-
-                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                    {project.identity.map((item) => (
-                      <article key={item.label} className="clipped-corner border border-border bg-bg-elevated/80 p-5">
-                        <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
-                          {item.label}
-                        </p>
-                        <p className="mt-3 text-sm leading-7 text-muted">{item.value}</p>
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-
-              {project.technologyStack?.length ? (
-                <div className="space-y-5">
-                  <div className="space-y-2">
-                    <p className="font-mono text-xs uppercase tracking-[0.24em] text-accent">
-                      Stack
-                    </p>
-                    <h2 className="text-3xl font-bold text-foreground">Technology foundation</h2>
-                  </div>
-
-                  <div className="grid gap-4 lg:grid-cols-2">
-                    {project.technologyStack.map((item) => (
-                      <article key={`${item.layer}-${item.technology}`} className="clipped-corner border border-border bg-bg-elevated/80 p-5">
-                        <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
-                          {item.layer}
-                        </p>
-                        <h3 className="mt-3 text-xl font-bold text-foreground">{item.technology}</h3>
-                        <p className="mt-3 text-sm leading-7 text-muted">{item.purpose}</p>
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-
-              {project.featureGroups?.length ? (
-                <div className="space-y-5">
-                  <div className="space-y-2">
-                    <p className="font-mono text-xs uppercase tracking-[0.24em] text-accent">
-                      Scope
-                    </p>
-                    <h2 className="text-3xl font-bold text-foreground">MVP feature set</h2>
-                  </div>
-
-                  <div className="grid gap-6 xl:grid-cols-2">
-                    {project.featureGroups.map((group) => (
-                      <article key={group.title} className="clipped-corner border border-border bg-bg-elevated/80 p-6">
-                        <h3 className="text-xl font-bold text-foreground">{group.title}</h3>
-                        <ul className="mt-4 space-y-3 text-sm leading-7 text-muted">
-                          {group.items.map((item) => (
-                            <li key={item} className="flex gap-3">
-                              <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-
-              <div className="space-y-5">
-                <div className="space-y-2">
-                  <p className="font-mono text-xs uppercase tracking-[0.24em] text-accent">
-                    Screenshots
-                  </p>
-                  <h2 className="text-3xl font-bold text-foreground">
-                    {project.summaryLabel ?? "Project detail preview"}
-                  </h2>
-                </div>
-
-                <div className="grid gap-6 lg:grid-cols-2">
-                  {project.screenshots.map((shot, index) => (
-                    <article
-                      key={shot.title}
-                      className={`clipped-corner border border-border bg-bg-elevated/80 p-4 ${
-                        shot.orientation !== "mobile" && index === 2 ? "lg:col-span-2" : ""
-                      }`}
-                    >
-                      {shot.imageSrc ? (
-                        <div className="space-y-4">
-                          <div className={`clipped-corner-sm relative overflow-hidden border border-accent/15 bg-bg ${
-                            shot.orientation === "mobile"
-                              ? "mx-auto aspect-[9/16] w-full max-w-[18rem]"
-                              : "aspect-[16/10]"
-                          }`}>
-                            <Image
-                              src={shot.imageSrc}
-                              alt={shot.title}
-                              fill
-                              className={shot.orientation === "mobile" ? "object-contain" : "object-cover object-top"}
-                              sizes={shot.orientation === "mobile" ? "18rem" : "(min-width: 1024px) 50vw, 100vw"}
-                            />
-                          </div>
-                          <div className="space-y-2 px-1 pb-1">
-                            <p className="font-mono text-xs uppercase tracking-[0.24em] text-accent">
-                              Screen 0{index + 1}
-                            </p>
-                            <h3 className="text-2xl font-bold text-foreground">{shot.title}</h3>
-                            <p className="max-w-xl text-sm leading-7 text-muted">{shot.caption}</p>
-                          </div>
-                        </div>
-                      ) : (
-                        <div
-                          className={`clipped-corner-sm relative flex aspect-[16/10] items-end overflow-hidden border border-accent/15 bg-gradient-to-br ${shot.tone} p-5`}
-                        >
-                          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.12),transparent_35%)]" />
-                          <div className="relative space-y-2">
-                            <p className="font-mono text-xs uppercase tracking-[0.24em] text-accent">
-                              Screen 0{index + 1}
-                            </p>
-                            <h3 className="text-2xl font-bold text-foreground">{shot.title}</h3>
-                            <p className="max-w-xl text-sm leading-7 text-muted">{shot.caption}</p>
-                          </div>
-                        </div>
-                      )}
-                    </article>
+              {metaItems.length > 0 ? (
+                <div className="flex flex-wrap gap-x-10 gap-y-4">
+                  {metaItems.map((item) => (
+                    <div key={item.label}>
+                      <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted">
+                        {item.label}
+                      </p>
+                      <p className="mt-1 text-base text-foreground">{item.value}</p>
+                    </div>
                   ))}
-                </div>
-              </div>
-
-              {project.detailSections?.length ? (
-                <div className="space-y-5">
-                  <div className="space-y-2">
-                    <p className="font-mono text-xs uppercase tracking-[0.24em] text-accent">
-                      Architecture
-                    </p>
-                    <h2 className="text-3xl font-bold text-foreground">Delivery details</h2>
-                  </div>
-
-                  <div className="grid gap-6 xl:grid-cols-2">
-                    {project.detailSections.map((section) => (
-                      <article key={section.title} className="clipped-corner border border-border bg-bg-elevated/80 p-6">
-                        <h3 className="text-xl font-bold text-foreground">{section.title}</h3>
-                        <ul className="mt-4 space-y-3 text-sm leading-7 text-muted">
-                          {section.items.map((item) => (
-                            <li key={item} className="flex gap-3">
-                              <span className="mt-2 h-1.5 w-1.5 rounded-full bg-accent" />
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </article>
-                    ))}
-                  </div>
                 </div>
               ) : null}
             </div>
 
-            <aside className="space-y-6">
-              <article className="clipped-corner border border-border bg-bg-elevated/85 p-6">
-                <p className="font-mono text-xs uppercase tracking-[0.24em] text-accent">
-                  Repository
-                </p>
-                <h2 className="mt-3 text-2xl font-bold text-foreground">GitHub repo</h2>
-                <p className="mt-3 text-sm leading-7 text-muted">
-                  Open the repository box to view the code source, project structure, and updates.
-                </p>
+            <p className="max-w-3xl text-lg leading-8 text-muted sm:text-xl">
+              {project.description}
+            </p>
 
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="clipped-corner-sm mt-5 flex items-center gap-4 border border-accent/20 bg-bg px-4 py-4 transition duration-300 hover:-translate-y-1 hover:border-accent/45 hover:shadow-[0_0_28px_rgba(50,95,254,0.14)]"
-                >
-                  <img
-                    src="https://github.com/favicon.ico"
-                    alt=""
-                    className="h-8 w-8 rounded-md"
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+              {project.tags.join(" / ")}
+            </p>
+          </div>
+
+          {coverShot ? (
+            <div className="mt-12">
+              {coverShot.imageSrc ? (
+                <div className="relative aspect-[16/9] w-full overflow-hidden">
+                  <Image
+                    src={coverShot.imageSrc}
+                    alt={coverShot.title}
+                    fill
+                    priority
+                    className="object-cover object-top"
+                    sizes="(min-width: 1024px) 80vw, 100vw"
                   />
-                  <div className="min-w-0">
-                    <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
-                      Open on GitHub
-                    </p>
-                    <p className="truncate text-sm text-muted">{project.githubUrl}</p>
-                  </div>
-                </a>
+                </div>
+              ) : (
+                <div
+                  className={`relative aspect-[16/9] w-full overflow-hidden bg-gradient-to-br ${coverShot.tone}`}
+                />
+              )}
+            </div>
+          ) : null}
 
-                {project.liveUrl ? (
-                  <Button href={project.liveUrl} className="mt-5 w-full" target="_blank" rel="noreferrer">
-                    View live project
-                  </Button>
-                ) : null}
-              </article>
-            </aside>
+          {/* 01 — Overview */}
+          <div>
+            <SectionMarker number="01" title="Overview" />
+            <p className="max-w-3xl text-lg leading-8 text-foreground/90">{project.overview}</p>
+          </div>
+
+          {/* 02 — Challenge & Solution */}
+          <div>
+            <SectionMarker number="02" title="Challenge & Solution" />
+            <div className="space-y-10">
+              <div>
+                <h3 className="font-display text-2xl font-semibold text-foreground">
+                  The Challenge
+                </h3>
+                <p className="mt-3 max-w-3xl text-base leading-7 text-muted">
+                  {project.challenge}
+                </p>
+              </div>
+              <div>
+                <h3 className="font-display text-2xl font-semibold text-foreground">
+                  The Impact
+                </h3>
+                <p className="mt-3 max-w-3xl text-base leading-7 text-muted">{project.impact}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* 03 — Key Screens */}
+          {project.screenshots.length > 0 ? (
+            <div>
+              <SectionMarker number="03" title="Key Screens" />
+
+              <div className="space-y-12">
+                {project.screenshots
+                  .filter((shot) => shot.orientation !== "mobile")
+                  .map((shot) => (
+                    <div key={shot.title}>
+                      {shot.imageSrc ? (
+                        <div className="relative aspect-[16/10] w-full overflow-hidden">
+                          <Image
+                            src={shot.imageSrc}
+                            alt={shot.title}
+                            fill
+                            className="object-cover object-top"
+                            sizes="(min-width: 1024px) 80vw, 100vw"
+                          />
+                        </div>
+                      ) : (
+                        <div
+                          className={`relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br ${shot.tone}`}
+                        />
+                      )}
+                      <p className="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                        {shot.title}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+
+              {project.screenshots.some((shot) => shot.orientation === "mobile") ? (
+                <div className="mt-12 grid grid-cols-2 gap-6">
+                  {project.screenshots
+                    .filter((shot) => shot.orientation === "mobile")
+                    .map((shot) => (
+                      <div key={shot.title}>
+                        {shot.imageSrc ? (
+                          <div className="relative aspect-[9/16] w-full overflow-hidden">
+                            <Image
+                              src={shot.imageSrc}
+                              alt={shot.title}
+                              fill
+                              className="object-contain"
+                              sizes="50vw"
+                            />
+                          </div>
+                        ) : (
+                          <div
+                            className={`relative aspect-[9/16] w-full overflow-hidden bg-gradient-to-br ${shot.tone}`}
+                          />
+                        )}
+                        <p className="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                          {shot.title}
+                        </p>
+                      </div>
+                    ))}
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+
+          {/* 04 — Process */}
+          {roleItems.length > 0 ? (
+            <div>
+              <SectionMarker number="04" title="Process" />
+              <ol className="space-y-6">
+                {roleItems.map((item, index) => (
+                  <li key={item} className="flex gap-5">
+                    <span className="mt-0.5 shrink-0 font-mono text-xs text-muted">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <p className="text-base leading-7 text-foreground/90">{item}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ) : null}
+
+          {/* 05 — Feature Breakdown */}
+          {extraFeatureGroups.length > 0 ? (
+            <div>
+              <SectionMarker number="05" title="Feature Breakdown" />
+              <div className="space-y-10">
+                {extraFeatureGroups.map((group) => (
+                  <div key={group.title}>
+                    <h3 className="font-display text-2xl font-semibold text-foreground">
+                      {group.title}
+                    </h3>
+                    <ul className="mt-4 space-y-3">
+                      {group.items.map((item) => {
+                        const separatorIndex = item.indexOf(": ");
+                        const hasLabel = separatorIndex > -1;
+                        const label = hasLabel ? item.slice(0, separatorIndex) : null;
+                        const rest = hasLabel ? item.slice(separatorIndex + 2) : item;
+
+                        return (
+                          <li key={item} className="flex gap-3 text-base leading-7 text-muted">
+                            <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                            <span>
+                              {label ? (
+                                <span className="font-semibold text-foreground">{label}: </span>
+                              ) : null}
+                              {rest}
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {/* 06 — Project Details */}
+          {project.identity?.length ? (
+            <div>
+              <SectionMarker number="06" title="Project Details" />
+              <div className="grid gap-x-10 gap-y-6 sm:grid-cols-2">
+                {project.identity.map((item) => (
+                  <div key={item.label}>
+                    <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted">
+                      {item.label}
+                    </p>
+                    <p className="mt-1 text-base text-foreground">{item.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {/* 07 — Tech Stack */}
+          {project.technologyStack?.length ? (
+            <div>
+              <SectionMarker number="07" title="Tech Stack" />
+              <div className="divide-y divide-border/40">
+                {project.technologyStack.map((item) => (
+                  <div
+                    key={`${item.layer}-${item.technology}`}
+                    className="flex flex-col gap-1 py-5 first:pt-0 sm:flex-row sm:items-baseline sm:gap-6"
+                  >
+                    <p className="w-full shrink-0 font-mono text-xs uppercase tracking-[0.2em] text-accent sm:w-40">
+                      {item.layer}
+                    </p>
+                    <p className="flex-1 text-base leading-7 text-muted">
+                      <span className="font-display text-lg font-semibold text-foreground">
+                        {item.technology}
+                      </span>
+                      {" — "}
+                      {item.purpose}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {/* 08 — Architecture */}
+          {project.detailSections?.length ? (
+            <div>
+              <SectionMarker number="08" title="Architecture" />
+              <div className="space-y-12">
+                {project.detailSections.map((section) => (
+                  <div key={section.title}>
+                    <h3 className="font-display text-2xl font-semibold text-foreground">
+                      {section.title}
+                    </h3>
+                    <ul className="mt-4 space-y-3">
+                      {section.items.map((item) => (
+                        <li key={item} className="flex gap-3 text-base leading-7 text-muted">
+                          <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {/* 09 — Repository */}
+          <div>
+            <SectionMarker number="09" title="Repository" />
+            <div className="flex flex-wrap items-center gap-8">
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="group inline-flex items-center gap-2 font-mono text-sm uppercase tracking-[0.2em] text-foreground transition hover:text-accent"
+              >
+                View source on GitHub
+                <ArrowUpRightIcon className="h-4 w-4 transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+
+              {project.liveUrl ? (
+                <Button href={project.liveUrl} target="_blank" rel="noreferrer">
+                  View live project
+                </Button>
+              ) : null}
+            </div>
           </div>
         </div>
       </Container>
