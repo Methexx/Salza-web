@@ -11,6 +11,8 @@ import {
 } from "framer-motion";
 import React, { Children, cloneElement, useEffect, useMemo, useRef, useState } from "react";
 
+import { MOBILE_QUERY, useMediaQuery } from "@/hooks/useMediaQuery";
+
 export type DockItemData = {
   icon: React.ReactNode;
   label: React.ReactNode;
@@ -141,21 +143,6 @@ function DockIcon({ children, className = "" }: DockIconProps) {
   return <div className={`flex items-center justify-center ${className}`}>{children}</div>;
 }
 
-function useIsCompactViewport() {
-  const [isCompact, setIsCompact] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 480px)");
-    const update = () => setIsCompact(mediaQuery.matches);
-
-    update();
-    mediaQuery.addEventListener("change", update);
-    return () => mediaQuery.removeEventListener("change", update);
-  }, []);
-
-  return isCompact;
-}
-
 export default function Dock({
   items,
   className = "",
@@ -166,17 +153,46 @@ export default function Dock({
   baseItemSize = 52,
 }: DockProps) {
   const mouseX = useMotionValue(Infinity);
-  const isCompact = useIsCompactViewport();
+  const isCompact = useMediaQuery("(max-width: 480px)");
+  // Magnification is driven by mousemove, so it is inert on touch. Below md on a
+  // touch device, drop it for a plain labelled row instead.
+  const isTouchMobile = useMediaQuery(`${MOBILE_QUERY} and (hover: none)`);
 
-  const effectiveBaseItemSize = isCompact ? Math.min(baseItemSize, 40) : baseItemSize;
+  const effectiveBaseItemSize = isCompact ? Math.min(baseItemSize, 44) : baseItemSize;
   const effectiveMagnification = isCompact ? Math.min(magnification, 52) : magnification;
   const effectiveDistance = isCompact ? Math.min(distance, 90) : distance;
-  const effectivePanelHeight = isCompact ? Math.min(panelHeight, 56) : panelHeight;
+  const effectivePanelHeight = isCompact ? Math.min(panelHeight, 60) : panelHeight;
 
   const maxHeight = useMemo(
     () => Math.max(effectivePanelHeight, effectiveMagnification + effectiveMagnification / 2 + 4),
     [effectivePanelHeight, effectiveMagnification],
   );
+
+  if (isTouchMobile) {
+    return (
+      <div
+        className="grid w-full max-w-[22rem] grid-cols-5 gap-2"
+        role="toolbar"
+        aria-label="Social links"
+      >
+        {items.map((item, index) => (
+          <button
+            key={index}
+            type="button"
+            onClick={item.onClick}
+            className={`flex flex-col items-center gap-1.5 ${item.className ?? ""}`}
+          >
+            <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg border-2 border-border bg-bg-elevated shadow-md">
+              {item.icon}
+            </span>
+            <span className="w-full truncate text-center font-mono text-[9px] uppercase tracking-[0.12em] text-muted">
+              {item.label}
+            </span>
+          </button>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div style={{ height: maxHeight, scrollbarWidth: "none" }} className="relative flex w-fit max-w-full items-end">

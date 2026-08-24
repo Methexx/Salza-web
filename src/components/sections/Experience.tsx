@@ -18,7 +18,7 @@ export function Experience() {
         />
 
         <section className="space-y-6">
-          <h3 className="text-3xl font-bold text-foreground">Volunteer experience</h3>
+          <h3 className="text-2xl font-bold text-foreground md:text-3xl">Volunteer experience</h3>
           <Timeline>
             {workExperience.map((entry) => (
               <TimelineItem
@@ -40,7 +40,7 @@ export function Experience() {
         </section>
 
         <section className="space-y-6">
-          <h3 className="text-3xl font-bold text-foreground">Education</h3>
+          <h3 className="text-2xl font-bold text-foreground md:text-3xl">Education</h3>
           <Timeline>
             {educationEntries.map((entry) => (
               <TimelineItem

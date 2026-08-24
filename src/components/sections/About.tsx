@@ -35,7 +35,7 @@ export function About() {
             <p className="max-w-2xl text-base leading-8 text-muted sm:text-lg">Familiar with Agile development practices and eager to contribute to real-world software engineering projects while continuously improving technical skills.</p>
           </div>
           <div className="space-y-4 border-l border-accent/35 pl-5">
-            {contactDetails.map((item) => <div key={item.label} className="space-y-1"><p className="font-mono text-xs uppercase tracking-[0.26em] text-accent">{item.label}</p>{item.href ? <a href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel={item.href.startsWith("http") ? "noreferrer" : undefined} className="text-base text-foreground transition hover:text-accent sm:text-lg">{item.value}</a> : <p className="text-base text-foreground sm:text-lg">{item.value}</p>}</div>)}
+            {contactDetails.map((item) => <div key={item.label} className="space-y-1"><p className="font-mono text-xs uppercase tracking-[0.26em] text-accent">{item.label}</p>{item.href ? <a href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel={item.href.startsWith("http") ? "noreferrer" : undefined} className="text-base text-foreground transition hover:text-accent max-md:break-words sm:text-lg">{item.value}</a> : <p className="text-base text-foreground max-md:break-words sm:text-lg">{item.value}</p>}</div>)}
           </div>
         </div>
         <div className="space-y-10 lg:pt-8">

@@ -3,9 +3,10 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
+import { MOBILE_QUERY, useMediaQuery } from "@/hooks/useMediaQuery";
 
 const slides = [
   { image: "/projects/showcase/interface-01.svg", label: "Web / Product", title: "Connected Product Experiences", description: "Clear workflows and responsive interfaces designed around real user tasks." },
@@ -21,8 +22,40 @@ function wrappedIndex(index: number) {
 export function InterfacesShowcase() {
   const [active, setActive] = useState(0);
   const prefersReducedMotion = useReducedMotion();
+  const isMobile = useMediaQuery(MOBILE_QUERY);
+  const touchStartX = useRef<number | null>(null);
   const previous = () => setActive((index) => wrappedIndex(index - 1));
   const next = () => setActive((index) => wrappedIndex(index + 1));
+
+  // Arrows are the only affordance on touch, so back them with a swipe. Touch
+  // events never fire for a mouse, so desktop behaviour is untouched.
+  const handleTouchStart = (event: React.TouchEvent) => {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent) => {
+    const startX = touchStartX.current;
+    touchStartX.current = null;
+
+    if (startX === null) {
+      return;
+    }
+
+    const delta = (event.changedTouches[0]?.clientX ?? startX) - startX;
+
+    if (Math.abs(delta) < 40) {
+      return;
+    }
+
+    if (delta < 0) {
+      next();
+    } else {
+      previous();
+    }
+  };
+
+  // Neighbour cards are wider on phones, so push them further out of the way.
+  const neighbourOffset = isMobile ? 82 : 68;
 
   useEffect(() => {
     if (prefersReducedMotion) return;
@@ -31,7 +64,7 @@ export function InterfacesShowcase() {
   }, [prefersReducedMotion]);
 
   return (
-    <SectionWrapper id="interfaces" className="min-h-0" containerClassName="items-center py-16 sm:py-20">
+    <SectionWrapper id="interfaces" className="min-h-0 md:min-h-0" containerClassName="items-center py-16 sm:py-20">
       <div className="w-full space-y-12 sm:space-y-16">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(24rem,0.72fr)] lg:items-end">
           <div className="space-y-5">
@@ -41,9 +74,13 @@ export function InterfacesShowcase() {
           <p className="max-w-xl text-base leading-8 text-muted lg:justify-self-end lg:text-right sm:text-lg">Product screens and flows I’ve designed—where usability meets a considered visual system.</p>
         </div>
 
-        <div className="relative mx-auto h-[20rem] w-full overflow-hidden sm:h-[27rem] lg:h-[32rem]">
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-[18%] bg-gradient-to-r from-bg via-bg/70 to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-[18%] bg-gradient-to-l from-bg via-bg/70 to-transparent" />
+        <div
+          className="relative mx-auto h-[15rem] w-full overflow-hidden sm:h-[20rem] md:h-[27rem] lg:h-[32rem]"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-[10%] bg-gradient-to-r from-bg via-bg/70 to-transparent md:w-[18%]" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-[10%] bg-gradient-to-l from-bg via-bg/70 to-transparent md:w-[18%]" />
 
           {[-1, 0, 1].map((offset) => {
             const index = wrappedIndex(active + offset);
@@ -52,10 +89,10 @@ export function InterfacesShowcase() {
             return (
               <motion.article
                 key={`${index}-${offset}`}
-                className="absolute left-1/2 top-1/2 aspect-[16/10] w-[74%] max-w-4xl overflow-hidden rounded-2xl border border-border bg-bg-elevated shadow-[0_28px_90px_rgba(0,0,0,0.5)] sm:w-[64%]"
+                className="absolute left-1/2 top-1/2 aspect-[16/10] w-[86%] max-w-4xl overflow-hidden rounded-2xl border border-border bg-bg-elevated shadow-[0_28px_90px_rgba(0,0,0,0.5)] sm:w-[74%] md:w-[64%]"
                 initial={false}
                 animate={{
-                  x: `calc(-50% + ${offset * 68}%)`,
+                  x: `calc(-50% + ${offset * neighbourOffset}%)`,
                   y: "-50%",
                   scale: isActive ? 1 : 0.82,
                   opacity: isActive ? 1 : 0.25,

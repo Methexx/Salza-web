@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import LaserFlow from "@/components/effects/LaserFlow";
 import { Button } from "@/components/ui/Button";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { getGmailComposeUrl } from "@/lib/contact";
 import { navLinks } from "@/lib/data/nav";
 import { profile } from "@/lib/data/profile";
@@ -17,13 +18,16 @@ const socialLinks = [
 
 export function Footer() {
   const prefersReducedMotion = useReducedMotion();
+  // A live WebGL fragment shader on a phone is pure battery burn. The footer
+  // sits well below the fold, so resolving this after hydration is invisible.
+  const showLaserFlow = useMediaQuery("(min-width: 768px)") && !prefersReducedMotion;
 
   return (
     <SectionWrapper
       as="footer"
       id="footer"
-      className="min-h-0 border-t border-border bg-[linear-gradient(180deg,#090706_0%,#0c0908_45%,#090706_100%)]"
-      containerClassName="min-h-0 sm:min-h-0 items-stretch py-10 sm:py-14"
+      className="min-h-0 border-t border-border md:min-h-0 bg-[linear-gradient(180deg,#090706_0%,#0c0908_45%,#090706_100%)]"
+      containerClassName="min-h-0 sm:min-h-0 md:min-h-0 items-stretch py-10 sm:py-14"
     >
       <motion.div
         className="w-full space-y-6"
@@ -40,25 +44,29 @@ export function Footer() {
 
         <div className="clipped-corner relative overflow-hidden border border-border bg-[radial-gradient(circle_at_top_left,rgba(50,95,254,0.16),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01))] p-5 pb-16 sm:p-8 sm:pb-20 lg:p-10 lg:pb-24">
           <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-0 flex translate-x-[-6%] translate-y-1/2 justify-center">
-            <div className="relative h-[42rem] w-[86%] max-w-5xl overflow-hidden sm:h-[48rem] lg:h-[58rem]">
-              <LaserFlow
-                color="#325FFE"
-                decay={3}
-                falloffStart={1.03}
-                flowSpeed={0.46}
-                flowStrength={0.25}
-                fogFallSpeed={0.6}
-                fogIntensity={0.81}
-                fogScale={0.1}
-                horizontalBeamOffset={0.1}
-                horizontalSizing={0.5}
-                mouseTiltStrength={0}
-                verticalBeamOffset={0}
-                verticalSizing={3.2}
-                wispDensity={2}
-                wispIntensity={7.1}
-                wispSpeed={15}
-              />
+            <div className="relative h-[26rem] w-[86%] max-w-5xl overflow-hidden sm:h-[42rem] md:h-[48rem] lg:h-[58rem]">
+              {showLaserFlow ? (
+                <LaserFlow
+                  color="#325FFE"
+                  decay={3}
+                  falloffStart={1.03}
+                  flowSpeed={0.46}
+                  flowStrength={0.25}
+                  fogFallSpeed={0.6}
+                  fogIntensity={0.81}
+                  fogScale={0.1}
+                  horizontalBeamOffset={0.1}
+                  horizontalSizing={0.5}
+                  mouseTiltStrength={0}
+                  verticalBeamOffset={0}
+                  verticalSizing={3.2}
+                  wispDensity={2}
+                  wispIntensity={7.1}
+                  wispSpeed={15}
+                />
+              ) : (
+                <div className="h-full w-full bg-[radial-gradient(ellipse_46%_34%_at_50%_16%,rgba(50,95,254,0.3),transparent_70%),linear-gradient(180deg,rgba(50,95,254,0.14),transparent_58%)]" />
+              )}
             </div>
           </div>
 

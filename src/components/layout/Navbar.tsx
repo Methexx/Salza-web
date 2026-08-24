@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
 import { sectionMeta } from "@/lib/data/nav";
@@ -52,6 +52,8 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const homeHref = (hash: string) => (pathname === "/" ? hash : `/${hash}`);
 
   useEffect(() => {
@@ -98,15 +100,52 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
     if (!isMenuOpen) {
       return;
     }
 
     const closeMenu = () => setIsMenuOpen(false);
 
-    window.addEventListener("hashchange", closeMenu);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
 
-    return () => window.removeEventListener("hashchange", closeMenu);
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target as Node | null;
+
+      if (!target) {
+        return;
+      }
+
+      if (menuRef.current?.contains(target) || toggleRef.current?.contains(target)) {
+        return;
+      }
+
+      setIsMenuOpen(false);
+    };
+
+    // Lenis drives window scroll, so locking the body is what actually stops the
+    // page moving behind the panel. Same approach as IntroOverlay.
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    window.addEventListener("hashchange", closeMenu);
+    window.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("pointerdown", handlePointerDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("hashchange", closeMenu);
+      window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("pointerdown", handlePointerDown);
+    };
   }, [isMenuOpen]);
 
   return (
@@ -164,9 +203,10 @@ export function Navbar() {
 
           <div className="flex items-center md:hidden">
             <button
+              ref={toggleRef}
               type="button"
               onClick={() => setIsMenuOpen((open) => !open)}
-              className="clipped-corner-sm inline-flex h-10 w-10 items-center justify-center border border-border bg-bg-elevated text-foreground transition hover:bg-bg-elevated-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+              className="clipped-corner-sm inline-flex h-11 w-11 items-center justify-center border border-border bg-bg-elevated text-foreground transition hover:bg-bg-elevated-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
               aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
@@ -188,6 +228,7 @@ export function Navbar() {
       </Container>
 
       <div
+        ref={menuRef}
         className={cn(
           "px-4 transition md:hidden",
           isMenuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",

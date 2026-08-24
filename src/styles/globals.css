@@ -194,4 +194,18 @@
       animation: none;
     }
   }
+
+  /* Mobile only (below Tailwind's md). Desktop rendering is unchanged. */
+  @media (max-width: 767.98px) {
+    html {
+      overflow-x: clip;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* The animated grain repaints a full-viewport blended layer 8x/sec.
+       Keep the texture, drop the repaint. */
+    .grain-overlay {
+      animation: none;
+    }
+  }
 }

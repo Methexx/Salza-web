@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import Dock, { type DockItemData } from "@/components/effects/Dock";
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
@@ -100,20 +102,21 @@ const cutCorner = "[clip-path:polygon(0_0,82%_0,100%_16%,100%_100%,0_100%)]";
 export function WhoIs() {
   return (
     <SectionWrapper id="whois" className="border-t border-border/60">
-      <div className="grid w-full items-center gap-14 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-16">
+      <div className="grid w-full items-center gap-10 md:gap-14 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-16">
         <div className="relative mx-auto w-full max-w-[560px]">
           <div
             aria-hidden="true"
             className={`absolute -left-4 -top-4 h-full w-full border border-accent/40 ${cutCorner}`}
           />
           <div className={`relative aspect-square w-full overflow-hidden border border-border bg-bg-elevated ${cutCorner}`}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src="/whois/DP2.png"
               alt={profile.name}
+              fill
+              sizes="(min-width: 1024px) 46vw, 100vw"
               draggable={false}
               onContextMenu={(event) => event.preventDefault()}
-              className="h-full w-full select-none object-cover [-webkit-touch-callout:none] [-webkit-user-drag:none]"
+              className="select-none object-cover [-webkit-touch-callout:none] [-webkit-user-drag:none]"
             />
           </div>
         </div>
@@ -121,10 +124,10 @@ export function WhoIs() {
         <div className="space-y-8">
           <SectionEyebrow label="The human behind the stack" />
           <div className="space-y-1">
-            <h2 className="font-display text-6xl font-medium leading-[0.95] text-foreground sm:text-7xl lg:text-8xl">
+            <h2 className="font-display text-5xl font-medium leading-[0.95] text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
               {firstName}
             </h2>
-            <h2 className="font-display text-6xl font-semibold italic leading-[0.95] text-accent accent-glow-text sm:text-7xl lg:text-9xl">
+            <h2 className="font-display text-5xl font-semibold italic leading-[0.95] text-accent accent-glow-text sm:text-6xl md:text-7xl lg:text-9xl">
               {lastName}
             </h2>
           </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 
 import { profile } from "@/lib/data/profile";
@@ -200,6 +201,13 @@ export function Hero() {
     let height = 0;
     let particles: Particle[] = [];
     let frameId = 0;
+    let resizeFrame = 0;
+    let lastWidth = 0;
+    let isRunning = false;
+    let isInView = true;
+    let isPageVisible = true;
+
+    const isMobileViewport = () => window.matchMedia("(max-width: 767px)").matches;
 
     const makeParticle = (zone: ParticleZone = pickParticleZone()): Particle => {
       const x = (zone.xMin + Math.random() * (zone.xMax - zone.xMin)) * width;
@@ -234,9 +242,43 @@ export function Hero() {
 
     const resize = () => {
       const rect = visual.getBoundingClientRect();
-      width = canvas.width = rect.width;
-      height = canvas.height = rect.height;
-      particles = Array.from({ length: 60 }, () => makeParticle());
+
+      if (rect.width === 0 || rect.height === 0) {
+        return;
+      }
+
+      const mobile = isMobileViewport();
+      width = rect.width;
+      height = rect.height;
+
+      // Scale the backing buffer for device pixel ratio on mobile only, where
+      // the canvas was rendering blurry. Desktop keeps its original 1:1 buffer.
+      const ratio = mobile ? Math.min(window.devicePixelRatio || 1, 2) : 1;
+      canvas.width = width * ratio;
+      canvas.height = height * ratio;
+      // Setting width/height resets context state, so reapply the scale after.
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+      // Mobile browsers fire resize continuously while the URL bar animates.
+      // Rebuilding the whole field on every one of those is wasted work, and
+      // the field is laid out from width fractions anyway.
+      if (particles.length > 0 && Math.abs(rect.width - lastWidth) < 1) {
+        return;
+      }
+
+      lastWidth = rect.width;
+      particles = Array.from({ length: mobile ? 28 : 60 }, () => makeParticle());
+    };
+
+    const handleResize = () => {
+      if (resizeFrame) {
+        return;
+      }
+
+      resizeFrame = requestAnimationFrame(() => {
+        resizeFrame = 0;
+        resize();
+      });
     };
 
     const tick = () => {
@@ -298,13 +340,64 @@ export function Hero() {
       frameId = requestAnimationFrame(tick);
     };
 
+    const start = () => {
+      if (isRunning || !isInView || !isPageVisible) {
+        return;
+      }
+
+      isRunning = true;
+      frameId = requestAnimationFrame(tick);
+    };
+
+    const stop = () => {
+      isRunning = false;
+
+      if (frameId) {
+        cancelAnimationFrame(frameId);
+        frameId = 0;
+      }
+    };
+
+    // Don't burn a rAF loop while the hero is scrolled away or the tab is hidden.
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isInView = entry.isIntersecting;
+
+        if (isInView) {
+          start();
+        } else {
+          stop();
+        }
+      },
+      { threshold: 0 },
+    );
+
+    const handleVisibilityChange = () => {
+      isPageVisible = document.visibilityState === "visible";
+
+      if (isPageVisible) {
+        start();
+      } else {
+        stop();
+      }
+    };
+
     resize();
-    tick();
-    window.addEventListener("resize", resize);
+    start();
+    observer.observe(stage);
+    window.addEventListener("resize", handleResize);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      cancelAnimationFrame(frameId);
-      window.removeEventListener("resize", resize);
+      stop();
+
+      if (resizeFrame) {
+        cancelAnimationFrame(resizeFrame);
+      }
+
+      observer.disconnect();
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       stage.removeEventListener("mousemove", handleMouseMove);
       stage.removeEventListener("mouseleave", handleMouseLeave);
     };
@@ -314,12 +407,12 @@ export function Hero() {
     <section
       id="hero"
       ref={stageRef}
-      className="relative isolate flex min-h-screen flex-col justify-between overflow-hidden pt-20 sm:pt-24"
+      className="relative isolate flex min-h-[100svh] flex-col justify-between overflow-hidden pt-20 sm:pt-24 md:min-h-screen"
     >
       <div className={styles.heroBg} aria-hidden="true" />
       <div className={styles.orangeCutoff} aria-hidden="true" />
 
-      <div className="relative z-[5] -mt-8 flex flex-wrap items-start justify-between gap-x-6 gap-y-4 px-5 pt-10 sm:px-10">
+      <div className="relative z-[5] -mt-2 flex flex-wrap items-start justify-between gap-x-6 gap-y-4 px-5 pt-10 sm:px-10 md:-mt-8">
         <div className="flex items-baseline gap-[18px]">
           <span className="font-mono text-[13px] text-white opacity-60">01</span>
           <div>
@@ -335,18 +428,18 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="text-right">
+        <div className="w-full text-left md:w-auto md:text-right">
           <div className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-accent">System Status</div>
           <div className="mt-[2px] font-body text-[13px] font-bold tracking-[0.08em] text-foreground">
             SHIPPING
           </div>
-          <div className="ml-auto mt-[6px] h-[3px] w-[90px] overflow-hidden rounded-sm bg-foreground/15">
+          <div className="mt-[6px] h-[3px] w-[90px] overflow-hidden rounded-sm bg-foreground/15 md:ml-auto">
             <span className="block h-full w-[82%] bg-accent" />
           </div>
         </div>
       </div>
 
-      <div className="relative z-[5] -mt-24 px-5 pt-6 leading-[0.86] sm:px-10">
+      <div className="relative z-[5] mt-4 px-5 pt-6 leading-[0.86] sm:px-10 md:-mt-24">
         <span className="block select-none font-display text-[clamp(64px,12.5vw,220px)] font-medium uppercase tracking-[-0.01em] text-foreground">
           {firstName}
         </span>
@@ -359,7 +452,7 @@ export function Hero() {
       </div>
 
       <div
-        className={`${styles.heroSide} absolute right-10 top-[calc(150px+5rem)] z-[5] max-w-[330px] text-right sm:top-[calc(150px+6rem)]`}
+        className={styles.heroSide}
       >
         <p className="font-display text-[22px] leading-[1.4] text-foreground">
           {renderTagline(profile.tagline, taglineAccentWord)}
@@ -367,7 +460,7 @@ export function Hero() {
       </div>
 
       <div
-        className={`${styles.identityStat} absolute right-10 top-[calc(340px+5rem)] z-[5] text-right sm:top-[calc(340px+6rem)]`}
+        className={styles.identityStat}
       >
         <div className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-accent">Build Confidence</div>
         <div className="mt-[2px] font-body text-2xl font-bold text-foreground">
@@ -380,7 +473,7 @@ export function Hero() {
 
       <div
         ref={parallaxRef}
-        className={`${styles.heroVisualParallax} absolute bottom-0 left-1/2 z-[3] h-[92%] w-[42%] translate-x-[calc(-50%+2in)]`}
+        className={styles.heroVisualParallax}
         style={{ willChange: "transform", transition: "transform 0.25s ease-out" }}
       >
         <div ref={visualRef} className={styles.heroVisual}>
@@ -425,12 +518,14 @@ export function Hero() {
           </div>
 
           <div className={styles.heroVisualPlaceholder}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               id="heroImg"
               src={heroImageSrc}
               alt={`${profile.name} hero portrait`}
-              className={styles.heroVisualImg}
+              fill
+              priority
+              sizes="(min-width: 901px) 42vw, 100vw"
+              className={`${styles.heroVisualImg} object-contain object-bottom`}
               draggable={false}
               onContextMenu={(event) => event.preventDefault()}
             />
@@ -452,11 +547,13 @@ export function Hero() {
         </div>
       </div>
 
+      <div className={styles.heroVisualScrim} aria-hidden="true" />
+
       <div className="relative z-[5] flex flex-col items-start gap-6 px-5 pb-11 sm:flex-row sm:items-end sm:justify-between sm:px-10">
         <div>
           <h2 className="font-display text-[clamp(24px,3vw,34px)] font-medium leading-[1.15]">
             <span className="block text-foreground">Fullstack Engineering</span>
-            <span className="block font-bold text-bg">&amp;       DevOps Enthusiast</span>
+            <span className="block font-bold text-bg max-md:text-foreground">&amp;       DevOps Enthusiast</span>
           </h2>
         </div>
 

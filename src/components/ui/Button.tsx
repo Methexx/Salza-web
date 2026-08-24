@@ -34,7 +34,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const classes = cn(
-    "clipped-corner-sm inline-flex min-h-11 items-center justify-center border border-border bg-bg-elevated px-5 py-2 text-sm font-mono font-medium uppercase tracking-[0.2em] transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
+    "clipped-corner-sm inline-flex min-h-11 items-center justify-center border border-border bg-bg-elevated px-5 py-2 text-[0.8rem] font-mono font-medium uppercase tracking-[0.14em] transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg md:text-sm md:tracking-[0.2em]",
     buttonStyles[variant],
     className,
   );

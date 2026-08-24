@@ -66,11 +66,102 @@
   display: none;
 }
 
+/* Sits between the avatar (z-4) and the text layers (z-5) on mobile only, so
+   the headline stays legible over the artwork. */
+.heroVisualScrim {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(2, 2, 2, 0.58) 0%,
+    rgba(2, 2, 2, 0.14) 32%,
+    rgba(2, 2, 2, 0.12) 56%,
+    rgba(2, 2, 2, 0.64) 100%
+  );
+}
+
+/* Desktop composition. These declarations were previously Tailwind utilities on
+   the JSX; they are moved here unchanged so the mobile block below can own its
+   own geometry without fighting them. */
 @media (min-width: 901px) {
   .heroSide,
   .identityStat,
   .heroVisualParallax {
     display: block;
+  }
+
+  .heroSide {
+    position: absolute;
+    right: 2.5rem;
+    top: calc(150px + 6rem);
+    z-index: 5;
+    max-width: 330px;
+    text-align: right;
+  }
+
+  .identityStat {
+    position: absolute;
+    right: 2.5rem;
+    top: calc(340px + 6rem);
+    z-index: 5;
+    text-align: right;
+  }
+
+  .heroVisualParallax {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    z-index: 3;
+    width: 42%;
+    height: 92%;
+    transform: translateX(calc(-50% + 2in));
+  }
+}
+
+/* Mobile composition: the avatar becomes a full-bleed backdrop behind the
+   headline, and the tagline + build-confidence stat return to normal flow. */
+@media (max-width: 767.98px) {
+  .heroVisualParallax {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    z-index: 4;
+    width: min(105%, 26rem);
+    height: 58%;
+    opacity: 0.6;
+    transform: translateX(-50%);
+  }
+
+  .heroVisualScrim {
+    display: block;
+  }
+
+  .heroSide,
+  .identityStat {
+    display: block;
+    position: static;
+    z-index: 5;
+    max-width: 34ch;
+    padding-inline: 1.25rem;
+    text-align: left;
+  }
+
+  .heroSide {
+    margin-top: 1.5rem;
+  }
+
+  .identityStat {
+    margin-top: 1.25rem;
+  }
+
+  /* The site-wide .grain-overlay already covers this section; drop the hero's
+     own second grain layer rather than compositing two of them on a phone. */
+  .heroGrain {
+    display: none;
   }
 }
 

@@ -27,19 +27,19 @@ export function TimelineItem({
   meta,
 }: TimelineItemProps) {
   return (
-    <article className="clipped-corner relative border border-border bg-bg-elevated/75 p-7 pl-12">
+    <article className="clipped-corner relative border border-border bg-bg-elevated/75 p-5 pl-9 md:p-7 md:pl-12">
       <span
         aria-hidden="true"
-        className="absolute left-6 top-9 h-2.5 w-2.5 bg-accent shadow-[0_0_0_6px_rgb(var(--bg))]"
+        className="absolute left-4 top-9 h-2.5 w-2.5 bg-accent shadow-[0_0_0_6px_rgb(var(--bg))] md:left-6"
       />
       <div
         aria-hidden="true"
-        className="absolute bottom-0 left-[1.78rem] top-0 w-px bg-border"
+        className="absolute bottom-0 left-[1.28rem] top-0 w-px bg-border md:left-[1.78rem]"
       />
       <div className="space-y-3">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h3 className="text-2xl font-bold text-foreground">{title}</h3>
+            <h3 className="text-xl font-bold text-foreground md:text-2xl">{title}</h3>
             <p className="text-base text-muted">{subtitle}</p>
           </div>
           <p className="font-mono text-xs uppercase tracking-[0.24em] text-accent">{period}</p>

@@ -78,7 +78,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
       <Container>
         <ProjectDetailBackLink
           fallbackHref="/#projects"
-          className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.24em] text-muted transition hover:text-accent"
+          className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.24em] text-muted transition hover:text-accent max-md:-m-2 max-md:p-2"
         />
 
         <div className="mt-6 w-full">
@@ -89,13 +89,13 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                 <p className="font-mono text-xs uppercase tracking-[0.28em] text-accent">
                   {project.category}
                 </p>
-                <h1 className="text-5xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
+                <h1 className="text-4xl font-bold tracking-tight text-foreground max-md:leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">
                   {project.title}
                 </h1>
               </div>
 
               {metaItems.length > 0 ? (
-                <div className="flex flex-wrap justify-end gap-x-10 gap-y-4">
+                <div className="grid grid-cols-2 gap-x-6 gap-y-4 md:flex md:flex-wrap md:justify-end md:gap-x-10">
                   {metaItems.map((item) => (
                     <div key={item.label}>
                       <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted">
@@ -110,7 +110,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
           </div>
 
           {coverShot ? (
-            <div className="mt-12 bg-gradient-to-b from-[#1b2536] to-[#12161d] p-8 sm:p-16">
+            <div className="mt-12 bg-gradient-to-b from-[#1b2536] to-[#12161d] p-4 sm:p-8 md:p-16">
               {coverShot.imageSrc ? (
                 <div className="relative mx-auto aspect-[16/10] w-full max-w-3xl overflow-hidden rounded-xl border border-white/10 shadow-2xl">
                   <Image
@@ -143,7 +143,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
           {/* 01 — Overview */}
           <div>
             <SectionMarker number="01" title="Overview" />
-            <p className="max-w-3xl text-lg leading-8 text-foreground/90">{project.overview}</p>
+            <p className="max-w-3xl text-base leading-7 text-foreground/90 md:text-lg md:leading-8">{project.overview}</p>
           </div>
 
           {/* 02 — Challenge & Solution */}
@@ -151,7 +151,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
             <SectionMarker number="02" title="Challenge & Solution" />
             <div className="space-y-10">
               <div>
-                <h3 className="font-display text-2xl font-semibold text-foreground">
+                <h3 className="font-display text-xl font-semibold text-foreground md:text-2xl">
                   The Challenge
                 </h3>
                 <p className="mt-3 max-w-3xl text-base leading-7 text-muted">
@@ -159,7 +159,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                 </p>
               </div>
               <div>
-                <h3 className="font-display text-2xl font-semibold text-foreground">
+                <h3 className="font-display text-xl font-semibold text-foreground md:text-2xl">
                   The Impact
                 </h3>
                 <p className="mt-3 max-w-3xl text-base leading-7 text-muted">{project.impact}</p>
@@ -183,7 +183,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
                             src={shot.imageSrc}
                             alt={shot.title}
                             fill
-                            className="object-cover object-top"
+                            className="object-contain object-top md:object-cover"
                             sizes="(min-width: 1024px) 80vw, 100vw"
                           />
                         </div>
@@ -200,7 +200,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
               </div>
 
               {project.screenshots.some((shot) => shot.orientation === "mobile") ? (
-                <div className="mt-12 grid grid-cols-2 gap-6">
+                <div className="mt-12 grid grid-cols-2 gap-3 md:gap-6">
                   {project.screenshots
                     .filter((shot) => shot.orientation === "mobile")
                     .map((shot) => (
@@ -254,7 +254,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
               <div className="space-y-10">
                 {extraFeatureGroups.map((group) => (
                   <div key={group.title}>
-                    <h3 className="font-display text-2xl font-semibold text-foreground">
+                    <h3 className="font-display text-xl font-semibold text-foreground md:text-2xl">
                       {group.title}
                     </h3>
                     <ul className="mt-4 space-y-3">
@@ -333,7 +333,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
               <div className="space-y-12">
                 {project.detailSections.map((section) => (
                   <div key={section.title}>
-                    <h3 className="font-display text-2xl font-semibold text-foreground">
+                    <h3 className="font-display text-xl font-semibold text-foreground md:text-2xl">
                       {section.title}
                     </h3>
                     <ul className="mt-4 space-y-3">
@@ -353,7 +353,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
           {/* 09 — Repository */}
           <div>
             <SectionMarker number="09" title="Repository" />
-            <div className="flex flex-wrap items-center gap-8">
+            <div className="flex flex-col items-start gap-4 md:flex-row md:flex-wrap md:items-center md:gap-8">
               <a
                 href={project.githubUrl}
                 target="_blank"

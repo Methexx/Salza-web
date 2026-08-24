@@ -28,7 +28,7 @@ export function SectionWrapper({
   return (
     <Component
       id={id}
-      className={cn("relative isolate min-h-screen scroll-mt-24 overflow-hidden", className)}
+      className={cn("relative isolate scroll-mt-20 overflow-hidden md:min-h-screen md:scroll-mt-24", className)}
     >
       {background ? <div className="absolute inset-0 z-0">{background}</div> : null}
       <motion.div
@@ -40,7 +40,7 @@ export function SectionWrapper({
       >
         <Container
           className={cn(
-            "relative z-10 flex min-h-[auto] sm:min-h-screen items-center py-20 sm:py-36",
+            "relative z-10 flex min-h-[auto] items-center py-20 sm:py-36 md:min-h-screen",
             containerClassName,
           )}
         >
