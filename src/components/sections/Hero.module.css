@@ -172,6 +172,9 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  /* Lets .heroVisualPlaceholder size itself off this box's height (100cqh) so it
+     can match the artwork's ratio in both directions. */
+  container-type: size;
 }
 
 @keyframes float-figure {
@@ -258,10 +261,24 @@
   }
 }
 
+/* The artwork is opaque — its black background is baked in — so the radial mask
+   on .heroVisualImg is the only thing hiding its rectangle. Constrain this box to
+   the artwork's own 2:3 ratio so object-contain becomes a no-op and the mask maps
+   1:1 onto the picture. Left at width:100%, the box is far wider than the
+   letterboxed photo, the mask ellipse gets sized to the box instead, and the
+   photo's own left/right edges are left ~40% opaque — a visible dark seam. */
 .heroVisualPlaceholder {
   position: relative;
-  width: 100%;
-  height: 100%;
+  aspect-ratio: 1024 / 1536;
+  /* Take the smaller of the container's width and the width implied by its
+     height, so the box equals the contained picture whichever axis binds.
+     Sizing off height alone and clamping with max-width would break the ratio
+     on narrow/tall windows and reintroduce the seam on the horizontal edge. */
+  width: min(100%, calc(100cqh * 1024 / 1536));
+  height: auto;
+  max-height: 100%;
+  margin-inline: auto;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -291,9 +308,13 @@
   -webkit-touch-callout: none;
   user-select: none;
   -webkit-user-select: none;
+  /* Now that the box matches the picture, the ellipse reaches transparent exactly
+     at the photo's edges. The solid stop moves 30% -> 50% to compensate for the
+     narrower ellipse, holding the subject at roughly the opacity it rendered at
+     before (face ~78% vs ~76-79%) instead of dimming it. */
   --hero-img-fade: radial-gradient(
     ellipse 50% 50% at 50% 50%,
-    black 30%,
+    black 50%,
     transparent 100%
   );
   mask-image: var(--hero-img-fade);

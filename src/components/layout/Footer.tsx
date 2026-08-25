@@ -1,14 +1,29 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import dynamic from "next/dynamic";
 
-import LaserFlow from "@/components/effects/LaserFlow";
 import { Button } from "@/components/ui/Button";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { getGmailComposeUrl } from "@/lib/contact";
 import { navLinks } from "@/lib/data/nav";
 import { profile } from "@/lib/data/profile";
+
+// three.js is 5.8 MB of the dev layout chunk (~150 KB gzipped in production) and
+// this effect sits below the fold behind a desktop-only check. Importing it
+// statically pulled all of it into the layout bundle on every page load, which is
+// exactly what the comment on showLaserFlow below intended to avoid — gating the
+// render is too late when the import is static. Code-split it instead:
+// showLaserFlow is already false during SSR and first render, so the gradient
+// fallback shows just as it does today and nothing visual changes.
+const laserFlowFallbackClass =
+  "h-full w-full bg-[radial-gradient(ellipse_46%_34%_at_50%_16%,rgba(50,95,254,0.3),transparent_70%),linear-gradient(180deg,rgba(50,95,254,0.14),transparent_58%)]";
+
+const LaserFlow = dynamic(() => import("@/components/effects/LaserFlow"), {
+  ssr: false,
+  loading: () => <div className={laserFlowFallbackClass} />,
+});
 
 const socialLinks = [
   { label: "LinkedIn", href: profile.linkedinUrl },
@@ -65,7 +80,7 @@ export function Footer() {
                   wispSpeed={15}
                 />
               ) : (
-                <div className="h-full w-full bg-[radial-gradient(ellipse_46%_34%_at_50%_16%,rgba(50,95,254,0.3),transparent_70%),linear-gradient(180deg,rgba(50,95,254,0.14),transparent_58%)]" />
+                <div className={laserFlowFallbackClass} />
               )}
             </div>
           </div>
