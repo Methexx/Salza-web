@@ -267,7 +267,7 @@ export function Hero() {
       }
 
       lastWidth = rect.width;
-      particles = Array.from({ length: mobile ? 28 : 60 }, () => makeParticle());
+      particles = Array.from({ length: mobile ? 45 : 100 }, () => makeParticle());
     };
 
     const handleResize = () => {
