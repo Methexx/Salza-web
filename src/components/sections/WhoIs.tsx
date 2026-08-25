@@ -143,7 +143,19 @@ export function WhoIs() {
               Legal name — {profile.name}
             </p>
           </div>
-          <Dock items={dockItems} />
+          {/* Dock reserves maxHeight (115px on desktop) so magnified icons do not clip,
+             but the visible panel is 68px and bottom-aligned, leaving 47px of dead
+             headroom above it inside Dock's own wrapper. space-y-8 then adds its
+             usual 32px margin-top on top of that, for a ~79px visual gap under the
+             text block. Pulling back only the dead headroom (32 - 47 = -15px) restores
+             the section's normal 32px rhythm without eating into it. md-gated per the
+             mobile-only responsive rule; below md, Dock renders its labelled-grid
+             variant instead, which has no reserved headroom to begin with. The backtick-
+             bang is required: Tailwind's space-y-8 selector has higher specificity
+             than a single utility class. */}
+          <div className="md:!-mt-[15px]">
+            <Dock items={dockItems} />
+          </div>
         </div>
       </div>
     </SectionWrapper>
