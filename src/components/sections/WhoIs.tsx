@@ -1,11 +1,29 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
 
 import Dock, { type DockItemData } from "@/components/effects/Dock";
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
+import { cn } from "@/lib/utils";
 import { profile } from "@/lib/data/profile";
+
+const personas = [
+  {
+    label: "The Engineer",
+    description: "I develop whole system architecture end to end — not just code, the structure underneath it.",
+  },
+  {
+    label: "The Builder",
+    description: "I build DevOps pipelines — CI/CD, Docker, and Git-driven workflows from commit to production.",
+  },
+  {
+    label: "The Person",
+    description: "Plan it, build it, ship it, monitor it — I run the full pipeline myself. The one process I've never managed to automate: continuous learning.",
+  },
+];
 
 const nameParts = profile.name.trim().split(/\s+/);
 const firstName = nameParts[0] ?? profile.name;
@@ -100,6 +118,8 @@ const dockItems: DockItemData[] = socialLinks.map((link) => ({
 const cutCorner = "[clip-path:polygon(0_0,82%_0,100%_16%,100%_100%,0_100%)]";
 
 export function WhoIs() {
+  const [activeTab, setActiveTab] = useState(0);
+
   return (
     <SectionWrapper id="whois" className="border-t border-border/60">
       <div className="grid w-full items-center gap-10 md:gap-14 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-16">
@@ -131,17 +151,52 @@ export function WhoIs() {
               {lastName}
             </h2>
           </div>
-          <p className="max-w-xl text-lg leading-8 text-muted sm:text-xl">
-            Plan it, build it, ship it, monitor it — I run the full pipeline myself. The one
-            process I&apos;ve never managed to automate: continuous learning.
-          </p>
-          <div className="space-y-2 border-t border-border/70 pt-6">
-            <p className="font-mono text-sm uppercase tracking-[0.24em] text-muted">
-              Public identity — Dino
-            </p>
-            <p className="font-mono text-sm uppercase tracking-[0.24em] text-muted">
-              Legal name — {profile.name}
-            </p>
+          <div className="space-y-5">
+            <div className="inline-flex items-center gap-1 rounded-full border border-border bg-bg-elevated-2 p-1">
+              {personas.map((persona, i) => (
+                <button
+                  key={persona.label}
+                  type="button"
+                  onClick={() => setActiveTab(i)}
+                  aria-pressed={i === activeTab}
+                  className={cn(
+                    "relative rounded-full px-4 py-2 text-sm font-semibold transition-colors",
+                    i === activeTab ? "text-bg" : "text-muted hover:text-foreground",
+                  )}
+                >
+                  {i === activeTab && (
+                    <motion.span
+                      layoutId="persona-tab-highlight"
+                      className="absolute inset-0 rounded-full bg-foreground"
+                      transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                    />
+                  )}
+                  <span className="relative z-10">{persona.label}</span>
+                </button>
+              ))}
+            </div>
+            {/* All three descriptions stay mounted, stacked in the same grid cell
+                (col-start-1 row-start-1 on every one), so the row height is always
+                the tallest of the three — fixed the moment content loads, not
+                recalculated per tab. Switching tabs only crossfades opacity, so
+                nothing below (Dock) or above (the section's own vertical centering
+                in SectionWrapper) ever shifts. */}
+            <div className="grid max-w-xl">
+              {personas.map((persona, i) => (
+                <motion.p
+                  key={persona.label}
+                  aria-hidden={i !== activeTab}
+                  animate={{ opacity: i === activeTab ? 1 : 0 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className={cn(
+                    "col-start-1 row-start-1 text-lg leading-8 text-muted sm:text-xl",
+                    i !== activeTab && "pointer-events-none select-none",
+                  )}
+                >
+                  {persona.description}
+                </motion.p>
+              ))}
+            </div>
           </div>
           {/* Dock reserves maxHeight (115px on desktop) so magnified icons do not clip,
              but the visible panel is 68px and bottom-aligned, leaving 47px of dead
