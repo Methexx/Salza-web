@@ -1,6 +1,6 @@
 export interface SectionLink {
-  id: "about" | "skills" | "projects" | "experience" | "contact";
-  href: "#about" | "#skills" | "#projects" | "#experience" | "#contact";
+  id: "whois" | "skills" | "projects" | "experience" | "contact";
+  href: "#whois" | "#skills" | "#projects" | "#experience" | "#contact";
   label: string;
 }
 
@@ -12,7 +12,7 @@ export interface SectionMeta {
 }
 
 export const navLinks: SectionLink[] = [
-  { id: "about", href: "#about", label: "About" },
+  { id: "whois", href: "#whois", label: "About" },
   { id: "projects", href: "#projects", label: "Work" },
   { id: "skills", href: "#skills", label: "Capabilities" },
   { id: "experience", href: "#experience", label: "Journey" },
@@ -26,11 +26,11 @@ export const sectionMeta: Record<SectionMeta["id"], SectionMeta> = {
     eyebrow: "Portfolio",
     heading: "Full-stack software engineer",
   },
-  about: {
-    id: "about",
+  whois: {
+    id: "whois",
     label: "About",
     eyebrow: "About",
-    heading: "Profile and working focus",
+    heading: "The human behind the stack",
   },
   skills: {
     id: "skills",

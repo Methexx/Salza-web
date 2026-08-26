@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { GrainOverlay } from "@/components/background/GrainOverlay";
+import { CalEmbedInit } from "@/components/effects/CalBooking";
 import { IntroOverlay } from "@/components/effects/IntroOverlay";
 import { SmoothScroll } from "@/components/effects/SmoothScroll";
 import { BackToTopButton } from "@/components/layout/BackToTopButton";
@@ -67,6 +68,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <IntroOverlay />
+          <CalEmbedInit />
           <a
             href="#main-content"
             className="sr-only z-[70] clipped-corner-sm bg-accent px-4 py-2 text-sm font-mono font-medium uppercase tracking-[0.24em] text-bg focus:not-sr-only focus:fixed focus:left-4 focus:top-4"

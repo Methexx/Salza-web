@@ -7,6 +7,7 @@ import { sectionMeta } from "@/lib/data/nav";
 import { profile } from "@/lib/data/profile";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { CAL_BOOKING_URL, calTriggerProps } from "@/components/effects/CalBooking";
 import { NAV_LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -173,12 +174,13 @@ export function Navbar() {
           <nav aria-label="Primary" className="hidden items-center gap-2 md:flex">
             {NAV_LINKS.map((link) => {
               const isActive = activeSection === link.id;
+              const isContact = link.id === "contact";
 
               return (
                 <a
                   key={link.id}
-                  href={homeHref(link.href)}
-                  onClick={() => setActiveSection(link.id)}
+                  href={isContact ? CAL_BOOKING_URL : homeHref(link.href)}
+                  {...(isContact ? calTriggerProps : { onClick: () => setActiveSection(link.id) })}
                   className={cn(
                     "px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.22em] text-white transition duration-200 hover:rounded-sm hover:bg-black/85 hover:shadow-[inset_0_-2px_0_0_rgb(var(--accent))]",
                     isActive && "text-accent accent-glow-text",
@@ -245,15 +247,20 @@ export function Navbar() {
             <nav aria-label="Mobile primary" className="flex flex-col gap-2">
               {NAV_LINKS.map((link) => {
                 const isActive = activeSection === link.id;
+                const isContact = link.id === "contact";
 
                 return (
                   <a
                     key={link.id}
-                    href={homeHref(link.href)}
-                    onClick={() => {
-                      setActiveSection(link.id);
-                      setIsMenuOpen(false);
-                    }}
+                    href={isContact ? CAL_BOOKING_URL : homeHref(link.href)}
+                    {...(isContact
+                      ? { ...calTriggerProps, onClick: () => setIsMenuOpen(false) }
+                      : {
+                          onClick: () => {
+                            setActiveSection(link.id);
+                            setIsMenuOpen(false);
+                          },
+                        })}
                     className={cn(
                       "px-4 py-3 font-mono text-xs uppercase tracking-[0.22em] text-white transition hover:bg-bg-elevated-2",
                       isActive && "bg-bg-elevated-2 text-accent accent-glow-text",
@@ -264,7 +271,12 @@ export function Navbar() {
                   </a>
                 );
               })}
-              <Button href={homeHref("#contact")} className="mt-2" onClick={() => setIsMenuOpen(false)}>
+              <Button
+                href={CAL_BOOKING_URL}
+                className="mt-2"
+                onClick={() => setIsMenuOpen(false)}
+                {...calTriggerProps}
+              >
                 Get in touch
               </Button>
             </nav>

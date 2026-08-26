@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 
 import { Button } from "@/components/ui/Button";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
+import { CAL_BOOKING_URL, calTriggerProps } from "@/components/effects/CalBooking";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { getGmailComposeUrl } from "@/lib/contact";
 import { navLinks } from "@/lib/data/nav";
@@ -105,7 +106,7 @@ export function Footer() {
               </div>
 
               <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <Button href="#contact" className="w-full sm:w-auto">Start a conversation</Button>
+                <Button href={CAL_BOOKING_URL} className="w-full sm:w-auto" {...calTriggerProps}>Start a conversation</Button>
                 <Button href={profile.websiteUrl} variant="ghost" className="w-full sm:w-auto">
                   Visit Website
                 </Button>
@@ -137,15 +138,20 @@ export function Footer() {
                   Sitemap
                 </p>
                 <div className="space-y-3">
-                  {navLinks.map((link) => (
-                    <a
-                      key={link.id}
-                      href={link.href}
-                      className="block text-lg text-foreground transition hover:text-accent"
-                    >
-                      {link.label}
-                    </a>
-                  ))}
+                  {navLinks.map((link) => {
+                    const isContact = link.id === "contact";
+
+                    return (
+                      <a
+                        key={link.id}
+                        href={isContact ? CAL_BOOKING_URL : link.href}
+                        {...(isContact ? calTriggerProps : {})}
+                        className="block text-lg text-foreground transition hover:text-accent"
+                      >
+                        {link.label}
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
 
