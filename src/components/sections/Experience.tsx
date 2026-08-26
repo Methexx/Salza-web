@@ -4,8 +4,8 @@ import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { Timeline, TimelineItem } from "@/components/ui/Timeline";
 import { sectionMeta } from "@/lib/data/nav";
 import {
+  affiliations,
   educationEntries,
-  workExperience,
 } from "@/lib/data/experience";
 
 export function Experience() {
@@ -18,14 +18,14 @@ export function Experience() {
         />
 
         <section className="space-y-6">
-          <h3 className="text-2xl font-bold text-foreground md:text-3xl">Volunteer experience</h3>
+          <h3 className="text-2xl font-bold text-foreground md:text-3xl">Affiliations</h3>
           <Timeline>
-            {workExperience.map((entry) => (
+            {affiliations.map((entry) => (
               <TimelineItem
-                key={`${entry.role}-${entry.organization}`}
-                title={entry.role}
-                subtitle={entry.organization}
-                period={entry.period}
+                key={`${entry.title}-${entry.subtitle}`}
+                title={entry.title}
+                subtitle={entry.subtitle}
+                period="Current affiliation"
                 description={entry.description}
                 meta={
                   <div className="flex flex-wrap gap-2 pt-2">

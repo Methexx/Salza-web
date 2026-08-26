@@ -5,16 +5,16 @@ export interface SectionLink {
 }
 
 export interface SectionMeta {
-  id: "hero" | SectionLink["id"] | "volunteering";
+  id: "hero" | SectionLink["id"];
   label: string;
   eyebrow: string;
   heading: string;
 }
 
 export const navLinks: SectionLink[] = [
-  { id: "about", href: "#about", label: "Expertise" },
-  { id: "skills", href: "#skills", label: "Tech Stack" },
+  { id: "about", href: "#about", label: "About" },
   { id: "projects", href: "#projects", label: "Work" },
+  { id: "skills", href: "#skills", label: "Capabilities" },
   { id: "experience", href: "#experience", label: "Journey" },
   { id: "contact", href: "#contact", label: "Contact" },
 ];
@@ -43,12 +43,6 @@ export const sectionMeta: Record<SectionMeta["id"], SectionMeta> = {
     label: "Experience",
     eyebrow: "Experience",
     heading: "Work, learning, and growth",
-  },
-  volunteering: {
-    id: "volunteering",
-    label: "Volunteering",
-    eyebrow: "Volunteering",
-    heading: "Volunteering timeline",
   },
   projects: {
     id: "projects",

@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { Pill } from "@/components/ui/Pill";
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
+import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { cn } from "@/lib/utils";
 import { sectionMeta } from "@/lib/data/nav";
 import { skillCategories, type SkillCategory } from "@/lib/data/skills";
@@ -61,73 +62,75 @@ export function SkillsShowcase() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <div className="w-full space-y-8">
-      <SectionEyebrow label={sectionMeta.skills.eyebrow} />
-      <h2 className="max-w-2xl text-4xl font-bold text-foreground sm:text-5xl">
-        Capabilities
-      </h2>
+    <SectionWrapper id="skills">
+      <div className="w-full space-y-8">
+        <SectionEyebrow label={sectionMeta.skills.eyebrow} />
+        <h2 className="max-w-2xl text-4xl font-bold text-foreground sm:text-5xl">
+          Capabilities
+        </h2>
 
-      <div className="clipped-corner overflow-hidden border border-border bg-bg-elevated/60">
-        <div className="md:grid md:grid-cols-[300px_minmax(0,1fr)]">
-          <div className="md:border-r md:border-border">
-            {skillCategories.map((category, i) => {
-              const Icon = categoryIcons[i % categoryIcons.length];
-              const isActive = i === activeIndex;
+        <div className="clipped-corner overflow-hidden border border-border bg-bg-elevated/60">
+          <div className="md:grid md:grid-cols-[300px_minmax(0,1fr)]">
+            <div className="md:border-r md:border-border">
+              {skillCategories.map((category, i) => {
+                const Icon = categoryIcons[i % categoryIcons.length];
+                const isActive = i === activeIndex;
 
-              return (
-                <div key={category.title} className="border-b border-border/70 last:border-b-0">
-                  <button
-                    type="button"
-                    onClick={() => setActiveIndex(i)}
-                    aria-expanded={isActive}
-                    className={cn(
-                      "flex w-full items-center gap-3 border-l-2 px-5 py-4 text-left transition-colors",
-                      isActive
-                        ? "border-accent bg-bg-elevated-2"
-                        : "border-transparent hover:bg-bg-elevated-2/50",
-                    )}
-                  >
-                    <span className="font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
-                    <Icon className="h-4 w-4 shrink-0 text-muted" aria-hidden="true" />
-                    <span className="min-w-0 flex-1 truncate text-sm font-semibold text-foreground">
-                      {category.title}
-                    </span>
-                    {/* Always in the layout (not conditionally mounted) so the label's
-                        available width — and the row's line count/height — never changes
-                        between selected and unselected. Only its visibility toggles. */}
-                    <ChevronRight
-                      className={cn("ml-auto h-4 w-4 shrink-0 text-accent", !isActive && "invisible")}
-                      aria-hidden="true"
-                    />
-                  </button>
+                return (
+                  <div key={category.title} className="border-b border-border/70 last:border-b-0">
+                    <button
+                      type="button"
+                      onClick={() => setActiveIndex(i)}
+                      aria-expanded={isActive}
+                      className={cn(
+                        "flex w-full items-center gap-3 border-l-2 px-5 py-4 text-left transition-colors",
+                        isActive
+                          ? "border-accent bg-bg-elevated-2"
+                          : "border-transparent hover:bg-bg-elevated-2/50",
+                      )}
+                    >
+                      <span className="font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
+                      <Icon className="h-4 w-4 shrink-0 text-muted" aria-hidden="true" />
+                      <span className="min-w-0 flex-1 truncate text-sm font-semibold text-foreground">
+                        {category.title}
+                      </span>
+                      {/* Always in the layout (not conditionally mounted) so the label's
+                          available width — and the row's line count/height — never changes
+                          between selected and unselected. Only its visibility toggles. */}
+                      <ChevronRight
+                        className={cn("ml-auto h-4 w-4 shrink-0 text-accent", !isActive && "invisible")}
+                        aria-hidden="true"
+                      />
+                    </button>
 
-                  <div className="md:hidden">
-                    {isActive && (
-                      <div className="border-t border-border/70 px-5 py-6">
-                        <DetailContent category={category} index={i} compact />
-                      </div>
-                    )}
+                    <div className="md:hidden">
+                      {isActive && (
+                        <div className="border-t border-border/70 px-5 py-6">
+                          <DetailContent category={category} index={i} compact />
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
 
-          <div className="relative hidden overflow-hidden p-8 md:block lg:p-12">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
-              >
-                <DetailContent category={skillCategories[activeIndex]} index={activeIndex} />
-              </motion.div>
-            </AnimatePresence>
+            <div className="relative hidden overflow-hidden p-8 md:block lg:p-12">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeIndex}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                >
+                  <DetailContent category={skillCategories[activeIndex]} index={activeIndex} />
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </SectionWrapper>
   );
 }
