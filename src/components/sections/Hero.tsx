@@ -434,7 +434,7 @@ export function Hero() {
             SHIPPING
           </div>
           <div className="mt-[6px] h-[3px] w-[90px] overflow-hidden rounded-sm bg-foreground/15 md:ml-auto">
-            <span className="block h-full w-[82%] bg-accent" />
+            <span className={`block h-full w-[82%] ${styles.statusBarFill}`} />
           </div>
         </div>
       </div>

@@ -88,11 +88,17 @@ export function SkillsShowcase() {
                     )}
                   >
                     <span className="font-mono text-xs text-muted">{String(i + 1).padStart(2, "0")}</span>
-                    <Icon className="h-4 w-4 text-muted" aria-hidden="true" />
-                    <span className="text-sm font-semibold text-foreground">{category.title}</span>
-                    {isActive && (
-                      <ChevronRight className="ml-auto h-4 w-4 text-accent" aria-hidden="true" />
-                    )}
+                    <Icon className="h-4 w-4 shrink-0 text-muted" aria-hidden="true" />
+                    <span className="min-w-0 flex-1 truncate text-sm font-semibold text-foreground">
+                      {category.title}
+                    </span>
+                    {/* Always in the layout (not conditionally mounted) so the label's
+                        available width — and the row's line count/height — never changes
+                        between selected and unselected. Only its visibility toggles. */}
+                    <ChevronRight
+                      className={cn("ml-auto h-4 w-4 shrink-0 text-accent", !isActive && "invisible")}
+                      aria-hidden="true"
+                    />
                   </button>
 
                   <div className="md:hidden">

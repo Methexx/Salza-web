@@ -18,7 +18,7 @@ import { profile } from "@/lib/data/profile";
 // showLaserFlow is already false during SSR and first render, so the gradient
 // fallback shows just as it does today and nothing visual changes.
 const laserFlowFallbackClass =
-  "h-full w-full bg-[radial-gradient(ellipse_46%_34%_at_50%_16%,rgba(50,95,254,0.3),transparent_70%),linear-gradient(180deg,rgba(50,95,254,0.14),transparent_58%)]";
+  "h-full w-full bg-[radial-gradient(ellipse_46%_34%_at_50%_16%,rgb(var(--accent)/0.3),transparent_70%),linear-gradient(180deg,rgb(var(--accent)/0.14),transparent_58%)]";
 
 const LaserFlow = dynamic(() => import("@/components/effects/LaserFlow"), {
   ssr: false,
@@ -57,12 +57,20 @@ export function Footer() {
           </h3>
         </div>
 
-        <div className="clipped-corner relative overflow-hidden border border-border bg-[radial-gradient(circle_at_top_left,rgba(50,95,254,0.16),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01))] p-5 pb-16 sm:p-8 sm:pb-20 lg:p-10 lg:pb-24">
-          <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-0 flex translate-x-[-6%] translate-y-1/2 justify-center">
+        <div className="clipped-corner relative overflow-hidden border border-border bg-[radial-gradient(circle_at_top_left,rgb(var(--accent)/0.16),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01))] p-5 pb-16 sm:p-8 sm:pb-20 lg:p-10 lg:pb-24">
+          {/* translate-y shifts this (huge, h up to 58rem) container relative to
+              its own height, which moves the shader's bright origin point up or
+              down the card. At the previous translate-y-1/2 the origin sat near
+              the card's BOTTOM edge, so the top of the card fell inside the
+              shader's fade-in zone and only reached full brightness partway
+              down. Pulling it up (negative translate) moves that origin toward
+              the top instead. Estimated, not visually verified — no browser
+              available here — so may need further tuning once you can see it. */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-0 flex translate-x-[-6%] -translate-y-[8%] justify-center">
             <div className="relative h-[26rem] w-[86%] max-w-5xl overflow-hidden sm:h-[42rem] md:h-[48rem] lg:h-[58rem]">
               {showLaserFlow ? (
                 <LaserFlow
-                  color="#325FFE"
+                  color="#FF4F03"
                   decay={3}
                   falloffStart={1.03}
                   flowSpeed={0.46}

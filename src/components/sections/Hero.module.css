@@ -346,12 +346,40 @@
   mix-blend-mode: overlay;
 }
 
+/* Fixed-width fill (width is set inline in JSX and never changes) — only the
+   color moves, sweeping orange to red-orange and back, so the bar reads as
+   "live" without the fill level itself animating. */
+.statusBarFill {
+  background: linear-gradient(
+    90deg,
+    rgb(var(--accent-dim)) 0%,
+    rgb(var(--accent)) 30%,
+    rgb(var(--accent-bright)) 50%,
+    rgb(var(--accent)) 70%,
+    rgb(var(--accent-dim)) 100%
+  );
+  background-size: 220% 100%;
+  animation: status-bar-shimmer 2.6s ease-in-out infinite;
+}
+
+@keyframes status-bar-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .heroVisual,
   .heroVisualGlow,
   .orbitRing1,
   .orbitRing2,
-  .heroGrain {
+  .heroGrain,
+  .statusBarFill {
     animation: none;
   }
 }
