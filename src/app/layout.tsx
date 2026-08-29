@@ -33,8 +33,21 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.methum.space"),
   title: "Methum Pathirana | Full-Stack Developer",
   description: "Portfolio of Methum Pathirana, a Software Engineering undergraduate and full-stack developer building modern web applications, backend services, and APIs.",
+  openGraph: {
+    title: "Methum Pathirana | Full-Stack Developer",
+    description: "Portfolio of Methum Pathirana, a Software Engineering undergraduate and full-stack developer building modern web applications, backend services, and APIs.",
+    url: "https://www.methum.space",
+    siteName: "Methum Pathirana",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Methum Pathirana | Full-Stack Developer",
+    description: "Portfolio of Methum Pathirana, a Software Engineering undergraduate and full-stack developer building modern web applications, backend services, and APIs.",
+  },
   icons: {
     icon: [
       { url: "/favicons/favicon.ico" },

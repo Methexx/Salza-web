@@ -123,7 +123,7 @@
 
 /* Mobile composition: the avatar becomes a full-bleed backdrop behind the
    headline, and the tagline + build-confidence stat return to normal flow. */
-@media (max-width: 767.98px) {
+@media (max-width: 900px) {
   .heroVisualParallax {
     display: block;
     position: absolute;

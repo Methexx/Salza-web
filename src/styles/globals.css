@@ -51,10 +51,6 @@
 
 @layer base {
   :root {
-    --font-display: "Fraunces", serif;
-    --font-body: "Space Grotesk", sans-serif;
-    --font-mono: "JetBrains Mono", monospace;
-
     --accent: 255 79 3;
     --accent-dim: 214 66 3;
     --accent-bright: 255 115 47;

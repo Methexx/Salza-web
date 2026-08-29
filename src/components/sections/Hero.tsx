@@ -13,7 +13,7 @@ const firstName = nameParts[0] ?? profile.name;
 const lastName = nameParts.slice(1).join(" ") || firstName;
 
 const taglineAccentWord = "reliable";
-const heroImageSrc = "/hero/cyber.png";
+const heroImageSrc = "/hero/cyber.webp";
 const buildConfidenceTarget = 99.8;
 const buildConfidenceDurationMs = 1600;
 // Orbit rings stay coded but hidden until asked for.

@@ -130,7 +130,7 @@ export function WhoIs() {
           />
           <div className={`relative aspect-square w-full overflow-hidden border border-border bg-bg-elevated ${cutCorner}`}>
             <Image
-              src="/whois/DP2.png"
+              src="/whois/DP2.webp"
               alt={profile.name}
               fill
               sizes="(min-width: 1024px) 46vw, 100vw"

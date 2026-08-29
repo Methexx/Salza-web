@@ -465,7 +465,7 @@ export const featuredProjects: ProjectEntry[] = [
     role: "UI Designer and Frontend Developer",
     year: "2025",
     screenshots: [
-      { title: "Movie Booking Home", caption: "Lead movie discovery and cinema booking experience.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/abc-cinema/abc.png", orientation: "desktop" },
+      { title: "Movie Booking Home", caption: "Lead movie discovery and cinema booking experience.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/abc-cinema/abc.webp", orientation: "desktop" },
       { title: "Cinema Landing Screen", caption: "Customer-facing home interface for exploring movie content.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/abc-cinema/home.png", orientation: "mobile" },
       { title: "Movie List", caption: "Movie catalogue view in a compact customer workflow.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/abc-cinema/Movie%20list.png", orientation: "mobile" },
       { title: "Ticket Booking", caption: "Reservation interface for selecting and booking cinema tickets.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/abc-cinema/ticket%20booking.png", orientation: "mobile" },
@@ -597,8 +597,8 @@ export const featuredProjects: ProjectEntry[] = [
     role: "System Architect and Android Developer",
     year: "2026",
     screenshots: [
-      { title: "Receiver Dashboard", caption: "Screeenc USB-only receiver dashboard showing connection state, streaming status, decoder health, and live preview.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/screeenc/Web.png", orientation: "desktop" },
-      { title: "Mobile Receiver", caption: "Portrait mobile receiver interface for USB-connected screen sharing.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/screeenc/Mobile.png", orientation: "mobile" },
+      { title: "Receiver Dashboard", caption: "Screeenc USB-only receiver dashboard showing connection state, streaming status, decoder health, and live preview.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/screeenc/Web.webp", orientation: "desktop" },
+      { title: "Mobile Receiver", caption: "Portrait mobile receiver interface for USB-connected screen sharing.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/screeenc/Mobile.webp", orientation: "mobile" },
     ],
     identity: [
       { label: "Project Type", value: "Solo native systems and mobile project" },
@@ -857,7 +857,7 @@ export const featuredProjects: ProjectEntry[] = [
     role: "Full-Stack Product Engineer",
     year: "2026",
     screenshots: [
-      { title: "Incident Operations Dashboard", caption: "Live OnCallr dashboard for active incidents, MTTA, MTTR, service health, on-call coverage, and incident timelines.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/oncallr/Dashboard.png", orientation: "desktop" },
+      { title: "Incident Operations Dashboard", caption: "Live OnCallr dashboard for active incidents, MTTA, MTTR, service health, on-call coverage, and incident timelines.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/oncallr/Dashboard.webp", orientation: "desktop" },
     ],
     identity: [
       { label: "Product Scope", value: "Single-team incident response and on-call management" },
@@ -1032,7 +1032,7 @@ export const additionalProjects: ProjectEntry[] = [
     role: "Mobile App Developer",
     year: "2025",
     screenshots: [
-      { title: "WalkWise Discovery Experience", caption: "Community location discovery shown through a polished two-device mobile presentation.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/walkwise/walkwise.png", orientation: "desktop" },
+      { title: "WalkWise Discovery Experience", caption: "Community location discovery shown through a polished two-device mobile presentation.", tone: "from-blue-500/30 via-indigo-400/10 to-transparent", imageSrc: "/projects/walkwise/walkwise.webp", orientation: "desktop" },
     ],
     identity: [
       { label: "Platform", value: "Cross-platform Flutter mobile application" },
