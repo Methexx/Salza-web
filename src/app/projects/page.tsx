@@ -6,9 +6,25 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SectionWrapper } from "@/components/ui/SectionWrapper";
 import { allProjects } from "@/lib/data/projects";
 
+const projectsDescription = "Explore all full-stack, web, mobile, and collaborative software engineering projects by Methum Pathirana.";
+
 export const metadata: Metadata = {
-  title: "Projects | Methum Pathirana",
-  description: "Explore all full-stack, web, mobile, and collaborative software engineering projects by Methum Pathirana.",
+  title: "All Projects",
+  description: projectsDescription,
+  alternates: {
+    canonical: "/projects",
+  },
+  openGraph: {
+    title: "All Projects | Methum Pathirana",
+    description: projectsDescription,
+    url: "/projects",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "All Projects | Methum Pathirana",
+    description: projectsDescription,
+  },
 };
 
 export default function AllProjectsPage() {

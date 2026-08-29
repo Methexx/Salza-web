@@ -8,6 +8,7 @@ import { Container } from "@/components/ui/Container";
 import { ProjectDetailBackLink } from "@/components/ui/ProjectDetailBackLink";
 import { SectionMarker } from "@/components/ui/SectionMarker";
 import { allProjects, createProjectRouteSlug, getProjectBySlug } from "@/lib/data/projects";
+import { profile } from "@/lib/data/profile";
 
 type ProjectDetailPageProps = {
   params: {
@@ -28,9 +29,25 @@ export function generateMetadata({ params }: ProjectDetailPageProps): Metadata {
     };
   }
 
+  const url = `/projects/${params.slug}`;
+
   return {
-    title: `${project.title} | Portfolio`,
+    title: project.title,
     description: project.description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: `${project.title} | Methum Pathirana`,
+      description: project.description,
+      url,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${project.title} | Methum Pathirana`,
+      description: project.description,
+    },
   };
 }
 
@@ -73,8 +90,28 @@ export default function ProjectDetailPage({ params }: ProjectDetailPageProps) {
   const nextProject = allProjects[(currentIndex + 1) % allProjects.length];
   const nextCoverShot = nextProject.screenshots[0];
 
+  const projectJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    description: project.description,
+    url: `https://www.methum.space/projects/${createProjectRouteSlug(project.slug)}`,
+    keywords: project.tags.join(", "),
+    ...(coverShot?.imageSrc ? { image: coverShot.imageSrc } : {}),
+    creator: {
+      "@type": "Person",
+      name: profile.name,
+      url: profile.websiteUrl,
+    },
+  };
+
   return (
     <section className="relative isolate min-h-screen overflow-hidden bg-[#0c0d0d] pb-24 pt-24 sm:pt-28">
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(projectJsonLd) }}
+      />
       <Container>
         <ProjectDetailBackLink
           fallbackHref="/#projects"

@@ -1229,7 +1229,7 @@ export const additionalProjects: ProjectEntry[] = [
     timeline: "2 Weeks",
     role: "Sole Mobile Designer and Developer",
     year: "2025",
-    screenshots: shot("Avurudu Nekath Countdown App", "Main image placeholder — the final festive application visual will be added shortly."),
+    screenshots: shot("Avurudu Nekath Countdown App", "A live Sinhala and Tamil New Year countdown paired with festive Nekath time cards, designed around traditional Avurudu colors and seasonal motifs."),
     identity: [
       { label: "Project Type", value: "Personal cultural utility application" },
       { label: "Role", value: "Sole mobile designer and developer" },

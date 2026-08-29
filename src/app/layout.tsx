@@ -8,6 +8,7 @@ import { BackToTopButton } from "@/components/layout/BackToTopButton";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
+import { profile } from "@/lib/data/profile";
 import "@/styles/globals.css";
 
 const fraunces = Fraunces({
@@ -34,8 +35,14 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.methum.space"),
-  title: "Methum Pathirana | Full-Stack Developer",
+  title: {
+    default: "Methum Pathirana | Full-Stack Developer",
+    template: "%s | Methum Pathirana",
+  },
   description: "Portfolio of Methum Pathirana, a Software Engineering undergraduate and full-stack developer building modern web applications, backend services, and APIs.",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Methum Pathirana | Full-Stack Developer",
     description: "Portfolio of Methum Pathirana, a Software Engineering undergraduate and full-stack developer building modern web applications, backend services, and APIs.",
@@ -60,6 +67,21 @@ export const metadata: Metadata = {
   manifest: "/favicons/site.webmanifest",
 };
 
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  jobTitle: profile.role,
+  url: profile.websiteUrl,
+  email: profile.email,
+  description: profile.shortBio,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: profile.location,
+  },
+  sameAs: [profile.githubUrl, profile.linkedinUrl],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -74,6 +96,11 @@ export default function RootLayout({
       <body
         className="bg-bg text-foreground antialiased"
       >
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

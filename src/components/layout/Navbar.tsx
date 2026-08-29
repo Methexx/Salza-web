@@ -59,7 +59,10 @@ export function Navbar() {
 
   useEffect(() => {
     let ticking = false;
-    const sectionIds = ["hero", ...NAV_LINKS.map((link) => link.id)] as Array<keyof typeof sectionMeta>;
+    const sectionIds = [
+      "hero",
+      ...NAV_LINKS.filter((link) => link.id !== "contact").map((link) => link.id),
+    ] as Array<keyof typeof sectionMeta>;
 
     const updateScrollState = () => {
       const scrollPosition = window.scrollY + window.innerHeight * 0.34;
