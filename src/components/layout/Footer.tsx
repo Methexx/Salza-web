@@ -107,9 +107,6 @@ export function Footer() {
 
               <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Button href={CAL_BOOKING_URL} className="w-full sm:w-auto" {...calTriggerProps}>Start a conversation</Button>
-                <Button href={profile.websiteUrl} variant="ghost" className="w-full sm:w-auto">
-                  Visit Website
-                </Button>
               </div>
             </div>
 
