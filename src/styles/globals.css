@@ -15,18 +15,6 @@
   }
 }
 
-@keyframes intro-name-cursor {
-  0%,
-  48% {
-    opacity: 1;
-  }
-
-  49%,
-  100% {
-    opacity: 0;
-  }
-}
-
 @keyframes grain-shift {
   0% {
     transform: translate(0, 0);
@@ -165,11 +153,6 @@
     transform-origin: center;
   }
 
-  .intro-name-cursor {
-    animation: intro-name-cursor 0.8s steps(1, end) infinite;
-    box-shadow: 0 0 18px rgba(255, 79, 3, 0.75);
-  }
-
   .grain-overlay {
     position: fixed;
     inset: -200px;
@@ -182,10 +165,6 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .intro-name-cursor {
-      animation: none;
-    }
-
     .grain-overlay {
       animation: none;
     }
